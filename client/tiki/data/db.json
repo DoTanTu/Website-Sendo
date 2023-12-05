@@ -1,0 +1,17 @@
+{
+    "category": [
+      { "id": 1,
+       "title": "Đồ chơi - Mẹ & Bé",
+        "url": "https://salt.tikicdn.com/cache/100x100/ts/category/13/64/43/226301adcc7660ffcf44a61bb6df99b7.png.webp" },
+      { "id": 2, 
+      "title": "Điện thoại - Máy Tính Bảng",
+       "url": "https://salt.tikicdn.com/cache/100x100/ts/category/54/c0/ff/fe98a4afa2d3e5142dc8096addc4e40b.png.webp" },
+      { "id": 3, 
+      "title": "json-server", 
+      "url": "https://salt.tikicdn.com/cache/100x100/ts/category/1e/8c/08/d8b02f8a0d958c74539316e8cd437cbd.png.webp" }
+    ],
+    "comments": [
+      { "id": 1, "body": "some comment", "postId": 1 }
+    ],
+    "profile": { "name": "typicode" }
+  }
