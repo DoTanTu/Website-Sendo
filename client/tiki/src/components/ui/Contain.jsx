@@ -112,6 +112,108 @@ export default function Contain() {
                     </div>
                   </a>
                 </div>
+                <div className="item_prod">
+                  <a href="">
+                    <div className="image_prod">
+                      <picture>
+                      <img src="https://salt.tikicdn.com/cache/280x280/ts/product/6b/7d/2f/d115272bd6e17ac42bc10bb330dcbe96.jpg.webp" alt="" />
+                      </picture>
+                    </div>
+                    <span className="deal_price_discount">-19%</span>
+                    <div className="price_deal">
+                      <span>237.000 đ</span>
+                    </div>
+                    <div className="deal_qty">
+                      <div className="circle_deal"></div>
+                      <span>Vừa mở bán</span>
+                    </div>
+                  </a>
+                </div>
+                <div className="item_prod">
+                  <a href="">
+                    <div className="image_prod">
+                      <picture>
+                      <img src="https://salt.tikicdn.com/cache/280x280/ts/product/6b/7d/2f/d115272bd6e17ac42bc10bb330dcbe96.jpg.webp" alt="" />
+                      </picture>
+                    </div>
+                    <span className="deal_price_discount">-19%</span>
+                    <div className="price_deal">
+                      <span>237.000 đ</span>
+                    </div>
+                    <div className="deal_qty">
+                      <div className="circle_deal"></div>
+                      <span>Vừa mở bán</span>
+                    </div>
+                  </a>
+                </div>
+                <div className="item_prod">
+                  <a href="">
+                    <div className="image_prod">
+                      <picture>
+                      <img src="https://salt.tikicdn.com/cache/280x280/ts/product/6b/7d/2f/d115272bd6e17ac42bc10bb330dcbe96.jpg.webp" alt="" />
+                      </picture>
+                    </div>
+                    <span className="deal_price_discount">-19%</span>
+                    <div className="price_deal">
+                      <span>237.000 đ</span>
+                    </div>
+                    <div className="deal_qty">
+                      <div className="circle_deal"></div>
+                      <span>Vừa mở bán</span>
+                    </div>
+                  </a>
+                </div>
+                <div className="item_prod">
+                  <a href="">
+                    <div className="image_prod">
+                      <picture>
+                      <img src="https://salt.tikicdn.com/cache/280x280/ts/product/6b/7d/2f/d115272bd6e17ac42bc10bb330dcbe96.jpg.webp" alt="" />
+                      </picture>
+                    </div>
+                    <span className="deal_price_discount">-19%</span>
+                    <div className="price_deal">
+                      <span>237.000 đ</span>
+                    </div>
+                    <div className="deal_qty">
+                      <div className="circle_deal"></div>
+                      <span>Vừa mở bán</span>
+                    </div>
+                  </a>
+                </div>
+                <div className="item_prod">
+                  <a href="">
+                    <div className="image_prod">
+                      <picture>
+                      <img src="https://salt.tikicdn.com/cache/280x280/ts/product/6b/7d/2f/d115272bd6e17ac42bc10bb330dcbe96.jpg.webp" alt="" />
+                      </picture>
+                    </div>
+                    <span className="deal_price_discount">-19%</span>
+                    <div className="price_deal">
+                      <span>237.000 đ</span>
+                    </div>
+                    <div className="deal_qty">
+                      <div className="circle_deal"></div>
+                      <span>Vừa mở bán</span>
+                    </div>
+                  </a>
+                </div>
+                <div className="item_prod">
+                  <a href="">
+                    <div className="image_prod">
+                      <picture>
+                      <img src="https://salt.tikicdn.com/cache/280x280/ts/product/6b/7d/2f/d115272bd6e17ac42bc10bb330dcbe96.jpg.webp" alt="" />
+                      </picture>
+                    </div>
+                    <span className="deal_price_discount">-19%</span>
+                    <div className="price_deal">
+                      <span>237.000 đ</span>
+                    </div>
+                    <div className="deal_qty">
+                      <div className="circle_deal"></div>
+                      <span>Vừa mở bán</span>
+                    </div>
+                  </a>
+                </div>
                
               </div>
               <div className="btn_nex"></div>
