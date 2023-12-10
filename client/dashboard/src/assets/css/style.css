@@ -1,0 +1,276 @@
+:root{
+    --bg-color: #e2e2e2;
+    --colo-white: white;
+}
+.Logo{
+    padding: 10px 20px;
+    border-bottom: 1px solid #eee;
+}
+.list_item_nav{
+    width: 200px;
+}
+.images_logo{
+   width: 50px;
+   height: 50px;
+   border-radius: 50%;
+   overflow: hidden;
+}
+.images_logo img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.main_logo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.name_dasboard{
+    margin-left: 20px;
+}
+.Logo a{
+    text-decoration: none;
+    color: white;
+}
+.name_dasboard span{
+    font-size: 30px;
+}
+.list_option{
+    margin: 0;
+    padding-left: 0;
+}
+.list_option li .item_option{
+    text-decoration: none;
+    padding: 20px 20px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    transition: all 0.4s;
+    position: relative;
+}
+.list_option li .item_option:hover,
+.list_option li .item_option.active
+{
+background-color: #090909;;
+cursor: pointer;
+}
+.list_option li .item_option:hover::before,
+.list_option li .item_option.active::before{
+    position: absolute;
+    content: "";
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    z-index: 3;
+    background-color: red;
+}
+.list_option li a{
+    text-decoration: none;
+    color: white;
+}
+.list_option li ion-icon{
+    margin-right: 20px;
+}
+.header_dashboard{
+    padding: 15px 20px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+    display: flex;
+    z-index: 999;
+    justify-content: space-between;
+}
+.left_header .contain_title{
+    display: flex;
+    align-items: center;
+}
+.contain_title ion-icon{
+    font-size: 25px;
+}
+.title_dashboard{
+    margin-left: 20px;
+}
+.title_dashboard span{
+    font-size: 30px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.right_header .notification{
+    padding-right: 30px;
+    border-right: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+}
+.right_header .account_seller{
+    padding: 0 20px;
+}
+.account_seller .right_account{
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+.account_seller .right_account .name_account{
+    margin: 0 8px;
+    cursor: pointer;
+
+}
+.account_seller .right_account:hover .option_common{
+    display: block;
+    z-index: 999;
+}
+.account_seller .right_account .name_account h5{
+    margin: 0;
+}
+.account_seller .right_account .name_account h5:hover{
+    color: rgb(20, 20, 137);
+}
+.right_header .account_seller .image_account{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.right_header .account_seller .image_account img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.right_header{
+    display: flex;
+}
+.account_seller{
+    display: flex;
+}
+.option_common{
+    display: none ;
+    position: absolute;
+    top: 100%;
+    left: 0;
+}
+.option_common ul{
+    padding-left: 0;
+    margin-top: 15px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+.option_common ul li{
+    list-style: none;
+}
+.option_common ul li a{
+    padding: 5px 25px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+.option_common ul li a:hover{
+    background-color: #282C34;
+    color: white;
+    font-weight: 600;
+}
+.option_common ul li a ion-icon{
+    margin-right: 10px;
+}
+/*---------------- Page manager products----------- */
+.products{
+    z-index: -1;
+    padding: 25px 20px;
+    background-color: var(--bg-color);
+}
+.header_prod{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.header_prod .box_search_prod{
+    background-color: var(--colo-white);
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    padding: 5px 15px;
+}
+.header_prod .box_search_prod span{
+    margin-right: 10px;
+}   
+.header_prod .box_search_prod input{
+    border: 0;
+    outline: none;
+    min-width: 400px;
+}
+.right_header_prod{
+    display: flex;
+}
+.export_file ,.new_product{
+    padding: 5px 10px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+.export_file{
+    background-color: var(--colo-white);
+    margin-right: 20px;
+}
+.export_file:hover{
+    background-color: black;
+    color: white;
+}
+.export_file ion-icon, .new_product ion-icon{
+    margin-right: 10px;
+}
+.new_product{
+    background-color: rgb(38, 38, 120);
+    color: white;
+}
+.new_product:hover{
+    background-color: rgb(40, 40, 255);
+}
+.filter_prod{
+    margin-top: 25px;
+}
+.list_options_filter{
+    display: flex;
+}
+.list_options_filter .filter_item{
+    margin-right: 25px;
+}
+.list_options_filter .filter_item select{
+    outline: none;
+    border:0;
+    padding: 4px 10px;
+    border-radius: 5px;
+}
+.list_products{
+    background-color: white;
+    margin-top: 15px;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+.list_products .images_products{
+    width: 50px;
+    max-height: 60px;
+    overflow: hidden;
+    margin: 0 auto;
+}
+.list_products .images_products img{
+    width: 100%;
+    object-fit: cover;
+}
+.table tr{
+    vertical-align: middle;
+    text-align: center;
+}
+.edit_product, .delete_product{
+    font-size: 20px;
+    cursor: pointer;
+    padding: 5px;
+}
+.delete_product{
+    margin-left: 10px;
+}
+.edit_product:hover ion-icon{
+    color: blue;
+}
+.delete_product:hover ion-icon{
+    color: red;
+}
