@@ -1,17 +1,31 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity,FlatList, StyleSheet } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import styles from './style';
 import { useRoute, useNavigation } from '@react-navigation/native';
-import ImageView from '../../components/imageDetail/images'
-const Detail = (props, navigation) => {
+import ImageView from '../../components/imageDetail/images';
+import axios from 'axios';
+const Detail = (props) => {
 
-    if (route.params && route.params.id) {
-        const idProd = route.params.id;
-        console.log(idProd);
-    } else {
-        console.log("Không có giá trị id trong params");
+  const navigation = useNavigation();
+  const route = useRoute();
+  const idProd = route.params.id;
+  const [productList, setProductList] = useState({ products:[]});
+
+    useEffect(() => {
+        getProducts(idProd);
+    }, []);
+  const getProducts = (idProd) => {
+    axios({
+        url: `https://6577469e197926adf62ddcf5.mockapi.io/api/products/${idProd}`,
+        method: 'GET',
+    }).then((result) => {
+        setProductList(result.data);
+    }).catch((err) => {
+        console.log(err);
+    });
     }
+
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
@@ -40,11 +54,11 @@ const Detail = (props, navigation) => {
      
       <View style={styles.body}>
         <View style={styles.image_list}>
-          <ImageView/>
+           <ImageView senData={productList.image} />
         </View>
       </View>
       <View style={styles.overlay}>
-        <Text style={styles.overlayText}>This is an overlay</Text>
+        <Text style={styles.overlayText}>{productList.name}</Text>
       </View>
     </View>
   );

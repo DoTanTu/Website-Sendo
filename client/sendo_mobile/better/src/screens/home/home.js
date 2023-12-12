@@ -21,7 +21,6 @@ const home = () => {
             method: 'GET',
         }).then((result) => {
             setProductList(result.data);
-            console.log(productList)
         }).catch((err) => {
             console.log(err);
         });
