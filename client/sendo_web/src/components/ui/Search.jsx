@@ -33,7 +33,7 @@ export default function Search() {
 
             <button
               type="submit"
-              class="absolute top-0 end-0 p-2.5 h-full text-sm font-medium text-blue-500 hover:bg-blue-400 hover:text-white"
+              class="absolute top-0 end-0 p-2.5 h-full text-sm font-medium text-[#DA251E] hover:bg-[#DA251E]/90 hover:text-white"
             >
               Search
             </button>
