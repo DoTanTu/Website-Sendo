@@ -6,6 +6,10 @@ import {useNavigation} from '@react-navigation/native';
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 const ProductItem = (props) => {
+    const handleMoreButton = (id) => {
+      navigation.navigate("productDetails", { _id: id });
+      console.log(id);
+    };
     const navigation = useNavigation();
     const prodId = props.senData.id;
     const prodName = props.senData.name;

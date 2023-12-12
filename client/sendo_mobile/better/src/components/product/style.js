@@ -15,11 +15,10 @@ export default styles = StyleSheet.create({
         shadowRadius: 3,
       },
       images_item:{
-        height: '100',
+        height: 180,
       },
       productImage: {
-        width: '100%',
-        height: 200,
+        height: '100%',
         objectFit: 'cover',
         marginBottom: 8,
       },
