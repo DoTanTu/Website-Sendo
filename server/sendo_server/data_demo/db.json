@@ -37,5 +37,114 @@
     "comments": [
       { "id": 1, "body": "some comment", "postId": 1 }
     ],
-    "profile": { "name": "typicode" }
+    "profile": { "name": "typicode" },
+    "products":[
+        {
+          "id": 1,
+          "name": "Áo giữ nhiệt ôm nam body co giãn 4 chiều đẹp cao cấp - áo giữ nhiệt nam AGIUNHIET2",
+          "location": "Đà Nẵng",
+          "price": 100000,
+          "image": "https://media3.scdn.vn/img4/2022/10_25/Sh5Z6keGFJfcV1XLeSQx_simg_de2fe0_250x250_maxb.jpg"
+        }, 
+        {
+          "id": 2,
+          "name": "Áo polo nam trung niên tay ngắn cotton đẹp form rộng - Áo polo nam POTNTRONRE2",
+          "location": "TP.HCM",
+          "price": 79000,
+          "image": "https://media3.scdn.vn/img4/2021/09_08/c4BBf4OkKcuWSOO5MvFf_simg_de2fe0_250x250_maxb.jpg"
+        }, 
+        {
+          "id": 3,
+          "name": "Áo len lông cừu nam chất dày dặn màu xanh than - ao len nam 67",
+          "location": "Đà Nẵng",
+          "price": 125000,
+          "image": "https://media3.scdn.vn/img3/2019/9_26/uZE21I_simg_de2fe0_250x250_maxb.jpg"
+        },
+        {
+          "id": 4,
+          "name": "Áo polo nam trung niên form rộng tay ngắn cotton đẹp cao cấp - Áo polo nam POLOTNSOCLON-2",
+          "location": "Đà Nẵng",
+          "price": 89000,
+          "image": "https://media3.scdn.vn/img4/2021/09_08/6OWMj5i8mzHKxAUXra6I_simg_de2fe0_250x250_maxb.jpg"
+        },
+        {
+          "id": 5,
+          "name": "Áo len nam cổ lọ màu đen - ao len nam 103",
+          "location": "Đà Nẵng",
+          "price": 125000,
+          "image": "https://media3.scdn.vn/img3/2019/10_19/CimtfR_simg_de2fe0_250x250_maxb.jpg"
+        },
+        {
+          "id": 6,
+          "name": "Áo thun nam cao cấp vải tổ ông form áo regular - Áo thun nam cổ tròn , ngắn tay",
+          "location": "Đà Nẵng",
+          "price": 76000,
+          "image": "https://media3.scdn.vn/img4/2022/11_10/hNkzOLk8QLL9cmdT5Ljw_simg_de2fe0_250x250_maxb.jpg"
+        },
+        {
+          "id": 7,
+          "name": "Áo len nữ mỏng phối màu dịu dàng - Áo len nữ mỏng",
+          "location": "Đà Nẵng",
+          "price": 119000,
+          "image": "https://media3.scdn.vn/img3/2019/11_24/ZaYMTn_simg_de2fe0_250x250_maxb.jpg"
+        },
+        {
+          "id": 8,
+          "name": "Áo giữ nhiệt nam thể thao tay dài cổ tròn thun lạnh đẹp cao cấp dập vân - Áo thun nam ATTDAITAY1",
+          "location": "Đà Nẵng",
+          "price": 35000,
+          "image": "https://media3.scdn.vn/img4/2022/10_25/paf56BubKp833VVya50P_simg_de2fe0_250x250_maxb.jpg"
+        },
+        {
+          "id": 9,
+          "name": "Áo hoodie nữ lót nỉ in chữ siêu đẹp - Áo hoodie nữ",
+          "location": "Đà Nẵng",
+          "price": 89000,
+          "image": "https://media3.scdn.vn/img4/2021/09_30/hECumRv2AQwLMgOCgVjn_simg_de2fe0_250x250_maxb.jpg"
+        },
+        {
+          "id": 10,
+          "name": "Áo len tiêu nam màu ghi đậm - ao len nam ",
+          "location": "Đà Nẵng",
+          "price": 152000,
+          "image": "https://media3.scdn.vn/img2/2018/10_10/bLJlW3_simg_de2fe0_250x250_maxb.jpg"
+        },
+        {
+          "id": 11,
+          "name": "Áo polo nam trung niên form rộng cotton đẹp tay ngắn cao cấp - Áo polo nam, APOLOTNCC",
+          "location": "Đà Nẵng",
+          "price": 99000,
+          "image": "https://media3.scdn.vn/img4/2023/04_24/SjMxFR81uc43Zubrgl3B_simg_de2fe0_250x250_maxb.jpg"
+        },
+        {
+          "id": 12,
+          "name": "Áo Giữ Nhiệt Nữ Chất Liệu Thun Lạnh Kiểu Dáng Hàn Quốc Dễ Phối Đồ - ÁO GIỮ NHIỆT NỮ Không chữ",
+          "location": "Đà Nẵng",
+          "price": 49000,
+          "image": "https://media3.scdn.vn/img4/2021/11_06/mNiH11GAwBxUymvTu2Oe_simg_de2fe0_250x250_maxb.jpg"
+        },
+        {
+          "id": 13,
+          "name": "ÁO POLO NAM NỮ CỔ TRỤ VẢI COTTON CÁ SẤU CO GIÃN 4 CHIỀU FORM RỘNG - áo cổ TRỤ",
+          "location": "Đà Nẵng",
+          "price": 89000,
+          "image": "https://media3.scdn.vn/img4/2021/10_23/7xpDB2Q1waBbZfXEbvNs_simg_de2fe0_250x250_maxb.png"
+        },
+        {
+          "id": 14,
+          "name": "Áo thể thao nam cổ bẻ chất thun lạnh vân dập đẹp co giãn 4 chiều - Áo thể thao nam cổ bẻ 3dco01",
+          "location": "Đà Nẵng",
+          "price": 50000,
+          "image": "https://media3.scdn.vn/img4/2022/08_13/d6Sscf6kTCETCJVLqyVA_simg_de2fe0_250x250_maxb.jpg"
+        },
+        {
+          "id": 15,
+          "name": "Áo chống nắng dáng dài và 9 bộ - áo chống nắng",
+          "location": "Đà Nẵng",
+          "price": 89000,
+          "image": "https://media3.scdn.vn/img4/2021/08_09/xqa9ny8JKUUcFMWqAGjk_simg_de2fe0_250x250_maxb.jpg"
+        }
+    ]
+    
+    
   }
