@@ -7,11 +7,27 @@ import HomeScreen from './screens/HomeScreen';
 import CategoryScreen from './screens/CategoryScreen';
 import ProfileScreen from './screens/ProfileScreen';
 
-import DetailProductNavigator from './screens/DetailProduct';
+import DetailProductStack from './screens/DetailProduct';
 
 const homeName = 'Home';
 const cateName = 'Category';
 const proName = 'Profile';
+const detailProd = "DetailScreenStack";
+
+const getTabBarVisibility = (route) => {
+  const routeName = getFocusedRouteNameFromRoute(route);
+  
+  if (!routeName) {
+    return true;
+  }
+
+  // Ẩn tabBar khi bạn đang ở trong stack DetailProductNavigator
+  if (routeName === 'DetailScreen') {
+    return false;
+  }
+
+  return true;
+};
 
 const Tab = createBottomTabNavigator();
 const MainContainer = () => {
@@ -47,10 +63,11 @@ const MainContainer = () => {
         }} />
         <Tab.Screen name={cateName} component={CategoryScreen} />
         <Tab.Screen name={proName} component={ProfileScreen} />
-        <Tab.Screen name="DetailScreen" component={DetailProductNavigator} options={({ route }) => ({
-            tabBarButton: () => null,
+        <Tab.Screen name={detailProd} component={DetailProductStack} options={({ route }) => ({
             headerShown: true,
-          })} />
+            title: 'Chi tiết sản phẩm',
+            tabBarButton: () => null,
+          })}  />
       </Tab.Navigator>
     </NavigationContainer>
   );
