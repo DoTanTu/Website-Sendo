@@ -1,4 +1,7 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
+import axios from 'axios';
+import * as productService from "../../service/ListService"
+import {Link, useNavigate} from 'react-router-dom';
 import {
   Dialog,
   DialogHeader,
@@ -11,10 +14,29 @@ import logo from "../../img/Better_logo_white.png";
 import LoginMail from "./LoginMail";
 
 export default function Login() {
-  const [open, setOpen] = React.useState(false);
-
+  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
   const handleOpen = () => setOpen(!open);
-
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.get('http://localhost:8080/accounts');
+      const users = response.data;
+      const user = users.find((u) => u.username === username && u.password === password);
+      if (user) {
+        alert('Login successful:', users);
+        navigate('/');
+      } else {
+        setError('Invalid username or password');
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
+      setError('An error occurred during login');
+    }
+  };
   return (
     <>
       <button
@@ -36,14 +58,28 @@ export default function Login() {
             <p className="pt-2 text-md text-black ">
               Đăng nhập hoặc Tạo tài khoản
             </p>
+            <form onSubmit={handleLogin}>
             <Input
               className="pt-2 text-2xl h-full"
               variant="static"
               placeholder="Số điện thoại"
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
             />
-            <button className=" mt-6 w-full text-2xl text-white py-3  bg-[#DA251E] hover:bg-red-300 rounded-md">
-              Tiếp tục
+            <Input
+              className="pt-2 text-2xl h-full"
+              variant="static"
+              placeholder="Mật khẩu"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <button className=" mt-6 w-full text-2xl text-white py-3  bg-[#DA251E] hover:bg-red-300 rounded-md" type="submit">
+              Đăng nhập
             </button>{" "}
+            </form>
+            {error && <p style={{ color: 'red' }}>{error}</p>}
             <LoginMail />
             <div className="flex gap-4 items-center mt-24">
               <hr className="w-full h-[1px] bg-blue-gray-300"></hr>
