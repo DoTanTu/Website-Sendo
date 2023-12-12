@@ -2,14 +2,9 @@ import { View, Text,Image , StyleSheet, TouchableOpacity } from 'react-native';
 import React from 'react';
 import styles from "./style"
 import {useNavigation} from '@react-navigation/native';
-
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 const ProductItem = (props) => {
-    const handleMoreButton = (id) => {
-      navigation.navigate("productDetails", { _id: id });
-      console.log(id);
-    };
     const navigation = useNavigation();
     const prodId = props.senData.id;
     const prodName = props.senData.name;
@@ -20,8 +15,12 @@ const ProductItem = (props) => {
     const proSold = props.senData.sold;
     const prodDiscount = props.senData.discount;
     const prodOld = '10';
+
+    const handleMoreButton = (prodId) => {
+      navigation.navigate("DetailScreen", { id: prodId });
+    };
   return (
-    <TouchableOpacity style={styles.productItem} onPress={() => navigation.navigate('NewScreen', { id: prodId })}>               
+    <TouchableOpacity style={styles.productItem} onPress={() => handleMoreButton(prodId)}>               
       <View style={styles.images_item}>
         <Image source={{ uri: images }} style={styles.productImage} />
       </View>

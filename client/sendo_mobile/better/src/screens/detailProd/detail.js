@@ -1,28 +1,55 @@
-import { View, Text ,FlatList} from 'react-native'
-import React from 'react'
-import { useRoute } from '@react-navigation/native';
+import { View, Text ,FlatList, TouchableOpacity} from 'react-native'
+import React,{useEffect} from 'react';
+import Ionicons from "react-native-vector-icons/Ionicons";
+import { useRoute, useNavigation } from '@react-navigation/native';
 import styles from './style'
 const detail = () => {
     const route = useRoute();
+    const navigation = useNavigation();
     const id = route.params.id;
-    console.log(route)
+    useEffect(() => {
+        navigation.setOptions({
+          headerShown: true,
+          title: `Product ${id}`,
+          headerBackTitleVisible: true,
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Ionicons
+                name="arrow-back"
+                size={24}
+                color="black"
+                style={{ marginLeft: 10 }}
+              />
+            </TouchableOpacity>
+          ),
+          headerRight: () => (
+            <View style={{flexDirection:'row', marginRight:10}}>
+              <TouchableOpacity onPress={()=>navigation.navigate('Home')}>
+                <Ionicons
+                  name="home-outline"
+                  size={24}
+                  color="black"
+                  style={{ marginRight: 10 }}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => alert("Share")}>
+                <Ionicons
+                  name="cart-outline"
+                  size={24}
+                  color="black"
+                  style={{ marginRight: 10 }}
+                />
+              </TouchableOpacity>
+            </View>
+          )
+        });
+      }, [navigation, id]);
   return (
     <View style={styles.container}>
-        <View>Headr</View>
+        <View></View>
         <View style={styles.body}>
             <View style={styles.image_list}>
-            <FlatList
-                data={imageUrls}
-                horizontal
-                pagingEnabled
-                showsHorizontalScrollIndicator={false}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem={({ item }) => (
-                <View style={styles.imageContainer}>
-                    <Image source={{ uri: item }} style={styles.image} />
-                </View>
-                )}
-            />
+                <Text>{id}</Text>
             </View>
         </View>
     </View>

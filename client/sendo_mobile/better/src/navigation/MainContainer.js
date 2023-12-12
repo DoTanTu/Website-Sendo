@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -47,7 +47,10 @@ const MainContainer = () => {
         }} />
         <Tab.Screen name={cateName} component={CategoryScreen} />
         <Tab.Screen name={proName} component={ProfileScreen} />
-        <Tab.Screen name="NewScreen" component={DetailProductNavigator} options={{ tabBarButton: () => null,  headerShown: true, }} />
+        <Tab.Screen name="DetailScreen" component={DetailProductNavigator} options={({ route }) => ({
+            tabBarButton: () => null,
+            headerShown: true,
+          })} />
       </Tab.Navigator>
     </NavigationContainer>
   );
