@@ -6,8 +6,10 @@ import {
   DialogFooter,
   Typography,
 } from "@material-tailwind/react";
-import { Button } from "@material-tailwind/react";
 import { Input } from "@material-tailwind/react";
+import logo from "../../img/Better_logo_white.png";
+import LoginMail from "./LoginMail";
+
 export default function Login() {
   const [open, setOpen] = React.useState(false);
 
@@ -39,12 +41,10 @@ export default function Login() {
               variant="static"
               placeholder="Số điện thoại"
             />
-            <button className=" mt-6 w-full text-2xl text-white py-3  bg-red-400 hover:bg-red-300 rounded-md">
+            <button className=" mt-6 w-full text-2xl text-white py-3  bg-[#DA251E] hover:bg-red-300 rounded-md">
               Tiếp tục
-            </button>
-            <p className="mt-4 text-blue-600 text-sm w-full text-center">
-              Đăng nhập bằng email
-            </p>
+            </button>{" "}
+            <LoginMail />
             <div className="flex gap-4 items-center mt-24">
               <hr className="w-full h-[1px] bg-blue-gray-300"></hr>
               <p className="text-sm w-[400px]">Hoặc tiếp tục bằng</p>
@@ -66,10 +66,10 @@ export default function Login() {
             </div>
           </div>
 
-          <div className="relative w-2/5 h-[527px] bg-blue-100 rounded-r-2xl">
+          <div className="relative w-2/5 h-[527px] bg-[#DA251E] rounded-r-2xl">
             <img
-              className="absolute h-60 w-60 top-1/2 left-1/2  -translate-y-1/2 -translate-x-1/2"
-              src="https://salt.tikicdn.com/ts/upload/eb/f3/a3/25b2ccba8f33a5157f161b6a50f64a60.png"
+              className="absolute h-60 w-60 top-1/2 left-1/2  -translate-y-1/2 -translate-x-1/2 "
+              src={logo}
             ></img>
           </div>
         </DialogBody>
