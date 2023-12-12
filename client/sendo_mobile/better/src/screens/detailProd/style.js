@@ -20,13 +20,10 @@ const styleDetail = StyleSheet.create({
         color: 'black',
       },
       body: {
-        flex: 1,
         justifyContent: 'center',
-        alignItems: 'center',
       },
       image_list: {
-        borderWidth: 1,
-        padding: 20,
+
       },
 });
 export default styleDetail;
