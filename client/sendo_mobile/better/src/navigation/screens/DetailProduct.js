@@ -1,12 +1,10 @@
-import { Text, View } from 'react-native'
 import React, { Component } from 'react'
-import Detail from '../../screens/detailProd/detail'
-export class DetailProduct extends Component {
-  render() {
+import Detail from '../../screens/detailProd/detail';
+
+const DetailProduct=() => {
     return ( 
-      <Detail />
+      <Detail/>
     )
-  }
 }
 
 export default DetailProduct
