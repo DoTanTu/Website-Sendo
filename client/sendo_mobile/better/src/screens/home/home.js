@@ -1,30 +1,26 @@
 import {Text, TextInput, View, TouchableOpacity, ScrollView,Image, FlatList } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React ,{ useEffect, useState } from "react";
 import axios from "axios";
 import styles from "./style";
 import ProductItem from '../../components/product/index'
-const home = () => {
-    const [productList, setProductList] = useState([]);
-    const handlerClick = ()=>{
-        
-    }
-    useEffect(() => {
-        getProducts();
-    }, []);
+const Home = () => {
+  const [productList, setProductList] = useState([]);
+  const handlerClick = ()=>{}
+  useEffect(() => {
+      getProducts();
+  }, []);
 
-    const getProducts = () => {
-        axios({
-            url: 'https://6577469e197926adf62ddcf5.mockapi.io/api/products',
-            method: 'GET',
-        }).then((result) => {
-            setProductList(result.data);
-        }).catch((err) => {
-            console.log(err);
-        });
-    }
+  const getProducts = () => {
+      axios({
+          url: 'https://6577469e197926adf62ddcf5.mockapi.io/api/products',
+          method: 'GET',
+      }).then((result) => {
+          setProductList(result.data);
+      }).catch((err) => {
+          console.log(err);
+      });
+  }
     
   return (
     <View style={styles.container}>
@@ -90,4 +86,4 @@ const home = () => {
   );
 };
 
-export default home;
+export default Home;
