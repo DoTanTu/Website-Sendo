@@ -1,11 +1,21 @@
 import * as z from "zod";
+
 import { validator } from "./validator";
 
 export const LoginSchema = z.object({
-  phone: z
+  email: z
     .string()
     .min(1, {
-      message: "Số điện thoại không được để trống",
+      message: "Email is required",
     })
-    .regex(validator.password, "Số điện thoại không đúng định dạng."),
+    .email("Email must be valid"),
+  password: z
+    .number()
+    .min(1, {
+      message: "Password is required",
+    })
+    .regex(
+      validator.password,
+      "Password must contain at least 8 characters, 1 letter and 1 number"
+    ),
 });
