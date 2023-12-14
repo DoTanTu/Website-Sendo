@@ -43,7 +43,7 @@ const Images = (props) => {
                arrayImages
                 ? arrayImages.map((e, index) => (
                     <Image
-                      key={e}
+                      key={index}
                       resizeMode='stretch'
                       style={styles.wrap}
                       source={{ uri: e }}
@@ -57,7 +57,7 @@ const Images = (props) => {
                 arrayImages
                 ? arrayImages.map((e, index) => 
                     <Text 
-                        key={e}
+                        key={index}
                         style={ImgAcitve == index ? styles.dotActive : styles.dot}
                     >
                         ●

@@ -18,9 +18,8 @@ export default styles = StyleSheet.create({
         height: 180,
       },
       productImage: {
-        height: '100%',
-        objectFit: 'cover',
-        marginBottom: 8,
+
+        height:'100%',
       },
       infor_item:{
         paddingVertical: 4,

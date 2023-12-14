@@ -1,4 +1,4 @@
-import { View, Text,Image , StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text,Image , StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
 import React from 'react';
 import styles from "./style"
 import {useNavigation} from '@react-navigation/native';
@@ -22,7 +22,7 @@ const ProductItem = (props) => {
   return (
     <TouchableOpacity style={styles.productItem} onPress={() => handleMoreButton(prodId)}>               
       <View style={styles.images_item}>
-        <Image source={{ uri: images }} style={styles.productImage} />
+        <Image source={{ uri: images }} width={(Dimensions.get('window').width)/2} style={styles.productImage} />
       </View>
       <View style={styles.infor_item}>
         <Text style={styles.title_item} numberOfLines={2} ellipsizeMode="tail">{prodName}</Text>
