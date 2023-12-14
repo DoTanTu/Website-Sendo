@@ -3,14 +3,13 @@ import axios from "axios";
 import "../../css/style.css";
 
 export default function Sidebar() {
-
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         // Gọi API để lấy dữ liệu
-        const response = await axios.get("http://localhost:3000/category");
+        const response = await axios.get("http://localhost:8080/category");
         setCategories(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -25,18 +24,18 @@ export default function Sidebar() {
           <div className="title_cate_sidebar">
             <h5>Danh mục</h5>
           </div>
-          {categories.map(category => (
-          <a key={category.id} class="item_cate" href="">
-            <div class="left_image">
-              <picture>
-                <img src={category.url} alt="" />
-              </picture>
-            </div>
-            <div className="right_title">
-              <span>{category.title}</span>
-            </div>
-          </a>
-            ))}
+          {categories.map((category) => (
+            <a key={category.id} class="item_cate" href="">
+              <div class="left_image">
+                <picture>
+                  <img src={category.url} alt="" />
+                </picture>
+              </div>
+              <div className="right_title">
+                <span>{category.title}</span>
+              </div>
+            </a>
+          ))}
         </div>
         <div className="outstanding">
           <div className="title_cate_sidebar">
@@ -45,7 +44,10 @@ export default function Sidebar() {
           <a class="item_cate" href="">
             <div class="left_image">
               <picture>
-                <img src="https://salt.tikicdn.com/cache/100x100/ts/category/13/64/43/226301adcc7660ffcf44a61bb6df99b7.png.webp" alt="" />
+                <img
+                  src="https://salt.tikicdn.com/cache/100x100/ts/category/13/64/43/226301adcc7660ffcf44a61bb6df99b7.png.webp"
+                  alt=""
+                />
               </picture>
             </div>
             <div className="right_title">
