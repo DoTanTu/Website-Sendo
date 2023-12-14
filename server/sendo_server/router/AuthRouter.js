@@ -13,8 +13,8 @@ router.post('/login', [
 router.get('/protected', authenticateToken, (req, res) => {
     res.json({ message: 'This is a protected route', user: req.user });
 });
-router.get('/',  (req, res) => {
-    res.json({ message: 'This is a protected route' });
-});
+router.get('/', (req, res) => {
+    res.send('Hello, this is the homepage!');
+  });
 module.exports = router;
 
