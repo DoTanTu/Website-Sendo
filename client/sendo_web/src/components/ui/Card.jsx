@@ -10,7 +10,8 @@ export default function Card() {
     setProduct(temp);
   }
   return (
-    <>
+  
+    <tbody>
     {products.map((values, index) => (
     <div key={index} className="w-1/2 md:w-1/5 h-max bg-transparent p-2 rounded-md">
     <div className="rounded-md bg-blue-gray-50 shadow-md">
@@ -35,7 +36,10 @@ export default function Card() {
       </div>
     </div>
     </div>
+
     ))}
-    </>
+    </tbody>
+      
+  
   );
 }
