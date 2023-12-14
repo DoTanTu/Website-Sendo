@@ -38,6 +38,18 @@
       { "id": 1, "body": "some comment", "postId": 1 }
     ],
     "profile": { "name": "typicode" },
+    "accounts":[
+      {
+        "id": 1,
+        "username": "0911710470",
+        "password": "123456"
+      },
+      {
+        "id": 2,
+        "username": "test",
+        "password": "123456"
+      }
+    ],
     "products":[
         {
           "id": 1,
