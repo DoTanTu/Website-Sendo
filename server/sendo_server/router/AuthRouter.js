@@ -8,13 +8,10 @@ const router = express.Router();
 router.post('/login', [
     body('email', 'Please enter a valid email').isEmail().normalizeEmail({ gmail_remove_dots: true }),
     body('password', 'Password is required').notEmpty(),
-    handleValidationErrors, // Use the helper for validation errors
+    handleValidationErrors,
   ], AuthController.login);
 router.get('/protected', authenticateToken, (req, res) => {
     res.json({ message: 'This is a protected route', user: req.user });
-});
-router.get('/',  (req, res) => {
-    res.json({ message: 'This is a protected route' });
 });
 module.exports = router;
 
