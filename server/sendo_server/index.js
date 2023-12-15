@@ -4,7 +4,7 @@ const userRouter = require('./router/AuthRouter')
 require('./config/DBConnect');
 require("dotenv").config();
 const app = express();
-const port = 3000;
+const port = process.env.PORT;
 
 app.use(bodyParser.json());
 app.use('/api',userRouter);
