@@ -8,7 +8,9 @@ const port = process.env.PORT;
 
 app.use(bodyParser.json());
 app.use('/api',userRouter);
-
+app.get('/demo', (req, res) => {
+  res.send('Hello, this is the homepage!');
+});
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
