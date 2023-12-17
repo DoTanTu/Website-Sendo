@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Search from "./ui/Search";
-import Login from "./ui/Login";
+
 import axios from "axios";
 import logo from "../img/Better_logo.png";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [location, setLocation] = useState(null);
@@ -70,7 +71,13 @@ const Navbar = () => {
             Trang chủ
           </button>
 
-          <Login />
+          <Link
+            to="Login"
+            type="button"
+            class="py-2.5 px-5 me-2  text-sm font-bold text-gray-400 focus:outline-none bg-white rounded-lg  hover:bg-blue-300/30  focus:z-10 "
+          >
+            Tài khoản
+          </Link>
 
           <button
             type="button"
