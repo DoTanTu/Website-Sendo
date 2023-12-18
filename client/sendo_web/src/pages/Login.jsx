@@ -20,17 +20,13 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const handleLogin = async (e) => {
-    e.preventDefault();
-    console.log(email, password);
-    if (!email || !password) {
-      console.log("Email/Password is required");
-      return;
-    }
+    e.preventDefault();    
     try {
-      // setIsLoading(true);
       const res = await LoginApi(email, password);
-      console.log(res.data.token);
-      console.log(res.data.id);
+      if (!email || !password) {
+        console.log("Email/Password is required");
+        return;
+      }
       navigate("/");
     } catch (error) {
       console.error(error);
@@ -66,8 +62,9 @@ export default function Login() {
             loading={isLoading}
           >
             Đăng nhập
-          </button>{" "}
-          <p className="mt-2 ">
+          </button>         
+        </form>
+        <p className="mt-2 ">
             Nếu chưa có tài khoản
             <Link
               to="/signup"
@@ -76,8 +73,6 @@ export default function Login() {
               Đăng ký tại đây
             </Link>
           </p>
-        </form>
-
         <div className="flex gap-4 items-center mt-8">
           <hr className="w-full h-[1px] bg-blue-gray-300"></hr>
           <p className="text-sm w-[400px]">Hoặc tiếp tục bằng</p>

@@ -24,11 +24,11 @@ export const login = async () => {
 
 export const LoginApi = async (email, password) => {
   try {
-    const result = await instance.post("/sign-in", {
+    const result = await instance.post("/login", {
       email: email,
       password: password,
     });
-    if (result.data.id === 0) {
+    if (result.data.is_verified === 1) {
       return result;
     }
   } catch (error) {
