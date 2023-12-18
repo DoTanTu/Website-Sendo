@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Search from "./ui/Search";
-import Login from "./ui/Login";
+
 import axios from "axios";
 import logo from "../img/Better_logo.png";
+import { Link, NavLink } from "react-router-dom";
 
 const Navbar = () => {
   const [location, setLocation] = useState(null);
@@ -45,11 +46,15 @@ const Navbar = () => {
   }, []);
   return (
     <div className="bg-white  w-full h-full flex items-center justify-center gap-x-9 pt-2">
-      <img
-        src={logo}
-        className="h-20 w-20 img-fluid cursor-pointer ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}"
-        alt="logo Better"
-      />
+      <Link to="/">
+        {" "}
+        <img
+          src={logo}
+          className="h-20 w-20 img-fluid cursor-pointer ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}"
+          alt="logo Better"
+        />
+      </Link>
+
       <div className="flex-col w-3/5">
         <Search />
         <menu className="flex gap-4 text-gray-400 mt-3 mb-3 ">
@@ -70,7 +75,13 @@ const Navbar = () => {
             Trang chủ
           </button>
 
-          <Login />
+          <Link
+            to="Login"
+            type="button"
+            class="py-2.5 px-5 me-2  text-sm font-bold text-gray-400 focus:outline-none bg-white rounded-lg  hover:bg-blue-300/30  focus:z-10 "
+          >
+            Tài khoản
+          </Link>
 
           <button
             type="button"
