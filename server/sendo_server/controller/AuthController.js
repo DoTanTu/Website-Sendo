@@ -1,5 +1,9 @@
 const jwt = require('jsonwebtoken');
 const UserModel = require('../model/UserModel');
+const mailer = require('../config/Mailer');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+const verificationEmail = require('../views/verificationEmail.jsx');
 const { handleValidationErrors } = require('../helpers/Validation');
 const { body } = require('express-validator');
 require('dotenv').config();
@@ -29,6 +33,77 @@ class AuthController {
           // Invalid credentials
           return res.status(401).json({ error: 'Invalid credentials' });
         }
+      });
+    }
+    static signup(req, res) {
+      const { name, email, password, is_Seller, address, phoneNumber, gender, birthday } = req.body;
+      UserModel.findUserByEmail(email, (err, existingUser) => {
+      if (err) {
+        return res.status(500).send('Internal Server Error');
+      }
+
+      if (existingUser) {
+        // Email is already registered
+        return res.status(400).send('Email is already registered');
+      }
+
+      // Email is not registered, proceed with user registration
+
+      // Băm mật khẩu trước khi lưu vào cơ sở dữ liệu
+      bcrypt.hash(password, saltRounds, (hashErr, hashedPassword) => {
+        if (hashErr) {
+          console.error('Error hashing password:', hashErr);
+          return res.status(500).send('Internal Server Error');
+        }
+
+        const verification_token = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+        const user = {
+          name,
+          email,
+          password: hashedPassword, // Sử dụng mật khẩu đã băm
+          is_Seller,
+          address,
+          phoneNumber,
+          gender,
+          birthday,
+          verification_token,
+        };
+
+        // Create the user
+        UserModel.createUser(user, (createErr, result) => {
+          if (createErr) {
+            console.error('Error inserting user:', createErr);
+            return res.status(500).send('Internal Server Error');
+          }
+
+          const verificationLink = `http://localhost:3000/api/verify?token=${verification_token}`;
+          const mailOptions = {
+            to: email,
+            subject: 'Email Verification',
+            html: verificationEmail(verificationLink),
+          };
+
+          // Send verification email
+          mailer.sendMail(mailOptions, (mailError, info) => {
+            if (mailError) {
+              console.error(mailError);
+              return res.status(500).send('Internal Server Error');
+            }
+            console.log(`Email sent: ${info.response}`);
+            res.status(200).send('Registration successful. Check your email for verification.');
+          });
+        });
+      });
+      });
+    }
+    static verifyEmail(req, res) {
+      const { token } = req.query;  
+      UserModel.updateUserVerification(token, (err, result) => {
+        if (err) throw err;  
+        if (result.changedRows === 0) {
+          return res.status(400).send('Invalid verification token.');
+        } 
+        res.status(200).send('Email verification successful.');
       });
     }
   }
