@@ -14,7 +14,6 @@ import { Input } from "@material-tailwind/react";
 import logo from "../img/Better_logo_white.png";
 import { LoginApi } from "../service/ListService";
 
-
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -28,19 +27,17 @@ export default function Login() {
       return;
     }
     try {
-      setIsLoading(true);
+      // setIsLoading(true);
       const res = await LoginApi(email, password);
       console.log(res.data.token);
+      console.log(res.data.id);
       navigate("/");
     } catch (error) {
       console.error(error);
-    } finally {
-      setIsLoading(false);
     }
   };
   return (
     <div className="flex p-32 shadow-lg">
-      <Toaster position="top-right" reverseOrder={false} />
       <div className="w-3/5 h-[527px] p-12 ">
         <p className="text-2xl text-black ">Xin Chào,</p>
         <p className="pt-2 text-md text-black ">Đăng nhập hoặc Tạo tài khoản</p>

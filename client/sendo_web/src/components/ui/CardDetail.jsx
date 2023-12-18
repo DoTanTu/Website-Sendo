@@ -2,7 +2,22 @@ import React, { useState } from "react";
 import DefaultRating from "./DefaultRating";
 
 export default function CardDetail() {
-  const [count, setCount] = useState(0);
+  const [value, setValue] = useState(1);
+  const [min_value, setMinValue] = useState(0);
+
+  const onPress = () => {
+    const number = Number(e.target.value);
+
+    if (e.target.id === "button-plus") {
+      setValue(value + number);
+    } else if (e.target.id === "button-minus") {
+      if (value < min_value) {
+        alert("Giá trị không được âm");
+      } else {
+        setValue(value - number);
+      }
+    }
+  };
   return (
     <div className="flex h-max bg-white my-6 mx-28 rounded-lg">
       <div className="w-1/3">
@@ -43,11 +58,17 @@ export default function CardDetail() {
         </div>
         <div className="flex gap-3 mt-6">
           <p className="my-auto">Số lượng:</p>
-          <button className="border p-3" onClick={() => setCount(count - 1)}>
+          <button className="border p-3" id="button-minus" onClick={onPress}>
             -
           </button>
-          <p className="border p-2"> {count} </p>
-          <button className="border p-3" onClick={() => setCount(count + 1)}>
+
+          <input
+            className="border p-2"
+            type="number"
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+          />
+          <button className="border p-3" id="button-plus" onClick={onPress}>
             +
           </button>
         </div>

@@ -14,13 +14,13 @@ export const login = async () => {
     return temp.data;
   } catch (error) {}
 };
-export const signIn = async (email, password) => {
-  try {
-    const temp = await axios.get("http://localhost:8080/accounts");
-    console.log(temp);
-    return temp.data;
-  } catch (error) {}
-};
+// export const signIn = async (email, password) => {
+//   try {
+//     const temp = await axios.get("http://localhost:8080/accounts");
+//     console.log(temp);
+//     return temp.data;
+//   } catch (error) {}
+// };
 
 export const LoginApi = async (email, password) => {
   try {
@@ -28,7 +28,9 @@ export const LoginApi = async (email, password) => {
       email: email,
       password: password,
     });
-    return result;
+    if (result.data.id === 0) {
+      return result;
+    }
   } catch (error) {
     console.log(error);
   }
