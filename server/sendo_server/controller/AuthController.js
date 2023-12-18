@@ -10,7 +10,7 @@ require('dotenv').config();
 class AuthController {
   static login(req, res) {
     // Validate request body
-    // body('email', 'Please enter a valid email').isEmail().normalizeEmail({ gmail_remove_dots: true })(req, res, () => {});
+    body('email', 'Please enter a valid email!').isEmail().normalizeEmail({ gmail_remove_dots: true })(req, res, () => {});
     body('password', 'Password is required').notEmpty()(req, res, () => {});
 
     // Handle validation errors
