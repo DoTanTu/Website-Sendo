@@ -11,7 +11,7 @@ import { Button } from "@material-tailwind/react";
 
 export default function Footer() {
   return (
-    <div className="bg-[#DA251E] text-white py-20 px-0 lg:px-24 md:px-6">
+    <div className="bg-[#DA251E] text-white py-20 px-0 lg:px-24 md:px-6 w-full">
       <div className=" md:flex md:gap-x-4 mb-6 ">
         <div className="pl-12 md:w-max lg:w-1/3 ">
           <p className="flex text-sm mb-3">

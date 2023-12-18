@@ -1,5 +1,5 @@
 import { Rating } from "@material-tailwind/react";
 
-export function DefaultRating() {
-  return <Rating value={4} />;
+export default function DefaultRating() {
+  return <Rating value={Math.floor(Math.random() * 5) + 1} />;
 }
