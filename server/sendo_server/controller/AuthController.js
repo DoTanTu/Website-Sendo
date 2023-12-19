@@ -8,33 +8,33 @@ const { handleValidationErrors } = require('../helpers/Validation');
 const { body } = require('express-validator');
 require('dotenv').config();
 class AuthController {
-    static login(req, res) {
-      // Validate request body
-      body('email', 'Please enter a valid email').isEmail().normalizeEmail({ gmail_remove_dots: true })(req, res, () => {});
-      body('password', 'Password is required').notEmpty()(req, res, () => {});
-  
-      // Handle validation errors
-      handleValidationErrors(req, res, () => {});
-  
-      const { email, password } = req.body;
-  
-      // Perform authentication against your user table in the database
-      UserModel.findUser(email, password, (err, results) => {
-        if (err) {
-          console.error('Error executing MySQL query:', err);
-          return res.status(500).json({ error: 'Internal server error' });
-        }
-  
-        if (results.length > 0) {
-          // User authenticated successfully, generate and send a JWT token
-          const token = jwt.sign({ email }, 'your_secret_key', { expiresIn: '1h' });
-          return res.status(200).json({ token });
-        } else {
-          // Invalid credentials
-          return res.status(401).json({ error: 'Invalid credentials' });
-        }
-      });
-    }
+  static login(req, res) {
+    // Validate request body
+    body('email', 'Please enter a valid email!').isEmail().normalizeEmail({ gmail_remove_dots: true })(req, res, () => {});
+    body('password', 'Password is required').notEmpty()(req, res, () => {});
+
+    // Handle validation errors
+    handleValidationErrors(req, res, () => {});
+
+    const { email, password } = req.body;
+
+    // Perform authentication against your user table in the database
+    UserModel.findUser(email, password, (err, results) => {
+      if (err) {
+        console.error('Error executing MySQL query:', err);
+        return res.status(500).json({ error: 'Internal server error' });
+      }
+
+      if (results.length > 0) {
+        // User authenticated successfully, generate and send a JWT token
+        const token = jwt.sign({ email }, 'your_secret_key', { expiresIn: '1h' });
+        return res.status(200).json({ token });
+      } else {
+        // Invalid credentials
+        return res.status(401).json({ error: 'Invalid credentials' });
+      }
+    });
+  }
     static signup(req, res) {
       const { name, email, password, is_Seller, address, phoneNumber, gender, birthday } = req.body;
       UserModel.findUserByEmail(email, (err, existingUser) => {
@@ -49,18 +49,12 @@ class AuthController {
 
       // Email is not registered, proceed with user registration
 
-      // Băm mật khẩu trước khi lưu vào cơ sở dữ liệu
-      bcrypt.hash(password, saltRounds, (hashErr, hashedPassword) => {
-        if (hashErr) {
-          console.error('Error hashing password:', hashErr);
-          return res.status(500).send('Internal Server Error');
-        }
 
         const verification_token = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
         const user = {
           name,
           email,
-          password: hashedPassword, // Sử dụng mật khẩu đã băm
+          password,
           is_Seller,
           address,
           phoneNumber,
@@ -93,7 +87,6 @@ class AuthController {
             res.status(200).send('Registration successful. Check your email for verification.');
           });
         });
-      });
       });
     }
     static verifyEmail(req, res) {
