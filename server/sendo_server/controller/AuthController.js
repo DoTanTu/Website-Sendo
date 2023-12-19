@@ -24,10 +24,16 @@ class AuthController {
         console.error('Error executing MySQL query:', err);
         return res.status(500).json({ error: 'Internal server error' });
       }
-
+     
       if (results.length > 0) {
         // User authenticated successfully, generate and send a JWT token
-        const token = jwt.sign({ email }, 'your_secret_key', { expiresIn: '1h' });
+        const users = results[0];
+        const tokenPayload = {
+          email: users.email,
+          is_Seller: users.is_Seller,
+          is_verified: users.is_verified
+        };
+        const token = jwt.sign(tokenPayload, 'your_secret_key', { expiresIn: '1h' });
         return res.status(200).json({ token });
       } else {
         // Invalid credentials
