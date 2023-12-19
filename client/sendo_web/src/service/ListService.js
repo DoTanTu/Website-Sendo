@@ -24,13 +24,12 @@ export const login = async () => {
 
 export const LoginApi = async (email, password) => {
   try {
-    const result = await instance.post("/sign-in", {
+    const result = await instance.post("/login", {
       email: email,
       password: password,
     });
-    if (result.data.id === 0) {
-      return result;
-    }
+
+    return result;
   } catch (error) {
     console.log(error);
   }

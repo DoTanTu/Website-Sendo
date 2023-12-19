@@ -17,6 +17,7 @@ import { LoginApi } from "../service/ListService";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [token, setToken] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const handleLogin = async (e) => {
@@ -29,8 +30,11 @@ export default function Login() {
     try {
       // setIsLoading(true);
       const res = await LoginApi(email, password);
-      console.log(res.data.token);
-      console.log(res.data.id);
+      if (res.success) {
+        setToken(res.token);
+      } else {
+        alert("Đăng nhập thất bại");
+      }
       navigate("/");
     } catch (error) {
       console.error(error);
@@ -67,6 +71,7 @@ export default function Login() {
           >
             Đăng nhập
           </button>{" "}
+          {token ? <p>Đăng nhập thành công</p> : null}
           <p className="mt-2 ">
             Nếu chưa có tài khoản
             <Link
