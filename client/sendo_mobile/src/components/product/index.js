@@ -17,7 +17,7 @@ const ProductItem = (props) => {
     const prodOld = '10';
 
     const handleMoreButton = (prodId) => {
-      navigation.navigate("DetailScreenStack", { id: prodId });
+      navigation.navigate("Detail", { id: prodId });
     };
   return (
     <TouchableOpacity style={styles.productItem} onPress={() => handleMoreButton(prodId)}>               

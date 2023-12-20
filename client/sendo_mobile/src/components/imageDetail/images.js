@@ -19,7 +19,7 @@ const Images = (props) => {
 
   const arrayImages= props.senData;
   
-  onchange= (nativeEvent) => {
+  onchange = (nativeEvent) => {
     if(nativeEvent){
         const slide = Math.ceil(nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width);
         if(slide != ImgAcitve){
@@ -27,9 +27,6 @@ const Images = (props) => {
         }
     }
   }
-  useEffect(() => {
-    
-    }, []);
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.wrap}>
