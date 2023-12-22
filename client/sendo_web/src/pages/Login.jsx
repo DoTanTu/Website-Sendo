@@ -13,6 +13,7 @@ import {
 import { Input } from "@material-tailwind/react";
 import logo from "../img/Better_logo_white.png";
 import { LoginApi } from "../service/ListService";
+// import jwt from "jsonwebtoken";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -29,12 +30,21 @@ export default function Login() {
           password,
         }
       );
-      setToken(data.token);
-      // console.log(data.token.PAYLOAD);
+      // // const tokenCheck = data.token;
+      // // const decodedToken = jwt.decode(tokenCheck, {
+      // //   secret: "your-256-bit-secret",
+      // });
+      // if (decodedToken.is_verified == 1) {
+      // console.log(decodedToken.is_verified);
       alert("Đăng nhập thành công");
       navigate("/");
+      // // } else {
+      //   alert("tài khoản chưa verified");
+      // }
+      setToken(data.token);
+      // console.log(data.token.PAYLOAD);
     } catch (error) {
-      alert("Đăng nhập thất bại");
+      alert("Sai mật khẩu hoặc passwword");
     }
   };
   return (
