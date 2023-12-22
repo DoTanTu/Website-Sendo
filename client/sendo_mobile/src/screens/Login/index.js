@@ -1,6 +1,7 @@
 import {
   View,
   Text,
+  Alert,
   StyleSheet,
   Image,
   TextInput,
@@ -16,34 +17,26 @@ const Start = () => {
 
   const [isVerified, setIsVerifide] = useState(false);
   const [isStatus, setIsStatus] = useState(false);
-  const [email, setEmail] = useState("jane.smith@example.com");
-  const [password, setPassword] = useState("hashed_password_456");
+  const [email, setEmail] = useState("dotantu2002@gmail.com");
+  const [password, setPassword] = useState("sa123");
 
   const handle_login = async () => {
     try {
       const token = await UserService.getAuthucation(email, password);
-
       if (token === undefined) {
         setIsStatus(true);
         return;
       }else{
         const data = await Authurcation.verifyToken(token);
-        console.log(data);
-        // if (data === 0) {
-        //   setIsVerifide(true);
-        //   return;
-        // }
-  
-        // if (data === null) {
-        //   setIsStatus(true);
-        //   return;
-        // }
-        // navigation.navigate("Tabs");
+        if (data === 0) {
+          Alert.alert("Thông báo", "Xác thực email trước khi đăng nhập");
+          return;
+        }else if (data === null) {
+          setIsStatus(true);
+          return;
+        }
+        navigation.navigate("Tabs");
       }
-
-      
-
-      
     } catch (e) {
       console.log("error", e);
     }
@@ -83,6 +76,7 @@ const Start = () => {
             placeholder="Nhập mật khẩu"
             value={password}
             onChangeText={setPassword}
+            secureTextEntry="true"
           />
         </View>
         <View style={styles.option_pass}>
@@ -99,22 +93,6 @@ const Start = () => {
             <Text style={styles.color_pass}>Forget password</Text>
           </View>
         </View>
-        {isVerified ? (
-          <View>
-            <Ionicons style={styles.icon_Email} name="radio-button-off" size={20} color={"gray"}
-            />
-            <Text
-            style={{
-              textAlign: "center",
-              color: "red",
-              marginTop: 20,
-              fontWeight: 500
-            }}
-          >
-            Vui lòng xác thực email trước khi đăng nhập!
-          </Text>
-          </View>
-        ) : null}
         {isStatus ? (
           <View style={styles.error_login}>
             <Ionicons style={styles.icon_error_login} name="close-circle-outline" size={20} color={"red"}/>

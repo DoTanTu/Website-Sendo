@@ -1,40 +1,29 @@
 
-import React, { useState } from 'react';
-import './App.css';
-import "./assets/css/style.css";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { BrowserRouter as Router, Route, Routes} from "react-router-dom";
-import Products from "./pages/Products";
-import Navbar from "./components/Navbar";
-import Header from "./components/Header";
-import Orders from "./pages/Orders";
-import Customers from "./pages/Customer";
-import Dashboard from "./pages/Dashboard";
+import React from 'react';
+import './index.js';
+import { BrowserRouter, Routes , Navigate,  Route} from "react-router-dom";
+import Login from './pages/Login';
+import Admin from './pages/Admin/Admin.jsx';
+import Seller from './pages/Seller/Seller.jsx';
+import ThongKe from './pages/Admin/ThongKe.jsx';
+import DanhMuc from './pages/Admin/DanhMuc.jsx';
+import DuyetSeller from './pages/Admin/DuyetSeller.jsx';
+import Profile from './pages/Admin/Profile.jsx';
 function App() {
-  const [leftBannerDisplay, setLeftBannerDisplay] = useState('block');
 
-  const handleContainTitleClick = () => {
-    setLeftBannerDisplay((prevDisplay) => (prevDisplay === 'block' ? 'none' : 'block'));
-  };
   return (
-    <>
-    <Router>
-      <div className='main_dashboard'>
-        <div className="left_banner" style={{ display: leftBannerDisplay }}>
-          <Navbar />
-        </div>
-        <div className='right_main'>
-          <Header onContainTitleClick={handleContainTitleClick} />
-          <Routes>
-            <Route path='/' element={<Dashboard />}/>
-            <Route path='/products' element={<Products />}/>
-            <Route path='/orders' element={<Orders />}/>
-            <Route path='/customers' element={<Customers />}/>
-          </Routes>
-        </div>
-      </div>
-    </Router>
-    </>
+    <BrowserRouter>
+      <Routes>
+          <Route path="/" element={<Login />}/>
+          <Route path="/seller" element={<Seller />} />
+          <Route path="/admin" element={<Admin />}>
+            <Route path="thong-ke" element={<ThongKe />} />
+            <Route path="danh-muc" element={<DanhMuc />} />
+            <Route path="duyet-seller" element={<DuyetSeller />} />
+            <Route path="profile" element={<Profile />} />
+          </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 

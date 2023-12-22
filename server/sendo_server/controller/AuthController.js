@@ -76,7 +76,7 @@ class AuthController {
             return res.status(500).send('Internal Server Error');
           }
 
-          const verificationLink = `http://localhost:3000/api/verify?token=${verification_token}`;
+          const verificationLink = `http://192.168.2.20:3000/api/verify?token=${verification_token}`;
           const mailOptions = {
             to: email,
             subject: 'Email Verification',

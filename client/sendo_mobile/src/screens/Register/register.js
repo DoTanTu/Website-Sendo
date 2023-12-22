@@ -22,10 +22,10 @@ const Register = () => {
     const [colorText, setColorText] = useState("");
     const [bgText, setBgText] = useState("");
 
-    const [nameUser, setNameUser] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
+    const [nameUser, setNameUser] = useState("Đỗ Tấn Từ");
+    const [email, setEmail] = useState("dotantu2002@gmail.com");
+    const [password, setPassword] = useState("sa123");
+    const [confirmPassword, setConfirmPassword] = useState("sa123");
 
     const handle_register = async ()=>{
         try{

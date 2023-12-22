@@ -5,7 +5,6 @@ const Authurcation = {
     try {
         const [header, payload, signature] = token.split(".");
         const decodedPayload = JSON.parse(base64Decode(payload));
-        console.log(decodedPayload);
         return decodedPayload.is_verified;
     }catch (error) {
       console.error("Error decoding token:", error);
