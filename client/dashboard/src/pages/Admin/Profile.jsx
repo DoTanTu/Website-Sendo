@@ -1,9 +1,9 @@
 import React from 'react'
 
-function Profile() {
+function ProfileAdmin() {
   return (
     <div>Profile</div>
   )
 }
 
-export default Profile
+export default ProfileAdmin
