@@ -1,9 +1,9 @@
 import React from 'react'
 
-function ThongKe() {
+function ThongKeAdmin() {
   return (
-    <div>ThongKe</div>
+    <div>Thong Kê Admin</div>
   )
 }
 
-export default ThongKe
+export default ThongKeAdmin
