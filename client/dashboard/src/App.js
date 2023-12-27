@@ -1,40 +1,47 @@
 
-import React, { useState } from 'react';
-import './App.css';
-import "./assets/css/style.css";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { BrowserRouter as Router, Route, Routes} from "react-router-dom";
-import Products from "./pages/Products";
-import Navbar from "./components/Navbar";
-import Header from "./components/Header";
-import Orders from "./pages/Orders";
-import Customers from "./pages/Customer";
-import Dashboard from "./pages/Dashboard";
+import React from 'react';
+import './index.js';
+import { BrowserRouter, Routes ,  Route} from "react-router-dom";
+import Login from './pages/Login';
+import Admin from './pages/Admin/Admin.jsx';
+import Seller from './pages/Seller/Seller.jsx';
+import ThongKeSeller from './pages/Seller/ThongKe.jsx';
+import ThongKeAdmin from './pages/Admin/ThongKe';
+import DanhMuc from './pages/Admin/DanhMuc.jsx';
+import DuyetSeller from './pages/Admin/DuyetSeller.jsx';
+import ProfileAdmin  from './pages/Admin/Profile.jsx';
+import Products from './pages/Seller/Products.jsx';
+import Orders from './pages/Seller/Orders.jsx';
+import Buyer from './pages/Seller/Buyer.jsx';
+import ProfileSeller from './pages/Seller/Profile.jsx';
+import NewProducts from './pages/Seller/NewProducts.jsx';
+import EditProduct from './pages/Seller/EditProduct.jsx';
 function App() {
-  const [leftBannerDisplay, setLeftBannerDisplay] = useState('block');
 
-  const handleContainTitleClick = () => {
-    setLeftBannerDisplay((prevDisplay) => (prevDisplay === 'block' ? 'none' : 'block'));
-  };
   return (
-    <>
-    <Router>
-      <div className='main_dashboard'>
-        <div className="left_banner" style={{ display: leftBannerDisplay }}>
-          <Navbar />
-        </div>
-        <div className='right_main'>
-          <Header onContainTitleClick={handleContainTitleClick} />
-          <Routes>
-            <Route path='/' element={<Dashboard />}/>
-            <Route path='/products' element={<Products />}/>
-            <Route path='/orders' element={<Orders />}/>
-            <Route path='/customers' element={<Customers />}/>
-          </Routes>
-        </div>
-      </div>
-    </Router>
-    </>
+    <BrowserRouter>
+      <Routes>
+          <Route path="/" element={<Login />}/>
+          <Route path="/seller" element={<Seller />} >
+            <Route index path="/seller" element={<ThongKeSeller />} />
+            <Route path="analytics" element={<ThongKeSeller />} />
+            <Route path="products" element={<Products />} >
+              <Route path=":id" element={<EditProduct />} />
+            </Route>
+            <Route path="orders" element={<Orders />} />
+            <Route path="buyer" element={<Buyer />} />
+            <Route path="profile" element={<ProfileSeller />} />
+            <Route path="products/news" element={<NewProducts />} />
+          </Route>
+          <Route path="/admin" element={<Admin />}>
+            <Route index path="/admin" element={<ThongKeAdmin />} />
+            <Route path="thong-ke" element={<ThongKeAdmin />} />
+            <Route path="danh-muc" element={<DanhMuc />} />
+            <Route path="duyet-seller" element={<DuyetSeller />} />
+            <Route path="profile" element={<ProfileAdmin />} />
+          </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
