@@ -13,72 +13,86 @@ import {
 import { Input } from "@material-tailwind/react";
 import logo from "../img/Better_logo_white.png";
 import { LoginApi } from "../service/ListService";
+// import jwt from "jsonwebtoken";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [token, setToken] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const handleLogin = async (e) => {
-    e.preventDefault();    
+  const handleLogin = async () => {
     try {
-      const res = await LoginApi(email, password);
-      if (!email || !password) {
-        console.log("Email/Password is required");
-        return;
-      }
+      const data = await axios.post(
+        "https://website-ecommerce-kappa.vercel.app/api/login",
+        {
+          email,
+          password,
+        }
+      );
+      // // const tokenCheck = data.token;
+      // // const decodedToken = jwt.decode(tokenCheck, {
+      // //   secret: "your-256-bit-secret",
+      // });
+      // if (decodedToken.is_verified == 1) {
+      // console.log(decodedToken.is_verified);
+      alert("Đăng nhập thành công");
       navigate("/");
+      // // } else {
+      //   alert("tài khoản chưa verified");
+      // }
+      setToken(data.token);
+      // console.log(data.token.PAYLOAD);
     } catch (error) {
-      console.error(error);
+      alert("Sai mật khẩu hoặc passwword");
     }
   };
   return (
     <div className="flex p-32 shadow-lg">
-      <div className="w-3/5 h-[527px] p-12 ">
+      <div className="w-3/5 h-[527px] p-12 shadow-lg">
         <p className="text-2xl text-black ">Xin Chào,</p>
         <p className="pt-2 text-md text-black ">Đăng nhập hoặc Tạo tài khoản</p>
-        <form>
-          <Input
-            className="pt-2 text-2xl h-full"
-            variant="static"
-            placeholder="Email"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-            type="text"
-          />
-          <Input
-            className="pt-2 text-2xl h-full"
-            variant="static"
-            placeholder="Mật khẩu"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-            type="password"
-          />
-          <button
-            className=" mt-6 w-full text-2xl text-white py-3  bg-[#DA251E] hover:bg-red-300 rounded-md cursor-pointer"
-            type="submit"
-            disabled={email && password ? false : true}
-            onClick={(e) => handleLogin(e)}
-            loading={isLoading}
-          >
-            Đăng nhập
-          </button>         
-        </form>
+        <Input
+          className="pt-2 text-2xl h-full"
+          variant="static"
+          placeholder="Email"
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
+          type="text"
+        />
+        <Input
+          className="pt-2 text-2xl h-full"
+          variant="static"
+          placeholder="Mật khẩu"
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
+          type="password"
+        />
+        <button
+          className=" mt-6 w-full text-2xl text-white py-3  bg-[#DA251E] hover:bg-red-300 rounded-md cursor-pointer"
+          type="submit"
+          disabled={email && password ? false : true}
+          onClick={handleLogin}
+          loading={isLoading}
+        >
+          Đăng nhập
+        </button>{" "}
+        {token ? <p>Đăng nhập thành công</p> : null}
         <p className="mt-2 ">
-            Nếu chưa có tài khoản
-            <Link
-              to="/signup"
-              className="px-1 text-blue-600 w-full text-center underline"
-            >
-              Đăng ký tại đây
-            </Link>
-          </p>
+          Nếu chưa có tài khoản
+          <Link
+            to="/signup"
+            className="px-1 text-blue-600 w-full text-center underline"
+          >
+            Đăng ký tại đây
+          </Link>
+        </p>
         <div className="flex gap-4 items-center mt-8">
           <hr className="w-full h-[1px] bg-blue-gray-300"></hr>
           <p className="text-sm w-[400px]">Hoặc tiếp tục bằng</p>
           <hr className="w-full h-[1px] bg-blue-gray-300 text-base  "></hr>
         </div>
-        <div className="w-full flex gap-4 justify-center">
+        <div className="w-full flex gap-4 justify-center ">
           <button className="w-14 h-14 bg-lime-400 rounded-full">
             <img
               className="w-full h-full "
@@ -93,7 +107,7 @@ export default function Login() {
           </button>
         </div>
       </div>
-      <div className="relative w-2/5 h-[527px] bg-[#DA251E] rounded-r-2xl">
+      <div className="relative w-2/5 h-[527px] bg-[#DA251E] rounded-r-2xl shadow-lg">
         <img
           className="absolute h-60 w-60 top-1/2 left-1/2  -translate-y-1/2 -translate-x-1/2 "
           src={logo}

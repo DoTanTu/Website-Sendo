@@ -28,9 +28,8 @@ export const LoginApi = async (email, password) => {
       email: email,
       password: password,
     });
-    if (result.data.is_verified === 1) {
-      return result;
-    }
+
+    return result;
   } catch (error) {
     console.log(error);
   }
