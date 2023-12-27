@@ -1,13 +1,23 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Button } from '@material-tailwind/react';
 import { AiFillEdit } from "react-icons/ai";
 import { FaRegTrashCan } from "react-icons/fa6";
 
-function ItemCategory() {
+
+function ItemCategory(props) {
+
+  const handleDelete = (id) => {
+    props.onDelete(id);
+  }
+  const handleEdit = (id, name) => {
+    props.onEdit(id, name);
+  }
+  const category = props.data;
   return (
-    
-    <tr class="bg-white border-b hover:bg-gray-100 ">
+    <>
+        {
+          category.map((value,  index) => (
+            <tr class="bg-white border-b hover:bg-gray-100 ">
       <td class="w-4 p-4">
         <div class="flex items-center">
           <input
@@ -20,33 +30,22 @@ function ItemCategory() {
           </label>
         </div>
       </td>
-      <th
-        scope="row"
-        class="px-4 py-4 font-medium text-gray-900 whitespace-nowrap "
-      >
-        <div className="image_seller">
-          <img
-            className="w-10 h-10 rounded-full overflow-hidden object-cover"
-            src="https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg?size=626&ext=jpg&ga=GA1.1.1546980028.1703116800&semt=ais"
-            alt=""
-          />
-        </div>
-      </th>
-      <td class="px-6 py-4">Áo khoát nam</td>
+      <td class="px-6 py-4">{value.category_name}</td>
       <td class="px-6 py-4">25/12/2023</td>
       <td class="px-6 py-4">
         <div className='flex'>
-            <Link to="/admin/duyet-seller/1" className='mr-4'>
-                <div className="btn_edit">
-                    <AiFillEdit size={22} color='blue' className="hover:text-blue-600" />
-                </div>
-            </Link>
-            <div className="btn_edit">
+            <div className="btn_edit mr-4 cursor-pointer" onClick={() => handleEdit(value.category_id ,value.category_name)}>
+                <AiFillEdit size={22} color='blue' className="hover:text-blue-600" />
+            </div>
+            <div className="btn_edit cursor-pointer" onClick={() => handleDelete(value.category_id)}>
                 <FaRegTrashCan size={20} color='red' className="hover:text-blue-600" />
             </div>
         </div>
       </td>
     </tr>
+          ))
+        }
+    </>
   )
 }
 

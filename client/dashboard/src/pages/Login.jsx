@@ -13,10 +13,10 @@ function Login() {
 
     const handleLogin = () => {
         if(position === 'admin'){
-            const respone = LoginService.adminLogin(email, password);
-            if(respone.status === 'success'){
+            // const respone = LoginService.adminLogin(email, password);
+            // if(respone.status === 'success'){
                 navigator('/admin')
-            }
+            // }
         }else if( position === 'seller'){
             const respone = LoginService.sellerLogin(email, password);
             if(respone.status === 'success'){
