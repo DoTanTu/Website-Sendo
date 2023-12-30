@@ -34,3 +34,17 @@ export const LoginApi = async (email, password) => {
     console.log(error);
   }
 };
+
+export const getProfile = async (token) => {
+  try {
+    const result = await axios.get(
+      "https://website-ecommerce-kappa.vercel.app/api/profile",
+      {
+        token: token,
+      }
+    );
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
+};

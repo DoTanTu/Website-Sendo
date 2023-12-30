@@ -8,6 +8,7 @@
 /config/DBConnect.js
 # testing
 /coverage
+/DBConnect.js
 
 # production
 /build

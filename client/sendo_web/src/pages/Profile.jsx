@@ -2,7 +2,13 @@ import NavbarProfile from "../components/NavbarProfile";
 import Footer from "../components/Footer";
 import UpdateSeller from "../components/ui/UpdateSeller";
 
+
 export default function Profile() {
+
+  const savetoken = localStorage.getItem("token");
+  
+  
+
   return (
     <div>
       <NavbarProfile />
@@ -46,6 +52,10 @@ export default function Profile() {
             </div>
             <div className="flex gap-40 mt-4">
               <p className="text-base text-black/25 w-44"> Ngày Sinh:</p>
+              <input type="text" className=" border shadow-2xl" />
+            </div>
+            <div className="flex gap-40 mt-4">
+              <p className="text-base text-black/25 w-44"> Địa chỉ:</p>
               <input type="text" className=" border shadow-2xl" />
             </div>
             <div className="mt-10 w-2/5 px-30 flex justify-end">
