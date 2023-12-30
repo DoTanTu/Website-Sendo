@@ -31,7 +31,8 @@ class AuthController {
         const tokenPayload = {
           email: users.email,
           is_Seller: users.is_Seller,
-          is_verified: users.is_verified
+          is_verified: users.is_verified,
+          id: users.id
         };
         const token = jwt.sign(tokenPayload, 'your_secret_key', { expiresIn: '1h' });
         return res.status(200).json({ token });
