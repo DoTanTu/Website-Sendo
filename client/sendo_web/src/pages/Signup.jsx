@@ -30,10 +30,10 @@ export default function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3000/api/register', formData);
+      const response = await axios.post('http://192.168.2.20:3000/api/register', formData);
       console.log(response.data);
       alert('Registration successful. Check your email for verification.');
-      navigate('/');
+      navigate('/login');
     } catch (error) {
       if (error.response) {
         setError(error.response.data);

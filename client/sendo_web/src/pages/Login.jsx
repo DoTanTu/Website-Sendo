@@ -24,8 +24,8 @@ export default function Login() {
   const handleLogin = async () => {
     try {
       const data = await axios.post(
-        "https://website-ecommerce-kappa.vercel.app/api/login",
-        {
+        "https://192.168.2.20/api/login",
+        { 
           email,
           password,
         }
