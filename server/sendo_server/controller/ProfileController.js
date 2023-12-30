@@ -1,5 +1,5 @@
 const ProfileModel = require('../model/ProfileModel');
-class ProfileControler{
+class ProfileController{
     static getProfileUser(req, res) {
         const idUser = req.params.id;
         ProfileModel.findInfor(idUser, (error, result) => {
@@ -16,4 +16,4 @@ class ProfileControler{
         });
       }
 }
-module.exports = ProfileControler
+module.exports = ProfileController;
