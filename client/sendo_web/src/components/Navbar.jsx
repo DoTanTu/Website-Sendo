@@ -1,14 +1,25 @@
 import React, { useState, useEffect } from "react";
 import Search from "./ui/Search";
-
+import TokenExtraction from "../service/TokenExtraction";
 import axios from "axios";
 import logo from "../img/Better_logo.png";
 import { Link, NavLink } from "react-router-dom";
+import { MdAccountCircle } from "react-icons/md";
+
 
 const Navbar = () => {
   const [location, setLocation] = useState(null);
   const [error, setError] = useState(null);
+  const [stateUser, setStatusUser] = useState(null);
 
+  const checkAccount = () => {
+    const tokenStorage = localStorage.getItem('token');
+    if(tokenStorage){
+      const name = TokenExtraction.getNameUser(tokenStorage);
+      console.log(name);
+      setStatusUser(name);
+    }
+  }
   useEffect(() => {
     const getLocation = () => {
       if (navigator.geolocation) {
@@ -41,7 +52,7 @@ const Navbar = () => {
         setError("Trình duyệt không hỗ trợ lấy vị trí.");
       }
     };
-
+    checkAccount();
     getLocation();
   }, []);
   return (
@@ -74,14 +85,24 @@ const Navbar = () => {
           >
             Trang chủ
           </button>
-
-          <Link
-            to="Login"
-            type="button"
-            class="py-2.5 px-5 me-2  text-sm font-bold text-gray-400 focus:outline-none bg-white rounded-lg  hover:bg-blue-300/30  focus:z-10 "
-          >
-            Tài khoản
-          </Link>
+          {stateUser !== null ? (
+            <Link
+              to="/profile"
+              type="button"
+              class="py-2.5 px-5 me-2  text-sm font-bold text-black focus:outline-none bg-white rounded-lg  hover:bg-blue-300/30  focus:z-10 flex items-center"
+            >
+              <MdAccountCircle className="mr-2" size={20} />
+              {stateUser}
+            </Link>
+          ) : (
+            <Link
+              to="/login"
+              type="button"
+              class="py-2.5 px-5 me-2  text-sm font-bold text-gray-400 focus:outline-none bg-white rounded-lg  hover:bg-blue-300/30  focus:z-10 "
+            >
+              Tài khoản
+            </Link>
+          )}
 
           <button
             type="button"

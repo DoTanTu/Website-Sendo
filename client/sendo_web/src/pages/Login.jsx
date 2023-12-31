@@ -1,19 +1,9 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-// import * as productService from "../ListService";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  Dialog,
-  DialogHeader,
-  DialogBody,
-  DialogFooter,
-  Typography,
-  Button,
-} from "@material-tailwind/react";
 import { Input } from "@material-tailwind/react";
 import logo from "../img/Better_logo_white.png";
-import { LoginApi } from "../service/ListService";
-// import jwt from "jsonwebtoken";
+import UserService from "../service/UserService";
+import { jwtDecode } from "jwt-decode";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -23,26 +13,18 @@ export default function Login() {
   const navigate = useNavigate();
   const handleLogin = async () => {
     try {
-      const data = await axios.post(
-        "https://192.168.2.20/api/login",
-        { 
-          email,
-          password,
-        }
-      );
-      // // const tokenCheck = data.token;
-      // // const decodedToken = jwt.decode(tokenCheck, {
-      // //   secret: "your-256-bit-secret",
-      // });
-      // if (decodedToken.is_verified == 1) {
-      // console.log(decodedToken.is_verified);
-      alert("Đăng nhập thành công");
-      navigate("/");
-      // // } else {
-      //   alert("tài khoản chưa verified");
-      // }
-      setToken(data.token);
-      // console.log(data.token.PAYLOAD);
+      const respone = await UserService.userLogin(email, password);
+      const token = respone.data.token;
+      const is_Seller = jwtDecode(token).is_Seller;
+      const isVerified = jwtDecode(token).is_verified;
+      if(respone.status === 200 && isVerified === 1 && is_Seller === 0){
+        localStorage.setItem('token', token);
+        alert("Đăng nhập thành công!");
+        navigate("/");
+      }
+      else if(respone.status === 200 && isVerified === 0){
+        alert('Please check email and complete verified!');
+      }
     } catch (error) {
       alert("Sai mật khẩu hoặc passwword");
     }
