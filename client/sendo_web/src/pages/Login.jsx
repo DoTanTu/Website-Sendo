@@ -15,7 +15,6 @@ import logo from "../img/Better_logo_white.png";
 import { LoginApi } from "../service/ListService";
 // import { jwtDecode } from "jwt-decode";
 
-
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,8 +24,8 @@ export default function Login() {
   const handleLogin = async () => {
     try {
       const data = await axios.post(
-        "https://192.168.2.20/api/login",
-        { 
+        "https://website-ecommerce-kappa.vercel.app/api/login",
+        {
           email,
           password,
         }
