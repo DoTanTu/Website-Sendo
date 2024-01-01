@@ -4,7 +4,7 @@ const BASE_URL = "http://localhost:3000";
 const ProductService = {
   getAllProduct: async () => {
     try {
-      let response = await axios.get(`${BASE_URL}/products`);
+      let response = await axios.get(`${BASE_URL}/api/products`);
       return response.data;
     } catch {
       console.log("Khong cos data");

@@ -14,7 +14,7 @@ export default function Products() {
     }
 
       // Gọi service để lấy data và đưa vào array State
-  const fetchData = useCallback(async () => {
+    const fetchData = useCallback(async () => {
     try {
       const response = await ProductService.getAllProduct();
       setProduct(response);
@@ -31,6 +31,7 @@ export default function Products() {
       console.error(error);
     }
   }, [fetchData]);
+  console.log(product);
   return (
     <div>
         <Outlet />
