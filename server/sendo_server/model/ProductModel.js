@@ -32,5 +32,49 @@ class ProductModel{
               }
         });
     }
+    static async create(productData, variantsData) {
+        try {
+          // Insert product
+          const insertProductQuery = `
+            INSERT INTO Products (product_name, description, users_id, category_id, image, gender)
+            VALUES (?, ?, ?, ?, ?, ?)
+          `;
+      
+          const productResult = await db.query(insertProductQuery, [
+            productData.product_name,
+            productData.description,
+            productData.users_id,
+            productData.category_id,
+            productData.image,
+            productData.gender
+          ]);
+      
+          const productId = productResult.insertId;
+      
+          // Prepare data for variant insertion
+          const variantValues = variantsData.map((variant) => [
+            productId,
+            variant.color_id,
+            variant.size_id,
+            variant.price,
+            variant.stock_quantity
+          ]);
+      
+          // Insert variants using async/await
+          for (const values of variantValues) {
+            const insertVariantQuery = `
+              INSERT INTO ProductVariants (product_id, color_id, size_id, price, stock_quantity)
+              VALUES (?, ?, ?, ?, ?)
+            `;
+      
+            await db.query(insertVariantQuery, values);
+          }
+      
+          return productId;
+        } catch (error) {
+          throw error;
+        }
+      }
+      
 }
 module.exports = ProductModel;
