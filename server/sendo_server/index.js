@@ -21,5 +21,5 @@ app.use(upload.none());
 app.use('/api',userRouter,productRouter,categoriesRouter,profileRouter);
 
 app.listen(port, () => {
-  console.log(`Server is running at http://192.168.2.20:${port}`);
+  console.log(`Server is running at http://localhost:${port}`);
 });
