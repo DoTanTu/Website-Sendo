@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import * as productService from "../../service/ListService";
+import ProductService from "../../service/ProductService";
 
 export default function Card() {
   const [products, setProduct] = useState([]);
@@ -7,8 +7,12 @@ export default function Card() {
     getAll();
   }, []);
   const getAll = async () => {
-    let temp = await productService.getAll();
-    setProduct(temp);
+    try {
+      let temp = await ProductService.getAllProducts();
+      setProduct(temp);
+    } catch (error) {
+
+    }
   };
   // console.log(products);
   // const truncateString = (str, num) => {
@@ -24,7 +28,7 @@ export default function Card() {
       {products
         ? products.map((values, index) => (
             <div
-              key={index}
+              key={values.product_id}
               className="w-1/2 md:w-1/4 lg:w-1/5 h-max bg-transparent p-2 rounded-md cursor-pointer"
             >
               <div className="rounded-md bg-blue-gray-50 shadow-md">
@@ -41,16 +45,16 @@ export default function Card() {
                     src="https://media3.scdn.vn/img4/2020/07_30/h6fJaiL5WkEbDU2eQRZb.png"
                     alt="Logo"
                   />
-                  <p className="text-sm truncate"> {values.name}</p>
+                  <p className="text-sm truncate"> {values.product_name}</p>
                 </div>
                 <p className="px-2 font-bold">
                   Giá:
                   <span className=" text-red-600 font-bold">
-                    {values.price} đ
+                    {values.variants[0].price} đ
                   </span>
                 </p>
                 <div className="mt-4 px-2 flex justify-between">
-                  <p className="text-sm">{values.location}</p>
+                  <p className="text-sm">{values.address}</p>
                   <p className="text-xs">chi tiết</p>
                 </div>
               </div>

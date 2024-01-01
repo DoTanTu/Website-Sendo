@@ -4,6 +4,7 @@ import { Input, Button } from '@material-tailwind/react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LoginService } from '../service/LoginService';
+import { jwtDecode } from "jwt-decode";
 function Login() {
     const navigator = useNavigate();    
 
@@ -11,18 +12,25 @@ function Login() {
     const [password , setPassword] = useState('');
     const [position , setPosition] = useState('');
 
-    const handleLogin = () => {
-        if(position === 'admin'){
-            // const respone = LoginService.adminLogin(email, password);
-            // if(respone.status === 'success'){
-                navigator('/admin')
-            // }
-        }else if( position === 'seller'){
-            const respone = LoginService.sellerLogin(email, password);
-            if(respone.status === 'success'){
-                navigator('/seller') 
+    const handleLogin = async () => {
+        try {
+            if(position === 'admin'){
+                // const respone = LoginService.adminLogin(email, password);
+                // if(respone.status === 'success'){
+                    navigator('/admin')
+                // }
+            }else if( position === 'seller'){
+                const respone = await LoginService.sellerLogin(email, password);
+                const token = respone.data.token;
+                if(jwtDecode(token).is_verified === 1 && respone.status === 200){
+                    localStorage.setItem('token', token);
+                    navigator('/seller') 
+                } 
             }
+        } catch (error) {
+            console.log('Error: ' + error);
         }
+        
 
     }
 
