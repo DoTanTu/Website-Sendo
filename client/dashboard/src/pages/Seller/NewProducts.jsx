@@ -25,6 +25,7 @@ export default function NewProducts() {
     console.log("Giới Tính : " + gender);
     console.log("Thuong Hiệu : " + brand);
     console.log("Mô tả : " + desc);
+    console.log(items);
     console.log(image);
   };
 
