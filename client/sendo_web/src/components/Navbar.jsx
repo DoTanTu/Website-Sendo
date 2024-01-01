@@ -3,23 +3,39 @@ import Search from "./ui/Search";
 import TokenExtraction from "../service/TokenExtraction";
 import axios from "axios";
 import logo from "../img/Better_logo.png";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { MdAccountCircle } from "react-icons/md";
-
+import CustomDialog from "./ui/CustomDialog";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+  const [showDialog, setShowDialog] = useState(false);
   const [location, setLocation] = useState(null);
   const [error, setError] = useState(null);
   const [stateUser, setStatusUser] = useState(null);
 
   const checkAccount = () => {
+
     const tokenStorage = localStorage.getItem('token');
+
     if(tokenStorage){
       const name = TokenExtraction.getNameUser(tokenStorage);
-      console.log(name);
       setStatusUser(name);
     }
   }
+
+  const handleOpenDialog = () => {
+    setShowDialog(true);
+  };
+
+  const handleCloseDialog = (result) => {
+    if(result === true){
+      localStorage.removeItem('token');
+      navigate('/login')
+    }
+    setShowDialog(false);
+  };
+
   useEffect(() => {
     const getLocation = () => {
       if (navigator.geolocation) {
@@ -87,13 +103,28 @@ const Navbar = () => {
           </button>
           {stateUser !== null ? (
             <Link
-              to="/profile"
-              type="button"
-              class="py-2.5 px-5 me-2  text-sm font-bold text-black focus:outline-none bg-white rounded-lg  hover:bg-blue-300/30  focus:z-10 flex items-center"
-            >
+            to=""
+            className="group py-2.5 px-5 me-2 text-sm font-bold text-black focus:outline-none bg-white rounded-lg hover:bg-blue-300/30 focus:z-10 relative"
+          >
+            <div className="flex items-center">
               <MdAccountCircle className="mr-2" size={20} />
               {stateUser}
-            </Link>
+            </div>
+            <div className="group-hover:block hidden absolute top-full right-0 bg-gray-300 rounded-md overflow-hidden">
+              <div className="actions pt-2">
+                <div className="Profile">
+                  <Link to="/profile" className="block">
+                    <span className="hover:text-white hover:bg-red-400 px-12 py-2 block">Profile</span>
+                  </Link>
+                </div>
+                <div className="Logout" onClick={handleOpenDialog}>
+                  <span className="hover:text-white hover:bg-red-400 px-12 py-2 block">Logout</span>
+                </div>
+              </div>
+            </div>
+            
+          </Link>
+          
           ) : (
             <Link
               to="/login"
@@ -126,6 +157,11 @@ const Navbar = () => {
           </p>
         </div>
       </div>
+      {
+        showDialog ? (
+          <CustomDialog message="Are you sure?" onClose={handleCloseDialog} />
+        ): null
+      }
     </div>
   );
 };

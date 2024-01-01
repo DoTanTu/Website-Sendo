@@ -16,6 +16,18 @@ const UserService = {
     },
     userRegister : () => {
 
+    },
+    userProfile : async (token) => {
+        try {
+            const headers = {
+                Authorization: `Bearer ${token}`,
+            };
+            const respone = await axios.get(`${BASE_URL}/api/profile`, { headers});
+            console.log(respone.data);
+            return respone.data;
+        } catch (error) {
+            console.log(error);
+        }
     }
 }
 export default UserService;
