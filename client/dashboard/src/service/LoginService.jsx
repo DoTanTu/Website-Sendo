@@ -5,6 +5,7 @@ const LoginService={
     adminLogin : async (email, password) => {
         try {
             const respone = await axios.post(`${BASE_URL}/api/login`, {email : email, password : password});
+            console.log(respone);
             return respone;
         } catch (error) {
             console.error(error);
