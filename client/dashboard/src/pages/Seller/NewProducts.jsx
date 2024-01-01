@@ -11,13 +11,13 @@ export default function NewProducts() {
   const [file, setFile] = useState();
   const [image, setImage] = useState();
   const [name, setName] = useState("");
-  const [gender, setGender] = useState("nam");
-  const [brand, setBrand] = useState("");
   const [desc, setDesc] = useState("");
-  const [items, setItems] = useState([{ color: "", size: "", quantity: "", price: "" }]);
-  const [availableColors, setAvailableColors] = useState(["Đỏ","Đen","Xanh","Vàng"]);
-  const [availableSizes, setAvailableSizes] = useState(availableShirts);
+  const [brand, setBrand] = useState("");
+  const [gender, setGender] = useState("nam");
   const [selectedOption, setSelectedOption] = useState("ao");
+  const [availableSizes, setAvailableSizes] = useState(availableShirts);
+  const [availableColors, setAvailableColors] = useState(["Đỏ","Đen","Xanh","Vàng"]);
+  const [items, setItems] = useState([{ color: "", size: "", quantity: "", price: "" }]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -120,16 +120,16 @@ export default function NewProducts() {
             <div className="bottom_form mt-5 flex">
               <div className="left_image text-left">
                 <div className="input_image w-[500px] h-[420px] overflow-hidden rounded-sm border border-dashed  border-gray-300">
-                  <div class="flex items-center justify-center w-full h-full">
+                  <div className="flex items-center justify-center w-full h-full">
                     <label
-                      for="dropzone-file"
-                      class="flex flex-col items-center justify-center w-full h-full cursor-pointer bg-gray-50  hover:bg-gray-10 "
+                      htmlFor="dropzone-file"
+                      className="flex flex-col items-center justify-center w-full h-full cursor-pointer bg-gray-50  hover:bg-gray-10 "
                     >
                       {file == null ? (
                         <>
-                          <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                          <div className="flex flex-col items-center justify-center pt-5 pb-6">
                             <svg
-                              class="w-8 h-8 mb-4 text-gray-500"
+                              className="w-8 h-8 mb-4 text-gray-500"
                               aria-hidden="true"
                               xmlns="http://www.w3.org/2000/svg"
                               fill="none"
@@ -137,14 +137,14 @@ export default function NewProducts() {
                             >
                               <path
                                 stroke="currentColor"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
                                 d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
                               />
                             </svg>
-                            <p class="mb-2 text-sm text-gray-500">
-                              <span class="font-semibold">Click to upload</span>{" "}
+                            <p className="mb-2 text-sm text-gray-500">
+                              <span className="font-semibold">Click to upload</span>{" "}
                               or drag and drop
                             </p>
                           </div>
@@ -152,7 +152,7 @@ export default function NewProducts() {
                             id="dropzone-file"
                             onChange={handleChange}
                             type="file"
-                            class="hidden"
+                            className="hidden"
                           />
                         </>
                       ) : (
@@ -205,7 +205,7 @@ export default function NewProducts() {
                       Chọn giới tính
                     </label>
                     <div className="flex items-center mt-3 ">
-                      <div class="flex items-center">
+                      <div className="flex items-center">
                         <input
                           id="default-radio-1"
                           type="radio"
@@ -213,16 +213,16 @@ export default function NewProducts() {
                           value="nam"
                           onChange={(e) => setGender('nam')}
                           name="default-radio"
-                          class="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 "
+                          className="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 "
                         />
                         <label
-                          for="default-radio-1"
-                          class="ms-2 text-sm font-medium text-gray-900 "
+                          htmlFor="default-radio-1"
+                          className="ms-2 text-sm font-medium text-gray-900 "
                         >
                           Nam
                         </label>
                       </div>
-                      <div class="flex items-center ms-10">
+                      <div className="flex items-center ms-10">
                         <input
                           id="default-radio-2"
                           type="radio"
@@ -230,11 +230,11 @@ export default function NewProducts() {
                           value="nữ"
                           onChange={(e) => setGender("nữ")}
                           name="default-radio"
-                          class="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300  outline-none"
+                          className="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300  outline-none"
                         />
                         <label
-                          for="default-radio-2"
-                          class="ms-2 text-sm font-medium text-gray-900 "
+                          htmlFor="default-radio-2"
+                          className="ms-2 text-sm font-medium text-gray-900 "
                         >
                           Nữ
                         </label>
@@ -270,16 +270,16 @@ export default function NewProducts() {
                             name="default-radio-ao-quan"
                             checked={selectedOption === "ao"}
                             onChange={() => handleOptionChange("ao")}
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 "
+                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 "
                           />
                           <label
-                            for="default-radio-ao"
-                            class="ms-2 text-sm font-medium text-gray-500 dark:text-gray-300"
+                            htmlFor="default-radio-ao"
+                            className="ms-2 text-sm font-medium text-gray-500 dark:text-gray-300"
                           >
                             Áo
                           </label>
                         </div>
-                        <div class="flex items-center ms-5">
+                        <div className="flex items-center ms-5">
                           <input
                             id="default-radio-quan"
                             type="radio"
@@ -287,11 +287,11 @@ export default function NewProducts() {
                             name="default-radio-ao-quan"
                             checked={selectedOption === "quan"}
                             onChange={() => handleOptionChange("quan")}
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 "
+                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 "
                           />
                           <label
-                            for="default-radio-quan"
-                            class="ms-2 text-sm font-medium text-gray-500"
+                            htmlFor="default-radio-quan"
+                            className="ms-2 text-sm font-medium text-gray-500"
                           >
                             Quần
                           </label>
@@ -402,71 +402,10 @@ export default function NewProducts() {
                           </div>
                         </div>
                       ))}
-                      {/* <div className="item_infor border border-dashed border-gray-300 px-3 py-2 mt-4">
-                        <div className="flex">
-                          <div className="mt-4 w-1/2 me-5">
-                            <label className="font-semibold" htmlFor="">
-                              Màu sản phẩm
-                            </label>
-                            <select
-                              className="outline-none border w-full mt-3 py-1"
-                              name=""
-                              id=""
-                            >
-                              <option value="">Chọn màu</option>
-                              <option value="">Đỏ</option>
-                              <option value="">Đen</option>
-                              <option value="">Xanh</option>
-                              <option value="">Vàng</option>
-                            </select>
-                          </div>
-                          <div className="w-1/2 mt-4 ms-5">
-                            <label className="font-semibold" htmlFor="">
-                              Màu sản phẩm
-                            </label>
-                            <select
-                              className="outline-none border w-full mt-3 py-1"
-                              name=""
-                              id=""
-                            >
-                              <option value="">Chọn Size</option>
-                              <option value="">M</option>
-                              <option value="">L</option>
-                              <option value="">XL</option>
-                              <option value="">2XL</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div className="flex mt-4">
-                          <div className="w-1/2 me-5">
-                            <label className="font-semibold" htmlFor="">
-                              Số lượng sản phẩm
-                            </label>
-                            <input
-                              className="block border border-gray-300 focus:outline-none w-full mt-2 px-3 py-1"
-                              type="text"
-                              placeholder="nhập số lượng"
-                            />
-                          </div>
-                          <div className="w-1/2 ms-5">
-                            <label className="font-semibold" htmlFor="">
-                              Giá sản phẩm
-                            </label>
-                            <input
-                              className="block border border-gray-300 focus:outline-none w-full mt-2 px-3 py-1"
-                              type="text"
-                              placeholder="Nhập giá"
-                            />
-                          </div>
-                        </div>
-                      </div> */}
                       <div className="btn_add_item mt-4 flex justify-end">
                         <Button
                           className="bg-violet-500 py-2 rounded-sm"
-                          onClick={handleAddItem}
-                        >
-                          Thêm 
-                        </Button>
+                          onClick={handleAddItem}>Thêm</Button>
                       </div>
                     </div>
                   </div>

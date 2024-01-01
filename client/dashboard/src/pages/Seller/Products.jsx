@@ -1,15 +1,36 @@
-import React from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import { IoSearch } from "react-icons/io5";
 import { Input, Button } from '@material-tailwind/react';
 import { FaFileAlt } from "react-icons/fa";
 import { IoIosAddCircle } from "react-icons/io";
 import { Outlet, useNavigate } from 'react-router-dom';
+import ProductService from '../../service/Seller/ProductService';
 import ItemProducts from '../../components/Seller/ItemProducts';
 export default function Products() {
     const navigate = useNavigate();
+    const [product, setProduct] = useState([]);
     const handleNewProd = () => {
         navigate('/seller/products/news');
     }
+
+      // Gọi service để lấy data và đưa vào array State
+  const fetchData = useCallback(async () => {
+    try {
+      const response = await ProductService.getAllProduct();
+      setProduct(response);
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
+
+  // Hiển thị dữ liệu khi load trang
+  useEffect(() => {
+    try {
+      fetchData();
+    } catch (error) {
+      console.error(error);
+    }
+  }, [fetchData]);
   return (
     <div>
         <Outlet />
@@ -83,7 +104,7 @@ export default function Products() {
                             </tr>
                         </thead>
                         <tbody>
-                            <ItemProducts />
+                            <ItemProducts data={product}/>
                         </tbody>
                     </table>
                 </div>
