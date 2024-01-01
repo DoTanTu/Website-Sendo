@@ -22,15 +22,4 @@ export const login = async () => {
 //   } catch (error) {}
 // };
 
-export const LoginApi = async (email, password) => {
-  try {
-    const result = await instance.post("/login", {
-      email: email,
-      password: password,
-    });
 
-    return result;
-  } catch (error) {
-    console.log(error);
-  }
-};

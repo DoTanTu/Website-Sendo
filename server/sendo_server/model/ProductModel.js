@@ -6,7 +6,6 @@ class ProductModel{
             p.id AS product_id,
             p.product_name,
             p.description,
-            p.gender,
             c.category_name,
             u.supplier_name AS seller_name,
             u.address,
