@@ -1,9 +1,6 @@
 const mysql = require('mysql2');
-// const DB_NAME = 'bvsckazi0gr9en8fifar';
-// const DB_USER = 'uuwyxacy2gnqqypz';
-// const DB_PASSWORD = 'jSLeEsY4SXnWDiHWJKvt';
-// const DB_HOST = 'bvsckazi0gr9en8fifar-mysql.services.clever-cloud.com';
-// const DB_PORT = 3306;
+const util = require('util');
+
 const DB_NAME = 'bt_hkdn';
 const DB_USER = 'root';
 const DB_PASSWORD = 'sa123';
@@ -16,7 +13,8 @@ const conn = mysql.createConnection({
     password: DB_PASSWORD,
     database: DB_NAME,
     port: DB_PORT
-})
+});
+const query = util.promisify(conn.query).bind(conn);
 conn.connect(function (err) {
     if (err) {
       console.error('Error connecting to MySQL:', err.message);
@@ -24,4 +22,4 @@ conn.connect(function (err) {
     }  
     console.log(DB_NAME + ' Connected successfully');
   });
-module.exports = conn;
+module.exports = {conn,query};

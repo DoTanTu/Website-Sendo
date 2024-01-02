@@ -2,39 +2,101 @@ import React from "react";
 import { useState } from "react";
 import { Button } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
+import { MdOutlineCancel } from "react-icons/md";
+
 export default function NewProducts() {
   const navigate = useNavigate();
-
+  const availableShirts = ["M", "L", "XL", "2XL"];
+  const availableTrousers = [27,28,29,30,31,32];
   const [file, setFile] = useState();
-
   const [image, setImage] = useState();
   const [name, setName] = useState("");
-  const [quantity, setQuantity] = useState("");
-  const [gender, setGender] = useState("nam");
-  const [brand, setBrand] = useState("");
   const [desc, setDesc] = useState("");
-
+  const [brand, setBrand] = useState("");
+  const [gender, setGender] = useState("nam");
   const [selectedOption, setSelectedOption] = useState("ao");
+  const [availableSizes, setAvailableSizes] = useState(availableShirts);
+  const [availableColors, setAvailableColors] = useState(["Đỏ","Đen","Xanh","Vàng"]);
+  const [items, setItems] = useState([{ color: "", size: "", quantity: "", price: "" }]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Tên sp : " + name);
-    console.log("Số lượng : " + quantity);
     console.log("Giới Tính : " + gender);
     console.log("Thuong Hiệu : " + brand);
     console.log("Mô tả : " + desc);
+    console.log(items);
     console.log(image);
+  };
 
-  }
   //Áo hoặc quần được chọn
   const handleOptionChange = (option) => {
     setSelectedOption(option);
+    if(selectedOption === 'quan'){
+      setAvailableSizes(availableShirts)
+    }
+    else if(selectedOption === 'ao'){
+      setAvailableSizes(availableTrousers)
+    }
+    console.log()
   };
 
-function handleChange(e) {
-      setFile(URL.createObjectURL(e.target.files[0]));
-      setImage(e.target.files[0])
-}
+  function handleChange(e) {
+    setFile(URL.createObjectURL(e.target.files[0]));
+    setImage(e.target.files[0]);
+  }
+
+  const updateAvailableOptions = () => {
+    const usedColors = items.map((item) => item.color);
+    const usedSizes = items.map((item) => item.size);
+
+    const newAvailableColors = availableColors.filter(
+      (color) => !usedColors.includes(color)
+    );
+    const newAvailableSizes = availableSizes.filter(
+      (size) => !usedSizes.includes(size)
+    );
+
+    setAvailableColors(newAvailableColors);
+    setAvailableSizes(newAvailableSizes);
+  };
+
+  const handleAddItem = () => {
+    setItems([...items, { color: "", size: "", quantity: "", price: "" }]);
+    updateAvailableOptions();
+  };
+
+  const handleDeleteItem = (index) => () => {
+    const newItems = [...items];
+    newItems.splice(index, 1);
+    setItems(newItems);
+    updateAvailableOptions();
+  };
+
+  const handleColorChange = (index, value) => {
+    const newItems = [...items];
+    newItems[index].color = value;
+    setItems(newItems);
+  };
+
+  const handleSizeChange = (index, value) => {
+    const newItems = [...items];
+    newItems[index].size = value;
+    setItems(newItems);
+  };
+
+  const handleQuantityChange = (index, value) => {
+    const newItems = [...items];
+    newItems[index].quantity = value;
+    setItems(newItems);
+  };
+
+  const handlePriceChange = (index, value) => {
+    const newItems = [...items];
+    newItems[index].price = value;
+    setItems(newItems);
+  };
+
   return (
     <div className="container">
       <div className="header_title">
@@ -58,16 +120,16 @@ function handleChange(e) {
             <div className="bottom_form mt-5 flex">
               <div className="left_image text-left">
                 <div className="input_image w-[500px] h-[420px] overflow-hidden rounded-sm border border-dashed  border-gray-300">
-                  <div class="flex items-center justify-center w-full h-full">
+                  <div className="flex items-center justify-center w-full h-full">
                     <label
-                      for="dropzone-file"
-                      class="flex flex-col items-center justify-center w-full h-full cursor-pointer bg-gray-50  hover:bg-gray-10 "
+                      htmlFor="dropzone-file"
+                      className="flex flex-col items-center justify-center w-full h-full cursor-pointer bg-gray-50  hover:bg-gray-10 "
                     >
                       {file == null ? (
                         <>
-                          <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                          <div className="flex flex-col items-center justify-center pt-5 pb-6">
                             <svg
-                              class="w-8 h-8 mb-4 text-gray-500"
+                              className="w-8 h-8 mb-4 text-gray-500"
                               aria-hidden="true"
                               xmlns="http://www.w3.org/2000/svg"
                               fill="none"
@@ -75,14 +137,14 @@ function handleChange(e) {
                             >
                               <path
                                 stroke="currentColor"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
                                 d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
                               />
                             </svg>
-                            <p class="mb-2 text-sm text-gray-500">
-                              <span class="font-semibold">Click to upload</span>{" "}
+                            <p className="mb-2 text-sm text-gray-500">
+                              <span className="font-semibold">Click to upload</span>{" "}
                               or drag and drop
                             </p>
                           </div>
@@ -90,7 +152,7 @@ function handleChange(e) {
                             id="dropzone-file"
                             onChange={handleChange}
                             type="file"
-                            class="hidden"
+                            className="hidden"
                           />
                         </>
                       ) : (
@@ -143,35 +205,36 @@ function handleChange(e) {
                       Chọn giới tính
                     </label>
                     <div className="flex items-center mt-3 ">
-                      <div class="flex items-center">
+                      <div className="flex items-center">
                         <input
                           id="default-radio-1"
                           type="radio"
-                          checked
+                          checked={gender === 'nam'}
                           value="nam"
-                          onChange={(e) => setGender(e.target.value)}
+                          onChange={(e) => setGender('nam')}
                           name="default-radio"
-                          class="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 "
+                          className="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 "
                         />
                         <label
-                          for="default-radio-1"
-                          class="ms-2 text-sm font-medium text-gray-900 "
+                          htmlFor="default-radio-1"
+                          className="ms-2 text-sm font-medium text-gray-900 "
                         >
                           Nam
                         </label>
                       </div>
-                      <div class="flex items-center ms-10">
+                      <div className="flex items-center ms-10">
                         <input
                           id="default-radio-2"
                           type="radio"
-                          onChange={(e) => setGender(e.target.value)}
+                          checked={gender === 'nữ'}
                           value="nữ"
+                          onChange={(e) => setGender("nữ")}
                           name="default-radio"
-                          class="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300  outline-none"
+                          className="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300  outline-none"
                         />
                         <label
-                          for="default-radio-2"
-                          class="ms-2 text-sm font-medium text-gray-900 "
+                          htmlFor="default-radio-2"
+                          className="ms-2 text-sm font-medium text-gray-900 "
                         >
                           Nữ
                         </label>
@@ -179,234 +242,9 @@ function handleChange(e) {
                     </div>
                   </div>
                 </div>
+
                 <div className="flex mt-4">
-                  <div className="size_prod w-1/2 me-5">
-                    <label
-                      className="font-semibold flex justify-between"
-                      htmlFor=""
-                    >
-                      <span>Chọn size</span>
-                      <span className="flex">
-                        <div class="flex items-center">
-                          <input
-                            id="default-radio-ao"
-                            type="radio"
-                            value="ao"
-                            name="default-radio-ao-quan"
-                            checked={selectedOption === "ao"}
-                            onChange={() => handleOptionChange("ao")}
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 "
-                          />
-                          <label
-                            for="default-radio-ao"
-                            class="ms-2 text-sm font-medium text-gray-500 dark:text-gray-300"
-                          >
-                            Áo
-                          </label>
-                        </div>
-                        <div class="flex items-center ms-5">
-                          <input
-                            id="default-radio-quan"
-                            type="radio"
-                            value="quan"
-                            name="default-radio-ao-quan"
-                            checked={selectedOption === "quan"}
-                            onChange={() => handleOptionChange("quan")}
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 "
-                          />
-                          <label
-                            for="default-radio-quan"
-                            class="ms-2 text-sm font-medium text-gray-500"
-                          >
-                            Quần
-                          </label>
-                        </div>
-                      </span>
-                    </label>
-                    <ul class="mt-2 items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-300 rounded-sm sm:flex">
-                      { selectedOption === "ao" ? (
-                        <>
-                          <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r ">
-                            <div class="flex items-center ps-2">
-                              <input
-                                id="vue-checkbox-list"
-                                type="checkbox"
-                                value=""
-                                class="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded"
-                              />
-                              <label
-                                for="vue-checkbox-list"
-                                class="w-full py-[6px] ms-2 text-sm font-medium text-gray-900"
-                              >
-                                S
-                              </label>
-                            </div>
-                          </li>
-                          <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r ">
-                            <div class="flex items-center ps-2">
-                              <input
-                                id="react-checkbox-list"
-                                type="checkbox"
-                                value=""
-                                class="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded"
-                              />
-                              <label
-                                for="react-checkbox-list"
-                                class="w-full py-[6px] ms-2 text-sm font-medium text-gray-900"
-                              >
-                                M
-                              </label>
-                            </div>
-                          </li>
-                          <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r ">
-                            <div class="flex items-center ps-2">
-                              <input
-                                id="angular-checkbox-list"
-                                type="checkbox"
-                                value=""
-                                class="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded"
-                              />
-                              <label
-                                for="angular-checkbox-list"
-                                class="w-full py-[6px] ms-2 text-sm font-medium text-gray-900"
-                              >
-                                L
-                              </label>
-                            </div>
-                          </li>
-                          <li class="w-full ">
-                            <div class="flex items-center ps-2">
-                              <input
-                                id="laravel-checkbox-list"
-                                type="checkbox"
-                                value=""
-                                class="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded"
-                              />
-                              <label
-                                for="laravel-checkbox-list"
-                                class="w-full py-[6px] ms-2 text-sm font-medium text-gray-900"
-                              >
-                                XL
-                              </label>
-                            </div>
-                          </li>
-                        </>
-                      ) : (
-                        <>
-                          <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r ">
-                            <div class="flex items-center ps-2">
-                              <input
-                                id="vue-checkbox-list"
-                                type="checkbox"
-                                value=""
-                                class="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded"
-                              />
-                              <label
-                                for="vue-checkbox-list"
-                                class="w-full py-[6px] ms-2 text-sm font-medium text-gray-900"
-                              >
-                                28
-                              </label>
-                            </div>
-                          </li>
-                          <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r ">
-                            <div class="flex items-center ps-2">
-                              <input
-                                id="react-checkbox-list"
-                                type="checkbox"
-                                value=""
-                                class="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded"
-                              />
-                              <label
-                                for="react-checkbox-list"
-                                class="w-full py-[6px] ms-2 text-sm font-medium text-gray-900"
-                              >
-                                29
-                              </label>
-                            </div>
-                          </li>
-                          <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r ">
-                            <div class="flex items-center ps-2">
-                              <input
-                                id="angular-checkbox-list"
-                                type="checkbox"
-                                value=""
-                                class="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded"
-                              />
-                              <label
-                                for="angular-checkbox-list"
-                                class="w-full py-[6px] ms-2 text-sm font-medium text-gray-900"
-                              >
-                                30
-                              </label>
-                            </div>
-                          </li>
-                          <li class="w-full ">
-                            <div class="flex items-center ps-2">
-                              <input
-                                id="laravel-checkbox-list"
-                                type="checkbox"
-                                value=""
-                                class="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded"
-                              />
-                              <label
-                                for="laravel-checkbox-list"
-                                class="w-full py-[6px] ms-2 text-sm font-medium text-gray-900"
-                              >
-                                31
-                              </label>
-                            </div>
-                          </li>
-                        </>
-                      )}
-                    </ul>
-                  </div>
-                  <div className="w-1/2 ms-5">
-                    <label className="font-semibold" htmlFor="">
-                      Số lượng
-                    </label>
-                    <input
-                      className="border text-black border-gray-300 rounded-sm block mt-2 px-3 py-1 w-full outline-1 focus:outline-blue-600"
-                      type="text"
-                      value={quantity}
-                      onChange={(e) => setQuantity(e.target.value)}
-                      placeholder="Nhập số lượng"
-                    />
-                  </div>
-                </div>
-                <div className="flex mt-4">
-                  <div className="color_prod w-1/2 me-5">
-                    <label className="font-semibold" htmlFor="">
-                      Màu sẵn có
-                    </label>
-                    <div className="flex justify-between mt-3">
-                      <label class="relative inline-flex items-center me-5 cursor-pointer">
-                        <input type="checkbox" value="" class="sr-only peer" />
-                        <div class="w-9 h-5 bg-red-300 rounded-full peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-red-600"></div>
-                      </label>
-
-                      <label class="relative inline-flex items-center me-5 cursor-pointer">
-                        <input type="checkbox" value="" class="sr-only peer" />
-                        <div class="w-9 h-5 bg-green-300 rounded-full  peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-green-600"></div>
-                      </label>
-
-                      <label class="relative inline-flex items-center me-5 cursor-pointer">
-                        <input type="checkbox" value="" class="sr-only peer" />
-                        <div class="w-9 h-5 bg-violet-300 rounded-full peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-purple-600"></div>
-                      </label>
-
-                      <label class="relative inline-flex items-center me-5 cursor-pointer">
-                        <input type="checkbox" value="" class="sr-only peer" />
-                        <div class="w-9 h-5 bg-yellow-200 rounded-full peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-al peer-checked:bg-yellow-400"></div>
-                      </label>
-
-                      <label class="relative inline-flex items-center me-5 cursor-pointer">
-                        <input type="checkbox" value="" class="sr-only peer" />
-                        <div class="w-9 h-5 bg-gray-300 rounded-full peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-black"></div>
-                      </label>
-                    </div>
-                  </div>
-                  <div className="brand_prod w-1/2 ms-5">
+                  <div className="brand_prod w-1/2">
                     <label className="font-semibold" htmlFor="">
                       Tên thương hiệu
                     </label>
@@ -419,8 +257,161 @@ function handleChange(e) {
                     />
                   </div>
                 </div>
+                <div className="list_variant mt-4 border px-5 py-3">
+                  <div className=" px-4 py-4">
+                    <div className="top_gender">
+                      <span className="font-semibold">Chọn loại sản phẩm</span>
+                      <span className="flex mt-2">
+                        <div class="flex items-center">
+                          <input
+                            id="default-radio-ao"
+                            type="radio"
+                            value="ao"
+                            name="default-radio-ao-quan"
+                            checked={selectedOption === "ao"}
+                            onChange={() => handleOptionChange("ao")}
+                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 "
+                          />
+                          <label
+                            htmlFor="default-radio-ao"
+                            className="ms-2 text-sm font-medium text-gray-500 dark:text-gray-300"
+                          >
+                            Áo
+                          </label>
+                        </div>
+                        <div className="flex items-center ms-5">
+                          <input
+                            id="default-radio-quan"
+                            type="radio"
+                            value="quan"
+                            name="default-radio-ao-quan"
+                            checked={selectedOption === "quan"}
+                            onChange={() => handleOptionChange("quan")}
+                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 "
+                          />
+                          <label
+                            htmlFor="default-radio-quan"
+                            className="ms-2 text-sm font-medium text-gray-500"
+                          >
+                            Quần
+                          </label>
+                        </div>
+                      </span>
+                    </div>
+                    <div className="main_action">
+                      {items.map((item, index) => (
+                        <div
+                          key={index}
+                          className="item_infor border border-dashed border-gray-300 px-3 py-2 mt-4"
+                        >
+                          <div className="flex justify-between">
+                            <span className="border w-6 h-6 flex items-center justify-center rounded-full">
+                              {index}
+                            </span>
+                            {index > 0 ? (
+                              <span
+                                key={index}
+                                className="hover:text-red-600 hover:cursor-pointer"
+                                onClick={handleDeleteItem(index)}
+                              >
+                                <MdOutlineCancel size={22} />
+                              </span>
+                            ) : null}
+                          </div>
+                          <div className="flex">
+                            <div className="mt-4 w-1/2 me-5">
+                              <label
+                                className="font-semibold"
+                                htmlFor={`color-${index}`}
+                              >
+                                Màu sản phẩm
+                              </label>
+                              <select
+                                className="outline-none border w-full mt-3 py-1"
+                                id={`color-${index}`}
+                                value={item.color}
+                                onChange={(e) =>
+                                  handleColorChange(index, e.target.value)
+                                }
+                              >
+                                <option value="">Chọn màu</option>
+                                {availableColors.map((value, index) => (
+                                  <option value={value}>{value}</option>
+                                ))}
+                              </select>
+                            </div>
+                            <div className="w-1/2 mt-4 ms-5">
+                              <label
+                                className="font-semibold"
+                                htmlFor={`size-${index}`}
+                              >
+                                Kích thước
+                              </label>
+                              <select
+                                className="outline-none border w-full mt-3 py-1"
+                                id={`size-${index}`}
+                                value={item.size}
+                                onChange={(e) =>
+                                  handleSizeChange(index, e.target.value)
+                                }
+                              >
+                                <option value="">Chọn Size</option>
+                                {availableSizes.map((value, index) => (
+                                  <option value={value}>{value}</option>
+                                ))}
+                              </select>
+                            </div>
+                          </div>
+                          <div className="flex mt-4">
+                            <div className="w-1/2 me-5">
+                              <label
+                                className="font-semibold"
+                                htmlFor={`quantity-${index}`}
+                              >
+                                Số lượng sản phẩm
+                              </label>
+                              <input
+                                className="block border border-gray-300 focus:outline-none w-full mt-2 px-3 py-1"
+                                type="text"
+                                placeholder="Nhập số lượng"
+                                id={`quantity-${index}`}
+                                value={item.quantity}
+                                onChange={(e) =>
+                                  handleQuantityChange(index, e.target.value)
+                                }
+                              />
+                            </div>
+                            <div className="w-1/2 ms-5">
+                              <label
+                                className="font-semibold"
+                                htmlFor={`price-${index}`}
+                              >
+                                Giá sản phẩm
+                              </label>
+                              <input
+                                className="block border border-gray-300 focus:outline-none w-full mt-2 px-3 py-1"
+                                type="text"
+                                placeholder="Nhập giá"
+                                id={`price-${index}`}
+                                value={item.price}
+                                onChange={(e) =>
+                                  handlePriceChange(index, e.target.value)
+                                }
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                      <div className="btn_add_item mt-4 flex justify-end">
+                        <Button
+                          className="bg-violet-500 py-2 rounded-sm"
+                          onClick={handleAddItem}>Thêm</Button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <div className="desShort mt-4 w-full">
-                  <label htmlFor="">Mô tả chi tiết</label>
+                  <label className="font-semibold" htmlFor="">Mô tả chi tiết</label>
                   <textarea
                     rows={2}
                     className="border text-black border-gray-300 rounded-sm block mt-2 px-3 py-1 w-full outline-1 focus:outline-blue-600"
@@ -430,19 +421,21 @@ function handleChange(e) {
                     placeholder="Nhập mô tả"
                   />
                 </div>
+                <div className="btn_submit text-center text-blue-500 mt-5">
+                  <Button
+                    onClick={() => navigate("/seller/products")}
+                    className="text-white px-8 py-2 hover:bg-red-600 bg-gray-400 rounded-sm mr-10"
+                  >
+                    Hủy
+                  </Button>
+                  <Button
+                    onClick={handleSubmit}
+                    className="text-white px-8 py-2 bg-blue-400 hover:bg-blue-500 rounded-sm"
+                  >
+                    Thêm
+                  </Button>
+                </div>
               </div>
-            </div>
-            <div className="btn_submit text-center text-blue-500 mt-5">
-              <Button onClick={() => navigate('/seller/products')}
-                className="text-white px-8 py-2 hover:bg-red-600 bg-gray-400 rounded-sm mr-10"
-              >
-                Hủy 
-              </Button>
-              <Button onClick={handleSubmit}
-                className="text-white px-8 py-2 bg-green-400 hover:bg-blue-500 rounded-sm"
-              >
-                Thêm
-              </Button>
             </div>
           </form>
         </div>

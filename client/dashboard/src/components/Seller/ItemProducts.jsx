@@ -3,9 +3,14 @@ import { Button } from "@material-tailwind/react";
 import { AiFillEdit } from "react-icons/ai";
 import { Link } from "react-router-dom";
 
-export default function ItemProducts() {
+export default function ItemProducts(props) {
+  const products = props.data;
+  console.log(products)
   return (
-    <tr class="bg-white border-b hover:bg-gray-100 ">
+    <>
+    {
+      products.map((value, index) => (
+      <tr class="bg-white border-b hover:bg-gray-100 ">
       <td class="w-4 p-4">
         <div class="flex items-center">
           <input
@@ -30,8 +35,8 @@ export default function ItemProducts() {
           />
         </div>
       </th>
-      <td class="px-6 py-4">Shop An Thuy Hai</td>
-      <td class="px-6 py-4">nguyenvana@gmail.com</td>
+      <td class="px-6 py-4">{value.product_name}</td>
+      <td class="px-6 py-4">{value.category_name}</td>
       <td class="px-6 py-4">0775543229</td>
       <td class="px-6 py-4">
         <Button className="text-orange-500 rounded-xl bg-orange-100 py-1 px-2 text-[12px] shadow-none capitalize">
@@ -46,5 +51,8 @@ export default function ItemProducts() {
         </Link>
       </td>
     </tr>
+      ))
+    }
+    </>
   )
 }
