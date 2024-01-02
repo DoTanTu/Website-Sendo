@@ -47,5 +47,15 @@ class ProductController{
         res.status(500).send('Internal Server Error');
       }
     }
+    static async deleteProduct(req,res){
+      try {
+        const productId = req.params.productId;
+        const result = await ProductModel.deleteProductById(productId);
+        res.status(200).json(result);
+      } catch (error) {
+        console.error('Error deleting product by ID:', error);
+        res.status(500).send('Internal Server Error');
+      }
+    }
 }
 module.exports = ProductController;
