@@ -1,76 +1,178 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect,useCallback } from "react";
 import { Button } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
 import { MdOutlineCancel } from "react-icons/md";
+import ProductService from "../../service/Seller/ProductService";
+import TokenService from "../../service/Seller/tokenService";
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+} from "firebase/storage";
+import { storage } from "../../components/ControlImage/firebase";
+import { v4 } from "uuid";
 
 export default function NewProducts() {
   const navigate = useNavigate();
+
+  const idSeller = TokenService.getIdUserByToken();
+  const [categoryArray, setCategoryArray] = useState([]);
+  const [category, setCategory] = useState();
   const availableShirts = ["M", "L", "XL", "2XL"];
   const availableTrousers = [27,28,29,30,31,32];
   const [file, setFile] = useState();
-  const [image, setImage] = useState();
+  const [image, setImage] = useState(null);
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [brand, setBrand] = useState("");
-  const [gender, setGender] = useState("nam");
+  const [gender, setGender] = useState(0);
   const [selectedOption, setSelectedOption] = useState("ao");
   const [availableSizes, setAvailableSizes] = useState(availableShirts);
-  const [availableColors, setAvailableColors] = useState(["Đỏ","Đen","Xanh","Vàng"]);
+  const [availableColors, setAvailableColors] = useState(["Đỏ","Đen","Xanh","Vàng","Trắng"]);
   const [items, setItems] = useState([{ color: "", size: "", quantity: "", price: "" }]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Tên sp : " + name);
-    console.log("Giới Tính : " + gender);
-    console.log("Thuong Hiệu : " + brand);
-    console.log("Mô tả : " + desc);
-    console.log(items);
-    console.log(image);
-  };
-
-  //Áo hoặc quần được chọn
-  const handleOptionChange = (option) => {
-    setSelectedOption(option);
-    if(selectedOption === 'quan'){
-      setAvailableSizes(availableShirts)
+  const token = TokenService.getToken();
+  
+  const fetchData = useCallback(async () => {
+    try {
+      const response = await ProductService.getCategory();
+      setCategoryArray(response);
+    } catch (error) {
+      console.error(error);
     }
-    else if(selectedOption === 'ao'){
-      setAvailableSizes(availableTrousers)
-    }
-    console.log()
-  };
+  }, []);
 
+  //Xử lý đối với ảnh
   function handleChange(e) {
     setFile(URL.createObjectURL(e.target.files[0]));
     setImage(e.target.files[0]);
   }
 
-  const updateAvailableOptions = () => {
-    const usedColors = items.map((item) => item.color);
-    const usedSizes = items.map((item) => item.size);
-
-    const newAvailableColors = availableColors.filter(
-      (color) => !usedColors.includes(color)
-    );
-    const newAvailableSizes = availableSizes.filter(
-      (size) => !usedSizes.includes(size)
-    );
-
-    setAvailableColors(newAvailableColors);
-    setAvailableSizes(newAvailableSizes);
+  const uploadImage = () => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        if (image == null) {
+          resolve("");
+        }
+        const imageRef = ref(storage, `images/${image.name + v4()}`);
+        const snapshot = await uploadBytes(imageRef, image);
+        const url = await getDownloadURL(snapshot.ref);
+        resolve(url);
+      } catch (error) {
+        console.error("Error uploading image:", error);
+        reject("");
+      }
+    });
   };
+
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+
+      const imageUrl = await uploadImage();
+      if (!imageUrl) {
+        console.log("Ảnh không hợp lệ");
+        return;
+      }
+  
+      const formData = new FormData();
+      formData.append("product_name", name);
+      formData.append("description", desc);
+      formData.append("gender", gender);
+      formData.append("category_id", category);
+      formData.append("users_id", idSeller);
+      formData.append("image", imageUrl);
+      items.forEach((item, index) => {
+        formData.append(`variants[${index}][color_id]`, getIdColor(item.color));
+        formData.append(`variants[${index}][size_id]`, getIdSize(item.size));
+        formData.append(`variants[${index}][price]`, item.price);
+        formData.append(`variants[${index}][stock_quantity]`, item.quantity);
+      });
+      const respone = await ProductService.createProduct(formData, token);
+      console.log(respone);
+      if (respone.status === 201) {
+        alert("Thêm sản phẩm thành công");
+        navigate("/seller/products");
+      } else {
+        alert("Không thể thêm được sản phẩm");
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getIdColor = (color) => {
+    switch (color) {
+      case "Đỏ":
+        return 1;
+      case "Đen":
+        return 2;
+      case "Xanh":
+        return 3;
+      case "Vàng":
+        return 4;
+      case "Trắng":
+        return 5;
+      default:
+        return -1;
+    }
+  };
+
+  const getIdSize = (size) => {
+    switch (size) {
+      case "M":
+        return 1;
+      case "L":
+        return 2;
+      case "XL":
+        return 3;
+      case "2XL":
+        return 4;
+      default:
+        return -1;
+    }
+  };
+  //Áo hoặc quần được chọn
+  const handleOptionChange = (option) => {
+    setSelectedOption(option);
+    if (selectedOption === "quan") {
+      setAvailableSizes(availableShirts);
+    } else if (selectedOption === "ao") {
+      setAvailableSizes(availableTrousers);
+    }
+    console.log();
+  };
+
+
+
+  //Cập nhật các thuộc tính khi thêm 1 item
+    // const updateAvailableOptions = () => {
+    //   const usedColors = items.map((item) => item.color);
+    //   const usedSizes = items.map((item) => item.size);
+
+    //   const newAvailableColors = availableColors.filter(
+    //     (color) => !usedColors.includes(color)
+    //   );
+    //   const newAvailableSizes = availableSizes.filter(
+    //     (size) => !usedSizes.includes(size)
+    //   );
+
+    //   setAvailableColors(newAvailableColors);
+    //   setAvailableSizes(newAvailableSizes);
+    // };
 
   const handleAddItem = () => {
     setItems([...items, { color: "", size: "", quantity: "", price: "" }]);
-    updateAvailableOptions();
+    // updateAvailableOptions();
   };
 
   const handleDeleteItem = (index) => () => {
     const newItems = [...items];
     newItems.splice(index, 1);
     setItems(newItems);
-    updateAvailableOptions();
+    // updateAvailableOptions();
   };
 
   const handleColorChange = (index, value) => {
@@ -97,6 +199,13 @@ export default function NewProducts() {
     setItems(newItems);
   };
 
+  useEffect(() => {
+    try {
+      fetchData();
+    } catch (error) {
+      console.error(error);
+    }
+  }, [fetchData]);
   return (
     <div className="container">
       <div className="header_title">
@@ -190,14 +299,17 @@ export default function NewProducts() {
                     </label>
                     <select
                       className="block outline-none border border-gray-300 py-1 px-3 mt-2 w-full text-black"
-                      name=""
-                      id=""
+                      name="category_id"
+                      id="12345"
+                      value={category}
+                      onChange={(e) => setCategory(e.target.value)}
                     >
-                      <option value="">item 1</option>
-                      <option value="">item 2</option>
-                      <option value="">item 3</option>
-                      <option value="">item 4</option>
-                      <option value="">item 5</option>
+                      <option value='0'>Chọn danh mục</option>
+                    {
+                      categoryArray.map((value, index) => (
+                        <option key={index} value={value.category_id}>{value.category_name}</option>
+                      ))
+                    }
                     </select>
                   </div>
                   <div className="gender mt-5 w-1/2 ml-5">
@@ -209,9 +321,9 @@ export default function NewProducts() {
                         <input
                           id="default-radio-1"
                           type="radio"
-                          checked={gender === 'nam'}
+                          checked={gender === 0}
                           value="nam"
-                          onChange={(e) => setGender('nam')}
+                          onChange={(e) => setGender(0)}
                           name="default-radio"
                           className="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 "
                         />
@@ -226,9 +338,9 @@ export default function NewProducts() {
                         <input
                           id="default-radio-2"
                           type="radio"
-                          checked={gender === 'nữ'}
+                          checked={gender === 1}
                           value="nữ"
-                          onChange={(e) => setGender("nữ")}
+                          onChange={(e) => setGender(1)}
                           name="default-radio"
                           className="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300  outline-none"
                         />
@@ -262,7 +374,7 @@ export default function NewProducts() {
                     <div className="top_gender">
                       <span className="font-semibold">Chọn loại sản phẩm</span>
                       <span className="flex mt-2">
-                        <div class="flex items-center">
+                        <div className="flex items-center">
                           <input
                             id="default-radio-ao"
                             type="radio"
@@ -320,10 +432,7 @@ export default function NewProducts() {
                           </div>
                           <div className="flex">
                             <div className="mt-4 w-1/2 me-5">
-                              <label
-                                className="font-semibold"
-                                htmlFor={`color-${index}`}
-                              >
+                              <label className="font-semibold" htmlFor={`color-${index}`} >
                                 Màu sản phẩm
                               </label>
                               <select
@@ -336,7 +445,7 @@ export default function NewProducts() {
                               >
                                 <option value="">Chọn màu</option>
                                 {availableColors.map((value, index) => (
-                                  <option value={value}>{value}</option>
+                                  <option key={index} value={value}>{value}</option>
                                 ))}
                               </select>
                             </div>
@@ -357,7 +466,7 @@ export default function NewProducts() {
                               >
                                 <option value="">Chọn Size</option>
                                 {availableSizes.map((value, index) => (
-                                  <option value={value}>{value}</option>
+                                  <option key={index} value={value}>{value}</option>
                                 ))}
                               </select>
                             </div>

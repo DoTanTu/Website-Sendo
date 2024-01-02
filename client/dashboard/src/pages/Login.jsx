@@ -21,10 +21,10 @@ function Login() {
                 // }
             }else if( position === 'seller'){
                 const respone = await LoginService.sellerLogin(email, password);
-                console.log(respone);
                 const token = respone.data.token;
                 if(jwtDecode(token).is_verified === 1 && respone.status === 200){
                     localStorage.setItem('token', token);
+                    alert('Đăng nhập thành công');
                     navigator('/seller') 
                 } 
             }

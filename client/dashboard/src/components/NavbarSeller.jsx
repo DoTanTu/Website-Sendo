@@ -10,6 +10,10 @@ import { IoBarChartSharp } from "react-icons/io5";
 
 export default function NavbarSeller() {
   const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/');
+  }
   return (
     <div className="left_navbar w-[300px] text-red bg-red-600 sticky top-0 h-screen">
       <div className="nav_container flex flex-col justify-between h-full">
@@ -61,7 +65,7 @@ export default function NavbarSeller() {
           </ul>
         </div>
         <div className="bottom_logout pb-7 text-center">
-          <Button onClick={()=> navigate('/')} className="px-8 py-2 bg-[#f0f0f066] transition-all ease-in-out duration-100 text-white rounded-2xl hover:bg-white hover:text-red-600">
+          <Button onClick={handleLogout} className="px-8 py-2 bg-[#f0f0f066] transition-all ease-in-out duration-100 text-white rounded-2xl hover:bg-white hover:text-red-600">
             Đăng Xuất
           </Button>
         </div>
