@@ -129,5 +129,23 @@ class ProductModel{
         throw error;
       }
     }
+    static async deleteProductById(productId){
+      try {
+          const deleteProductQuery = `
+          DELETE FROM Products
+          WHERE id = ?
+        `;
+        const deleteVariantsQuery = `
+          DELETE FROM ProductVariants
+          WHERE product_id = ?
+        `;      
+        await db.query(deleteVariantsQuery, [productId]);  
+        await db.query(deleteProductQuery, [productId]);
+        
+        return { success: true, message: 'Product deleted successfully' };
+      } catch (error) {
+        throw error;
+      }
+    }
 }
 module.exports = ProductModel;
