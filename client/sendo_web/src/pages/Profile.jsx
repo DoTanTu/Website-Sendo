@@ -1,4 +1,4 @@
-import NavbarProfile from "../components/NavbarProfile";
+import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import UpdateSeller from "../components/ui/UpdateSeller";
 import UserService from "../service/UserService";
@@ -27,7 +27,7 @@ useEffect(() => {
 
   return (
     <div>
-      <NavbarProfile />
+      <Navbar />
       <div className="w-full h-max p-6 shadow-sm">
         { 
           data ? (
