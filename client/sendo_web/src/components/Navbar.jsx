@@ -6,6 +6,8 @@ import logo from "../img/Better_logo.png";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { MdAccountCircle } from "react-icons/md";
 import CustomDialog from "./ui/CustomDialog";
+import { IoCart } from "react-icons/io5";
+
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -15,9 +17,7 @@ const Navbar = () => {
   const [stateUser, setStatusUser] = useState(null);
 
   const checkAccount = () => {
-
     const tokenStorage = localStorage.getItem('token');
-
     if(tokenStorage){
       const name = TokenExtraction.getNameUser(tokenStorage);
       setStatusUser(name);
@@ -71,6 +71,11 @@ const Navbar = () => {
     checkAccount();
     getLocation();
   }, []);
+
+  const navigateCart = () => {
+    navigate('/cart');
+  }
+
   return (
     <div className="bg-white  w-full h-full flex items-center justify-center gap-x-9 pt-2">
       <Link to="/">
@@ -142,7 +147,7 @@ const Navbar = () => {
             Shop
           </button>
         </div>
-        <div className="flex gap-2 cursor-pointer  mt-3 mb-3 ">
+        <div className="flex cursor-pointer  mt-3 mb-3 ">
           <p className=" text-gray-400 flex justify-center">
             Giao đến:
             <p className="text-gray-800 underline flex ">
@@ -155,6 +160,10 @@ const Navbar = () => {
               )}
             </p>
           </p>
+          <div className="card ms-10 relative" onClick={navigateCart}>
+            <span className="w-10 h-10 text-red-600"><IoCart size={24} /></span>
+            <span className="flex justify-center items-center w-4 h-4 rounded-full border border-[#808080] bg-white shadow-lg absolute -top-2 -right-2 text-[12px]">0</span>
+          </div>
         </div>
       </div>
       {

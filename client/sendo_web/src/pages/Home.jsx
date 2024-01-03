@@ -9,8 +9,8 @@ function Home() {
   return (
     <div>
       <Navbar />
-      <div className="p-6 ">
-        <div className="flex gap-4">
+      <div className="p-6 container mx-auto">
+        <div className="flex">
           <Sidebar />
           <Contain />
         </div>
