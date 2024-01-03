@@ -22,9 +22,20 @@ const CategoryService={
         console.error(error);
     }
   },
+
+  updateCategoryById : async (id, name) => {
+    try {
+      const respone = await axios.put(`${BASE_URL}/api/categories/update/${id}`, { category_name: name});
+      return respone.status;
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
   deleteCategory : async  (id) => {
     const respone = await axios.delete(`${BASE_URL}/api/categories/${id}`);
     return respone.status;
   }
+
 }
 export default CategoryService

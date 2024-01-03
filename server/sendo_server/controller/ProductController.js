@@ -61,7 +61,8 @@ class ProductController{
       try {
         const sellerId = req.params.sellerId;
         const products = await ProductModel.getProductBySeller(sellerId);
-        res.status(200).json(products);
+        const dataTrans = transformData.transformData(products);
+        res.status(200).json(dataTrans);
       } catch (error) {
         res.status(500).send('Internal Server Error');
       }

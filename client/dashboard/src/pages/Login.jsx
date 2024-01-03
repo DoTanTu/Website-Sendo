@@ -15,10 +15,10 @@ function Login() {
     const handleLogin = async () => {
         try {
             if(position === 'admin'){
-                // const respone = LoginService.adminLogin(email, password);
-                // if(respone.status === 'success'){
+                const respone = await LoginService.adminLogin(email, password);
+                if(respone.status === 200){
                     navigator('/admin')
-                // }
+                }
             }else if( position === 'seller'){
                 const respone = await LoginService.sellerLogin(email, password);
                 const token = respone.data.token;

@@ -12,7 +12,7 @@ export default function UpdateSeller() {
     <>
       <button
         onClick={handleOpen}
-        className="w-1/2 bg-red-500 p-2  text-xl font-bold text-white rounded-lg hover:bg-red-500/60"
+        className="w-1/2 bg-gray-500 p-2  text-xl font-bold text-white rounded-lg hover:bg-red-600"
       >
         Nâng Cấp
       </button>

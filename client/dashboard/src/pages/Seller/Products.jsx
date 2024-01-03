@@ -6,6 +6,7 @@ import { IoIosAddCircle } from "react-icons/io";
 import { Outlet, useNavigate } from 'react-router-dom';
 import ProductService from '../../service/Seller/ProductService';
 import ItemProducts from '../../components/Seller/ItemProducts';
+import TokenService from '../../service/Seller/tokenService';
 export default function Products() {
     const navigate = useNavigate();
     const [product, setProduct] = useState([]);
@@ -16,7 +17,10 @@ export default function Products() {
     // Gọi service để lấy data và đưa vào array State
     const fetchData = useCallback(async () => {
         try {
-        const response = await ProductService.getAllProduct();
+        const idUser = TokenService.getIdUserByToken();
+        console.log(idUser);
+        const token = TokenService.getToken();
+        const response = await ProductService.getAllProduct(idUser,token);
         setProduct(response);
         } catch (error) {
         console.error(error);

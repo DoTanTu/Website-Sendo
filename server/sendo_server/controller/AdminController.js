@@ -1,8 +1,9 @@
 const adminModel = require("../model/AdminModel");
 class AdminController {
   static login(req, res) {
-    const { username, password } = req.body;
-    adminModel.loginAdmin(username, password, (err, result) => {
+    const { email, password } = req.body;
+    console.log(email, password);
+    adminModel.loginAdmin(email, password, (err, result) => {
       if (err) {
         return res.status(500).json({ error: "Internal server error" });
       }
@@ -13,7 +14,7 @@ class AdminController {
           // Passwords match, user is authenticated
           return res
             .status(200)
-            .json({ message: "Login successful", username });
+            .json({ message: "Login successful", email });
         } else {
           // Passwords do not match
           return res

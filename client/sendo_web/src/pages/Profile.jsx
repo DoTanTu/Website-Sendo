@@ -3,6 +3,7 @@ import Footer from "../components/Footer";
 import UpdateSeller from "../components/ui/UpdateSeller";
 import UserService from "../service/UserService";
 import {useState, useEffect } from "react";
+import Navbar from "../components/Navbar";
 
 export default function Profile() {
   const [data, setData] = useState([]);
@@ -26,7 +27,7 @@ useEffect(() => {
 
   return (
     <div>
-      <NavbarProfile />
+      <Navbar />
       <div className="w-full h-max p-6 shadow-sm">
         { 
           data ? (
@@ -51,28 +52,28 @@ useEffect(() => {
           </div>
           <div className="w-2/3 p-4 flex-col mt-12">
             <div className="flex gap-40 mt-4 ">
-              <p className="text-base text-black/25 w-44"> Tên tài khoản:</p>
+              <p className="text-base text-black/35 w-44"> Tên tài khoản:</p>
               <input type="text" value={data.name} onChange={e => setName(e.target.value)} className=" border shadow-2xl" />
             </div>
             <div className="flex gap-40 mt-4 ">
-              <p className="text-base text-black/25 w-44"> Tên đăng nhập:</p>
+              <p className="text-base text-black/35 w-44"> Tên đăng nhập:</p>
               <input type="text" className=" border shadow-2xl" />
             </div>
 
             <div className="flex gap-40 mt-4">
-              <p className="text-base text-black/25 w-44"> Email:</p>
+              <p className="text-base text-black/35 w-44"> Email:</p>
               <p className="text-base text-black">{data.email}</p>
             </div>
             <div className="flex gap-40 mt-4">
-              <p className="text-base text-black/25 w-44"> Số điện thoại:</p>
+              <p className="text-base text-black/35 w-44"> Số điện thoại:</p>
               <input type="text" value={data.phoneNumber} onChange={e => setPhone(e.target.value)} className=" border shadow-2xl" />
             </div>
             <div className="flex gap-40 mt-4">
-              <p className="text-base text-black/25 w-44"> Ngày Sinh:</p>
+              <p className="text-base text-black/35 w-44"> Ngày Sinh:</p>
               <input type="text" value={data.birthday} onChange={e => setBirthday(e.target.value)} className=" border shadow-2xl" />
             </div>
             <div className="mt-10 w-2/5 px-30 flex justify-end">
-              <button className=" bg-red-500 p-2  text-sm font-bold text-white rounded-lg hover:bg-red-500/60 ">
+              <button className=" bg-red-500 p-2 px-5 text-md font-bold text-white rounded-lg hover:bg-red-500/60 ">
                 Cập nhập
               </button>
             </div>

@@ -3,9 +3,13 @@ import axios from "axios";
 const BASE_URL = "http://localhost:3000";
 
 const ProductService = {
-  getAllProduct: async () => {
+  getAllProduct: async (sellerId, token) => {
     try {
-      let response = await axios.get(`${BASE_URL}/api/products`);
+      let response = await axios.get(`${BASE_URL}/api/seller/product/${sellerId}`, {
+        headers: {
+          'Authorization': `token ${token}`
+        }
+    });
       return response.data;
     } catch {
       console.log("Khong cos data");
@@ -38,8 +42,18 @@ const ProductService = {
       console.error(error);
     }
   },
+
+  getProductById:async (id) => {
+    try {
+      const respone = await axios.get(`${BASE_URL}/api/product/${id}`);
+      return respone.data;
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
   deleteProduct: async (id, token) => {
-    const respone = await axios.delete(`${BASE_URL}/api/products/${id}`, {
+    const respone = await axios.delete(`${BASE_URL}/api/delete/product/${id}`, {
       headers: {
         'Authorization': `token ${token}`
       }

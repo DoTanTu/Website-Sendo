@@ -7,6 +7,7 @@ import Message from '../../components/LabelMessage';
 import ConfirmationDialog from '../../components/Dialog';
 
 function DanhMuc() {
+  const [idCategoryEdit, setIdCategoryEdit] = useState("");
   const [name, setName] = useState('');
   const [status, setStatus] = useState(null);
   const [category, setCategory] = useState([]);
@@ -55,12 +56,12 @@ function DanhMuc() {
 
   const handleEditCategory = useCallback( async (idCategory, nameCategory) => { 
     try {
+      setIdCategoryEdit(idCategory);
       setName(nameCategory)
     } catch (error) {
-      
+      console.error(error);
     }
   },[]);
-
 
   useEffect(() => {
     const deleteCategory = async () => {
@@ -111,6 +112,30 @@ function DanhMuc() {
     }
    }
 
+   const updateCategory = async (id) => {
+    try {
+      const response = await CategoryService.updateCategoryById(id, name);
+      if (response === 200) {
+        setStatus({ type: 'success', message: 'Cập nhật thành công' });
+        setTimeout(() => {
+          setStatus(null);
+        }, 2500);
+        setName('');
+        setIdCategoryEdit("");
+        fetchData();
+      } else {
+        setStatus({ type: 'error', message: 'Cập nhật thất bại' });
+      }
+    } catch (error) {
+      console.error(error);
+      setStatus({ type: 'error', message: 'Cập nhật thất bại' });
+    }
+  };
+
+   const handleCancleForm = () => {
+      setName("");
+      setIdCategoryEdit("");
+   }
 
   return (
     <div>
@@ -119,23 +144,23 @@ function DanhMuc() {
         </div>
         <div className="container mt-10">
             <div className="table_infort flex">
-                <div class="w-full h-fit overflow-x-auto shadow-md sm:rounded-lg">
-                    <table class="w-full text-sm text-left rtl:text-right text-gray-500 ">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50  ">
+                <div className="w-full h-fit overflow-x-auto shadow-md sm:rounded-lg">
+                    <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
+                        <thead className="text-xs text-gray-700 uppercase bg-gray-50  ">
                             <tr>
-                                <th scope="col" class="p-4">
-                                    <div class="flex items-center">
-                                        <input id="checkbox-all-search" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500    focus:ring-2  " />
-                                        <label for="checkbox-all-search" class="sr-only">checkbox</label>
+                                <th scope="col" className="p-4">
+                                    <div className="flex items-center">
+                                        <input id="checkbox-all-search" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500    focus:ring-2  " />
+                                        <label htmlFor="checkbox-all-search" className="sr-only">checkbox</label>
                                     </div>
                                 </th>
-                                <th scope="col" class="px-6 py-3">
+                                <th scope="col" className="px-6 py-3">
                                     Tên danh mục
                                 </th>
-                                <th scope="col" class="px-6 py-3">
+                                <th scope="col" className="px-6 py-3">
                                     Ngày tạo
                                 </th>
-                                <th scope="col" class="px-6 py-3">
+                                <th scope="col" className="px-6 py-3">
                                     Actions
                                 </th>
                                
@@ -156,8 +181,14 @@ function DanhMuc() {
                             <input className='block px-5 py-2 border border-gray-300 w-full mt-4 focus:outline-gray-300'  type="text" placeholder='Nhập tên...' value={name} onChange={(e) => setName(e.target.value)}/>
                         </div>
                         <div className="btn_add flex items-center justify-center mt-4">
-                            <Button onClick={() => setName("")} className='bg-red-400 mr-5 rounded-sm w-24 hover:bg-red-600'>Hủy</Button>
-                            <Button onClick={() => handleSubmit()} className='bg-blue-500 w-24 rounded-sm hover:bg-blue-600'>Thêm</Button>
+                            <Button onClick={() => handleCancleForm()} className='bg-red-400 mr-5 rounded-sm w-24 hover:bg-red-600'>Hủy</Button>
+                            {
+                              idCategoryEdit === "" ? (
+                                <Button onClick={() => handleSubmit()} className='bg-blue-500 w-24 rounded-sm hover:bg-blue-600'>Thêm</Button>
+                              ):(
+                                <Button onClick={() => updateCategory(idCategoryEdit)} className='bg-blue-500 w-26 rounded-sm hover:bg-blue-600'>Cập nhật</Button>
+                              )
+                            }
                         </div>
                    </div>
                 </div>

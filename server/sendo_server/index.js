@@ -5,6 +5,7 @@ const userRouter = require('./router/AuthRouter');
 const profileRouter = require('./router/ProfileRouter');
 const productRouter = require('./router/ProductRouter');
 const categoriesRouter = require('./router/CategoriesRouter');
+const adminRouter = require('./router/AdminRouter');
 const cors = require('cors');
 require('./config/DBConnect');
 require("dotenv").config();
@@ -18,7 +19,7 @@ const upload = multer({ storage: storage });
 // Middleware to handle FormData
 app.use(upload.none());
 
-app.use('/api',userRouter,productRouter,categoriesRouter,profileRouter);
+app.use('/api',userRouter,productRouter,categoriesRouter,profileRouter, adminRouter);
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);

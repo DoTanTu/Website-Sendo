@@ -1,11 +1,14 @@
 import React from 'react';
 import { Button } from '@material-tailwind/react';
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import { ImCancelCircle } from "react-icons/im";
+import ProductService from '../../service/Seller/ProductService';
+
 
 
 export default function EditProduct() {
+    const { id } = useParams();
     const navigate = useNavigate();
     const [file, setFile] = useState();
 
@@ -15,6 +18,7 @@ export default function EditProduct() {
     const [gender, setGender] = useState("nam");
     const [brand, setBrand] = useState("");
     const [desc, setDesc] = useState("");
+    const [dataRespone, setDataRespone] = useState({});
   
     const [selectedOption, setSelectedOption] = useState("ao");
   
@@ -38,6 +42,24 @@ export default function EditProduct() {
     const handleUpdate = () => {
         navigate(-1)
     }
+
+    const getProductDetail = async () => {
+      try {
+        let temp = await ProductService.getProductById(id);
+        setDataRespone(temp);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const displayInforProduct = () => {
+       getProductDetail();
+       setFile("not");
+    }
+    useEffect(() => {
+      displayInforProduct();
+    },[]);
+
   return (
     <div className="fixed top-0 left-0 z-10 w-full h-full">
       <div className="flex items-center justify-center w-full h-full relative">
@@ -90,7 +112,7 @@ export default function EditProduct() {
                         </>
                       ) : (
                         <>
-                          <img src={file} className="max-h-full" alt="" />
+                          <img src={dataRespone.image} className="max-h-full" alt="" />
                         </>
                       )}
                     </label>
@@ -111,7 +133,7 @@ export default function EditProduct() {
                   <input
                     className="border text-black border-gray-300 rounded-sm block mt-2 px-3 py-1 w-full outline-1 focus:outline-blue-600"
                     type="text"
-                    value={name}
+                    value={dataRespone.product_name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Nhập tên sản phẩm"
                   />
