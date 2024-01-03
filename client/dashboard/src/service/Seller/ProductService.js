@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const BASE_URL = "http://localhost:3000";
+
 const ProductService = {
   getAllProduct: async () => {
     try {
@@ -36,6 +37,15 @@ const ProductService = {
     } catch (error) {
       console.error(error);
     }
+  },
+  deleteProduct: async (id, token) => {
+    const respone = await axios.delete(`${BASE_URL}/api/products/${id}`, {
+      headers: {
+        'Authorization': `token ${token}`
+      }
+  });
+  console.log(respone);
+  return respone;
   }
 };
 export default ProductService;
