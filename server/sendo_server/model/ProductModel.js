@@ -129,5 +129,44 @@ class ProductModel{
         throw error;
       }
     }
+    static async deleteProductById(productId){
+      try {
+          const deleteProductQuery = `
+          DELETE FROM Products
+          WHERE id = ?
+        `;
+        const deleteVariantsQuery = `
+          DELETE FROM ProductVariants
+          WHERE product_id = ?
+        `;      
+        await db.query(deleteVariantsQuery, [productId]);  
+        await db.query(deleteProductQuery, [productId]);
+        
+        return { success: true, message: 'Product deleted successfully' };
+      } catch (error) {
+        throw error;
+      }
+    }
+    static async getProductBySeller(userID){
+      try {
+        const query = `
+            SELECT 
+            P.*,
+            PV.variant_id,
+            PV.color_id,
+            PV.size_id,
+            PV.price,
+            PV.stock_quantity
+          FROM Products P
+          LEFT JOIN ProductVariants PV ON P.id = PV.product_id
+          WHERE P.users_id = ?
+          `;
+          const productsAndVariants = await db.query(query, [userID]);
+          return productsAndVariants;
+      } catch (error) {
+        throw error;
+      }
+    }
+    
 }
 module.exports = ProductModel;
