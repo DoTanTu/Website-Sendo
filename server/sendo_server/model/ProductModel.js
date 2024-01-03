@@ -147,26 +147,25 @@ class ProductModel{
         throw error;
       }
     }
-    static async getProductBySeller(userID){
-      try {
-        const query = `
-            SELECT 
-            P.*,
-            PV.variant_id,
-            PV.color_id,
-            PV.size_id,
-            PV.price,
-            PV.stock_quantity
-          FROM Products P
-          LEFT JOIN ProductVariants PV ON P.id = PV.product_id
-          WHERE P.users_id = ?
-          `;
-          const productsAndVariants = await db.query(query, [userID]);
-          return productsAndVariants;
-      } catch (error) {
-        throw error;
-      }
+  static async getProductBySeller(userID){
+    try {
+      const query = `
+          SELECT 
+          P.*,
+          PV.variant_id,
+          PV.color_id,
+          PV.size_id,
+          PV.price,
+          PV.stock_quantity
+        FROM Products P
+        LEFT JOIN ProductVariants PV ON P.id = PV.product_id
+        WHERE P.users_id = ?
+        `;
+        const productsAndVariants = await db.query(query, [userID]);
+        return productsAndVariants;
+    } catch (error) {
+      throw error;
     }
-    
+  }
 }
 module.exports = ProductModel;
