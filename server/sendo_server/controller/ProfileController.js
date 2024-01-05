@@ -19,10 +19,10 @@ class ProfileController {
   }
   static async updateProfile(req,res){
     try {
-      const { name, address, phoneNumber, gender, birthday } = req.body;
+      const { name, address, phoneNumber, gender, birthday, image} = req.body;
       const userId = req.user.id;
       console.log('User ID:', userId);
-      const result = await ProfileModel.updateProfile(userId, { name, address, phoneNumber, gender, birthday });
+      const result = await ProfileModel.updateProfile(userId, { name, address, phoneNumber, gender, birthday, image });
       res.status(200).json(result); 
     } catch (error) {
       console.error('Error update profile:', error);
