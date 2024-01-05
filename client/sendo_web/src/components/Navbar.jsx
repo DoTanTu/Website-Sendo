@@ -107,15 +107,14 @@ const Navbar = () => {
             Trang chủ
           </button>
           {stateUser !== null ? (
-            <Link
-            to=""
+            <div
             className="group py-2.5 px-5 me-2 text-sm font-bold text-black focus:outline-none bg-white rounded-lg hover:bg-white/80 focus:z-10 relative"
           >
             <div className="flex items-center">
               <MdAccountCircle className="mr-2" size={20} />
               {stateUser}
             </div>
-            <div className="group-hover:block hidden absolute top-full right-0 rounded-md overflow-hidden">
+            <div className="group-hover:block z-20 hidden absolute top-full right-0 rounded-md overflow-hidden">
               <div className="actions pt-1">
                 <div className="Profile">
                   <Link to="/profile" className="block">
@@ -128,7 +127,7 @@ const Navbar = () => {
               </div>
             </div>
             
-          </Link>
+          </div>
           
           ) : (
             <Link
