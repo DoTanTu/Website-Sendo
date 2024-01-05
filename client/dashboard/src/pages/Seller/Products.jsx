@@ -6,7 +6,10 @@ import { IoIosAddCircle } from "react-icons/io";
 import { Outlet, useNavigate } from 'react-router-dom';
 import ProductService from '../../service/Seller/ProductService';
 import ItemProducts from '../../components/Seller/ItemProducts';
-import TokenService from '../../service/Seller/tokenService';
+import TokenServiceSeller from '../../service/Seller/tokenServiceSeller';
+import { FiRefreshCw } from "react-icons/fi";
+import TokenService from '../../service/TokenService';
+
 export default function Products() {
     const navigate = useNavigate();
     const [product, setProduct] = useState([]);
@@ -17,11 +20,16 @@ export default function Products() {
     // Gọi service để lấy data và đưa vào array State
     const fetchData = useCallback(async () => {
         try {
-        const idUser = TokenService.getIdUserByToken();
-        console.log(idUser);
-        const token = TokenService.getToken();
-        const response = await ProductService.getAllProduct(idUser,token);
-        setProduct(response);
+        const idUser = TokenServiceSeller.getIdUserByToken();
+        const token = TokenServiceSeller.getToken();
+        const checkToken = TokenService.isTokenExpired();
+        if(checkToken === true){
+          alert('Vui lòng đăng nhập lại');
+          navigate('/')
+        }else{
+          const response = await ProductService.getAllProduct(idUser,token);
+          setProduct(response);
+        }
         } catch (error) {
         console.error(error);
         }
@@ -39,13 +47,20 @@ export default function Products() {
     const handleReload = () => {
         fetchData();
       };
+    
+      const refressData = () => {
+        fetchData();
+      }
   return (
     <div>
       <Outlet />
-      <div className="header_prods">
+      <div className="header_prods flex items-center justify-between">
         <h1 className="text-lg font-bold uppercase text-gray-600">
           Danh sách sản phẩm
         </h1>
+        <Button className='bg-green-500 py-2 px-3' onClick={refressData}>
+        <FiRefreshCw size={22}  />
+        </Button>
       </div>
       <div className="main_contain mt-10">
         <div className="action_data flex justify-between items-center">

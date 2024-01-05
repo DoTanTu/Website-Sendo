@@ -36,10 +36,10 @@ export default function Card() {
         ? products.map((values, index) => (
             <div
               key={values.product_id}
-              className="w-1/2 md:w-1/4 lg:w-1/5 h-max bg-transparent bg-white cursor-pointer hover:shadow-xl" onClick={() => navigateDetail(values.product_id)}
+              className="w-1/2 md:w-1/4 lg:w-1/6 h-max bg-transparent bg-white cursor-pointer hover:shadow-xl" onClick={() => navigateDetail(values.product_id)}
             >
               <div className="rounded-m shadow-sm px-[8px] py-[8px]">
-                <div className="">
+                <div className="h-[155px] overflow-hidden">
                   <img
                     className="object-cover"
                     src={values.image}

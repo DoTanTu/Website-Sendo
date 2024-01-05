@@ -21,8 +21,8 @@ export default function CartPage() {
         <div className='flex'>
           <div className="left_cart w-full pe-5">
             <div className="list_cart mt-10">
-              <div className="cart_item mb-5 bg-white px-5 py-3 flex items-center justify-between rounded-sm">
-                 <div className="image_prod w-28 h-28 overflow-hidden rounded-full">
+              <div className="cart_item mb-4 bg-white px-5 py-2 flex items-center justify-between rounded-sm border-l-4 hover:border-l-red-500 hover:cursor-pointer transition-all ease-in-out duration-300">
+                 <div className="image_prod w-24 h-24 overflow-hidden rounded-full">
                   <img src="https://images.unsplash.com/photo-1611312449408-fcece27cdbb7?q=80&w=1938&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" className='object-cover' alt="" />
                  </div>
                  <div className="name_prod px-2">
@@ -63,8 +63,8 @@ export default function CartPage() {
                   </span>
                  </div>
               </div>
-              <div className="cart_item mb-5 bg-white px-5 py-3 flex items-center justify-between rounded-sm">
-                 <div className="image_prod w-28 h-28 overflow-hidden rounded-full">
+              <div className="cart_item mb-4 bg-white px-5 py-2 flex items-center justify-between rounded-sm border-l-4 hover:border-l-red-500 hover:cursor-pointer transition-all ease-in-out duration-300">
+                 <div className="image_prod w-24 h-24 overflow-hidden rounded-full">
                   <img src="https://images.unsplash.com/photo-1611312449408-fcece27cdbb7?q=80&w=1938&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" className='object-cover' alt="" />
                  </div>
                  <div className="name_prod px-2">
@@ -86,13 +86,13 @@ export default function CartPage() {
                     </select>
                  </div>
                  <div className="number_choose flex items-center">
-                  <Button className='w-6 h-6 px-0 py-0'>
+                  <Button className='w-6 h-6 px-0 py-0' onClick={handleDecrease}>
                     -
                   </Button>
                   <div className="number_display w-14  rounded-sm mx-3">
-                    <input type="number" placeholder='1' className='w-full border border-black ps-2' />
+                    <input type="number" value={count} placeholder='1' className='w-full border border-black ps-2' />
                   </div>
-                  <Button className='w-6 h-6 px-0 py-0'>
+                  <Button className='w-6 h-6 px-0 py-0' onClick={handleIncrease}>
                     +
                   </Button>
                  </div>
@@ -105,8 +105,8 @@ export default function CartPage() {
                   </span>
                  </div>
               </div>
-              <div className="cart_item mb-5 bg-white px-5 py-3 flex items-center justify-between rounded-sm">
-                 <div className="image_prod w-28 h-28 overflow-hidden rounded-full">
+              <div className="cart_item mb-4 bg-white px-5 py-2 flex items-center justify-between rounded-sm border-l-4 hover:border-l-red-500 hover:cursor-pointer transition-all ease-in-out duration-300">
+                 <div className="image_prod w-24 h-24 overflow-hidden rounded-full">
                   <img src="https://images.unsplash.com/photo-1611312449408-fcece27cdbb7?q=80&w=1938&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" className='object-cover' alt="" />
                  </div>
                  <div className="name_prod px-2">
@@ -128,13 +128,13 @@ export default function CartPage() {
                     </select>
                  </div>
                  <div className="number_choose flex items-center">
-                  <Button className='w-6 h-6 px-0 py-0'>
+                  <Button className='w-6 h-6 px-0 py-0' onClick={handleDecrease}>
                     -
                   </Button>
                   <div className="number_display w-14  rounded-sm mx-3">
-                    <input type="number" placeholder='1' className='w-full border border-black ps-2' />
+                    <input type="number" value={count} placeholder='1' className='w-full border border-black ps-2' />
                   </div>
-                  <Button className='w-6 h-6 px-0 py-0'>
+                  <Button className='w-6 h-6 px-0 py-0' onClick={handleIncrease}>
                     +
                   </Button>
                  </div>
@@ -147,6 +147,7 @@ export default function CartPage() {
                   </span>
                  </div>
               </div>
+            
             </div>
           </div>
           <div className="right_checkout w-[400px] mt-10 bg-white rounded-sm shadow-sm h-fit">

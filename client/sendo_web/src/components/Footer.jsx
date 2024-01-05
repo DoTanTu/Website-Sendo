@@ -11,7 +11,7 @@ import { Button } from "@material-tailwind/react";
 
 export default function Footer() {
   return (
-    <div className="bg-[#DA251E] text-white py-20 px-0 lg:px-24 md:px-6 w-full">
+    <div className="bg-[#DA251E] text-white py-10 px-0 lg:px-24 md:px-6 w-full">
       <div className=" md:flex md:gap-x-4 mb-6 ">
         <div className="pl-12 md:w-max lg:w-1/3 ">
           <p className="flex text-sm mb-3">
@@ -37,7 +37,7 @@ export default function Footer() {
         </div>
         <div className=" flex flex-wrap px-12 gap-y-4 md:w-2/3 md:flex-wrap md:p-0 lg:flex-nowrap lg:gap-9  lg:w-2/3 lg:p-0">
           <div className="w-1/2 flex flex-col gap-y-2  ">
-            <h5 className="text-indigo-600 mb-2">Product</h5>
+            <h5 className="text-white mb-2">Product</h5>
             <a className="text-white block" href="">
               <span>Download</span>
             </a>
@@ -55,7 +55,7 @@ export default function Footer() {
             </a>
           </div>
           <div className="w-1/2 flex flex-col gap-y-2 ">
-            <h5 className="text-indigo-600 mb-2">Company</h5>
+            <h5 className="text-white mb-2">Company</h5>
             <a className="text-white block" href="">
               <span>About</span>
             </a>
@@ -73,7 +73,7 @@ export default function Footer() {
             </a>
           </div>
           <div className="w-1/2 flex flex-col gap-y-2">
-            <h5 className="text-indigo-600 mb-2">Resources</h5>
+            <h5 className="text-white mb-2">Resources</h5>
             <a className="text-white block" href="">
               <span>College</span>
             </a>
@@ -107,7 +107,7 @@ export default function Footer() {
           </div>
           <div className="w-1/2 flex flex-col gap-y-2">
             {" "}
-            <h5 className="text-indigo-600 mb-2">Policies</h5>
+            <h5 className="text-white mb-2">Policies</h5>
             <a className="text-white block" href="">
               <span>Terms</span>
             </a>
@@ -132,7 +132,9 @@ export default function Footer() {
           </div>
         </div>
       </div>
-      <div className="pt-12 flex justify-between border-t-2 border-white "></div>
+      <div className="pt-12 flex justify-between border-t-2 border-white ">
+        Bùi Minh Thành - Nguyễn Đức Tín - Nguyễn Thì Hoài Thu - Đỗ Tấn Từ
+      </div>
     </div>
   );
 }

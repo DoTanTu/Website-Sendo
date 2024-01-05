@@ -4,7 +4,9 @@ import { Button } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
 import { MdOutlineCancel } from "react-icons/md";
 import ProductService from "../../service/Seller/ProductService";
-import TokenService from "../../service/Seller/tokenService";
+import TokenService from "../../service/Seller/tokenServiceSeller";
+import { getIdColor, getIdSize } from "../../components/ProductAttributes";
+import { toast } from "react-toastify";
 import {
   ref,
   uploadBytes,
@@ -12,6 +14,7 @@ import {
 } from "firebase/storage";
 import { storage } from "../../components/ControlImage/firebase";
 import { v4 } from "uuid";
+import Toast from "../../components/Toast";
 
 export default function NewProducts() {
   const navigate = useNavigate();
@@ -92,8 +95,10 @@ export default function NewProducts() {
       const respone = await ProductService.createProduct(formData, token);
       console.log(respone);
       if (respone.status === 201) {
-        alert("Thêm sản phẩm thành công");
-        navigate("/seller/products");
+        toast.success("Thêm sản phẩm thành công");
+        setTimeout(() => {
+          navigate("/seller/products");
+        }, 3000);
       } else {
         alert("Không thể thêm được sản phẩm");
         return;
@@ -103,37 +108,6 @@ export default function NewProducts() {
     }
   };
 
-  const getIdColor = (color) => {
-    switch (color) {
-      case "Đỏ":
-        return 1;
-      case "Đen":
-        return 2;
-      case "Xanh":
-        return 3;
-      case "Vàng":
-        return 4;
-      case "Trắng":
-        return 5;
-      default:
-        return -1;
-    }
-  };
-
-  const getIdSize = (size) => {
-    switch (size) {
-      case "M":
-        return 1;
-      case "L":
-        return 2;
-      case "XL":
-        return 3;
-      case "2XL":
-        return 4;
-      default:
-        return -1;
-    }
-  };
   //Áo hoặc quần được chọn
   const handleOptionChange = (option) => {
     setSelectedOption(option);
@@ -144,8 +118,6 @@ export default function NewProducts() {
     }
     console.log();
   };
-
-
 
   //Cập nhật các thuộc tính khi thêm 1 item
     // const updateAvailableOptions = () => {
@@ -208,6 +180,7 @@ export default function NewProducts() {
   }, [fetchData]);
   return (
     <div className="container">
+      <Toast />
       <div className="header_title">
         <h1 className="text-lg font-bold uppercase text-gray-600 text-center">
           Thêm mới sản phẩm

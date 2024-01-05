@@ -31,7 +31,7 @@ export default function Login() {
   };
   return (
     <div className="flex p-32 shadow-lg">
-      <div className="w-3/5 h-[527px] p-12 shadow-lg">
+      <div className="w-3/5 h-[527px] p-12 shadow-lg bg-white rounded-l-2xl">
         <p className="text-2xl text-black ">Xin Chào,</p>
         <p className="pt-2 text-md text-black ">Đăng nhập hoặc Tạo tài khoản</p>
         <Input
@@ -60,7 +60,7 @@ export default function Login() {
           Đăng nhập
         </button>{" "}
         {token ? <p>Đăng nhập thành công</p> : null}
-        <p className="mt-2 ">
+        <p className="mt-4 ">
           Nếu chưa có tài khoản
           <Link
             to="/signup"
@@ -72,9 +72,9 @@ export default function Login() {
         <div className="flex gap-4 items-center mt-8">
           <hr className="w-full h-[1px] bg-blue-gray-300"></hr>
           <p className="text-sm w-[400px]">Hoặc tiếp tục bằng</p>
-          <hr className="w-full h-[1px] bg-blue-gray-300 text-base  "></hr>
+          <hr className="w-full h-[1px] bg-blue-gray-300 text-base"></hr>
         </div>
-        <div className="w-full flex gap-4 justify-center ">
+        <div className="w-full flex gap-4 justify-center mt-6">
           <button className="w-14 h-14 bg-lime-400 rounded-full">
             <img
               className="w-full h-full "

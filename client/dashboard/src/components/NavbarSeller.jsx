@@ -19,7 +19,7 @@ export default function NavbarSeller() {
       <div className="nav_container flex flex-col justify-between h-full">
         <div className="top">
           <div className="top_logo py-11 px-6">
-            <h1 className="text-2xl text-white">Dashboard</h1>
+            <h1 className="text-2xl text-white">Dashboard Seller</h1>
           </div>
           <ul className="mt-18">
             <li>

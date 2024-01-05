@@ -45,18 +45,18 @@ export default function Signup() {
   };
   return (
     <>
-      <div className="flex justify-center h-screen bg-red-500 ">
-      <Card className=" px-7 py-5" shadow={false}>
+      <div className="flex justify-center place-items-center h-screen bg-red-500 ">
+      <Card className="px-7 py-5 h-[650px] max-w-[450px]" shadow={false}>
         <Link to="/">
-          <Button className="p-0 text-black bg-transparent mb-5">Back</Button>
+          <Button className="px-6 hover:bg-red-500 hover:text-white py-1 text-black bg-transparent mb-5">Back</Button>
         </Link>
         <Typography variant="h4" color="blue-gray">
           Đăng ký tài khoản
         </Typography>
-        <Typography color="gray" className="mt-1 font-normal">
+        <Typography color="gray" className="mt-1 font-normal wrap">
           Rất vui được gặp bạn! Nhập thông tin của bạn để đăng ký.
         </Typography>
-        <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96"
+        <form className="mt-8 mb-2"
          onSubmit={handleSubmit}
          >
           <div className="mb-1 flex flex-col gap-6">
@@ -65,7 +65,7 @@ export default function Signup() {
             </Typography>
             <Input
               size="lg"
-              className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+              className=" !border-t-blue-gray-200 focus:!border-t-gray-900 !py-1"
               labelProps={{
                 className: "before:content-none after:content-none",
               }}
@@ -109,7 +109,7 @@ export default function Signup() {
               onChange={handleChange}
             />
           </div>
-          <Button className="bg-red-600 mt-6" fullWidth type="submit">
+          <Button className="bg-red-600 mt-10" fullWidth type="submit">
             sign up
           </Button>
         </form>
