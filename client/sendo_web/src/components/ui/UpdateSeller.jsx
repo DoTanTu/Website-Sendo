@@ -8,14 +8,13 @@ import {toast } from 'react-toastify';
 export default function UpdateSeller() {
   const [open, setOpen] = useState(false);
 
-  const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
 
   const handleOpen = () => setOpen(!open);
   const handleSubmit = () => {
-    alert("name" + name + "\n" + "địa chỉ" + "\n" + address + "\n" + "phone " + phone + "\n" + "password " + password);
+    alert("name" + name + "\n" + "địa chỉ" + "\n" + address + "\n" + "phone " + phone + "\n");
     setOpen(close)
     toast.info("Đang gửi yêu cầu");
   }
@@ -57,27 +56,19 @@ export default function UpdateSeller() {
             <form>
               <p className="pt-2 text-md text-black/40   ">tantu@gmail.com</p>
               <Input
-                type="password"
-                className="pt-2 text-2xl h-full"
-                variant="static"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Mật khẩu"
-              />
-              <Input
                 className="pt-2 text-2xl h-full"
                 variant="static"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Tên doanh nghiệp muốn đăng ký"
               />
-              <Input
+              {/* <Input
                 className="pt-2 text-2xl h-full"
                 variant="static"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="SĐT doanh nghiệp"
-              />
+              /> */}
               <Input
                 className="pt-2 text-2xl h-full"
                 variant="static"
