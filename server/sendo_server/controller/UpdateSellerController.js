@@ -9,36 +9,49 @@ class UpdateSellerController{
             return res.status(500).json({ error: 'Internal Server Error' });
         }
     }
-    static async updateToSeller(req,res){
-        const { supplier_name, address_company, brand, is_seller_request_pending } = req.body;
-        const userId = req.user.id;
+    static async updateToSellerRequest(req, res) {
+        const { userId, supplier_name, address_company, date_created_request } = req.body;
+
         try {
-            const updatedUser = await updateSeller.getUserById(userId);  
-            if (updatedUser.is_seller_request_pending !== 1) {
-                return res.status(400).json({ error: 'User is not pending for seller approval.' });
-            }   
-            const result = await updateSeller.updateToSeller(userId, {
-                supplier_name,
-                address_company,
-                brand,
-                is_seller_request_pending: 2,
-            });    
-            const mailOptions = {
-                to: updatedUser.email,
-                subject: 'Account Approved',
-                html: sellerApprovalEmail(),
-            };    
-            mailer.sendMail(mailOptions, (mailError, info) => {
-                if (mailError) {
-                    console.error(mailError);
-                    return res.status(500).json({ error: 'Internal Server Error' });
-                }
-                console.log(`Email sent: ${info.response}`);
-                res.status(200).json(result);
-            });
+            await YourModel.updateToSellerRequest(userId, { supplier_name, address_company, date_created_request });
+            res.status(200).json({ message: 'Update successful' });
         } catch (error) {
-            console.error('Error in updateToSeller:', error);
+            console.error(error);
             res.status(500).json({ error: 'Internal Server Error' });
+        }
+    }
+    static async approveSellerRequest(req, res) {
+        const { userId } = req.params;
+        const { supplier_name, address_company, date_created_request } = req.body;
+
+        try {
+            await YourModel.approveSellerRequest(userId, { supplier_name, address_company, date_created_request });
+
+            // Get the user's email
+            const userEmail = await YourModel.getUserEmail(userId);
+
+            // Send email notification
+            await sendEmailNotification(userEmail, 'Your seller request has been approved!');
+
+            res.status(200).json({ message: 'Approval successful' });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    }
+    static async sendEmailNotification(to, message) {
+        const mailOptions = {
+            from: process.env.email,
+            to,
+            subject: 'Seller Request Approval Notification',
+            text: message,
+        };  
+        try {
+            await mailer.sendMail(mailOptions);
+            console.log('Email sent successfully.');
+        } catch (error) {
+            console.error('Error sending email:', error);
+            throw error;
         }
     }
 }
