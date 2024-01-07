@@ -13,11 +13,11 @@ class UpdateSellerController{
         const { supplier_name, address_company, brand, is_seller_request_pending } = req.body;
         const userId = req.user.id;
         try {
-            const updatedUser = await YourModel.getUserById(userId);  
+            const updatedUser = await updateSeller.getUserById(userId);  
             if (updatedUser.is_seller_request_pending !== 1) {
                 return res.status(400).json({ error: 'User is not pending for seller approval.' });
             }   
-            const result = await YourModel.updateToSeller(userId, {
+            const result = await updateSeller.updateToSeller(userId, {
                 supplier_name,
                 address_company,
                 brand,

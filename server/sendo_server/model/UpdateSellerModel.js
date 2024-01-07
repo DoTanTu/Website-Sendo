@@ -26,5 +26,13 @@ class UpdateSellerModel{
             throw error;
         }
     }
+    static async getUserById(userId) {
+        try {
+            const result = await db.query('SELECT * FROM users WHERE id = ?', [userId]);
+            return result[0];
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 module.exports = UpdateSellerModel;
