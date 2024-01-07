@@ -7,6 +7,11 @@ import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
 import TokenExtraction from "../service/TokenExtraction";
 import { toast } from "react-toastify";
+import { FaUserCircle } from "react-icons/fa";
+import { BiImageAdd } from "react-icons/bi";
+import {ref,uploadBytes,getDownloadURL} from "firebase/storage";
+import { storage } from "../components/createImage/firebase";
+import { v4 } from "uuid";
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -17,6 +22,9 @@ export default function Profile() {
   const [birthday, setBirthday] = useState("");
   const [address, setAddress] = useState("");
   const [gender, setGender] = useState();
+  const [image, setImage] = useState("");
+  const [file, setFile] = useState("");
+  var filePath = "";
 
   //----------Tạo mới form
   const formData = new FormData();
@@ -25,12 +33,20 @@ export default function Profile() {
   const fillData = (data) => {
     setName(data.name);
     setEmail(data.email);
+    setFile(data.image);
     setGender(data.gender || 0);
     setPhone(data.phoneNumber);
     setBirthday(data.birthday);
     setAddress(data.address);
   }
 
+  const checkDataUser = () => {
+    if(address === "" || address === "" || phone === "" || file === "" || file === null){
+      return true;
+    }else{
+      return false;
+    }
+  }
   //----------Lấy thông tin của người dùng
   const getInfor = async () => {
     try {
@@ -51,12 +67,36 @@ export default function Profile() {
     }
   };
 
+  function handleChange(e) {
+    setFile(URL.createObjectURL(e.target.files[0]));
+    setImage(e.target.files[0]);
+    console.log("Giá trị sau khi thay đổi của image " + image);
+  }
+
+  const uploadImage = () => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        if (image == null) {
+          resolve("");
+        }
+        const imageRef = ref(storage, `users/${image.name + v4()}`);
+        const snapshot = await uploadBytes(imageRef, image);
+        const url = await getDownloadURL(snapshot.ref);
+        resolve(url);
+      } catch (error) { 
+        console.error("Error uploading image:", error);
+        reject("");
+      }
+    });
+  };
+
   //----------Đưa dữ liệu vào form data
-  const setDataForm = (formData) => {
+  const setDataForm = (formData, filePath) => {
+    formData.append("image", filePath),
     formData.append("name", name),
+    formData.append("gender", gender),
     formData.append("address", address),
     formData.append("phoneNumber", phone),
-    formData.append("gender", gender),
     formData.append("birthday", birthday);
   };
 
@@ -77,15 +117,22 @@ export default function Profile() {
 
   //---------Xử lý submit form từ người dùng
   const handleSubmit = async () => {
-    setDataForm(formData);
     const token = localStorage.getItem("token");
+    if(image !== "" && image !== undefined){
+      const imageUrl = await uploadImage();
+      filePath = imageUrl;
+    }else{
+      filePath = file;
+    }
+    setDataForm(formData, filePath);
     const result = await updateFunction(formData, token);
-    console.log(result);
     if(result == 200){
       toast.success("Cập nhật tài khoản thành công");
     }else{
       toast.error("Cập nhật thất bại");
     }
+    filePath ="";
+    setImage("");
     getInfor();
   };
   return (
@@ -96,19 +143,35 @@ export default function Profile() {
           <div className="w-full h-max bg-white rounded-md flex ">
             <div className="w-1/3 mb-10">
               <div className="">
-                <div className="w-56 h-56 p-1 bg-[#DA251E] mx-auto my-4 mt-8 rounded-full">
-                  <img
-                    className="object-cover mx-auto rounded-full"
-                    src="https://zizoou.com/cdn/shop/files/Ao-khoac-jacket-form-rong-oversize-3-1-Ao-jacket-nau_Extras-ZiZoou-Store.jpg?v=1685791120"
-                    alt="Product Thumbnail"
-                  />
+                <div className="w-56 h-56 p-1 bg-red-500 mx-auto my-4 mt-8 rounded-full relative">
+                  {
+                    file ? (
+                      <img
+                      className="object-cover w-full h-full mx-auto rounded-full"
+                      src={file}
+                    />
+                    ):
+                    (
+                      <FaUserCircle className="w-full h-full text-gray-100" />
+                    )
+                  }
+                  <div className="editImage absolute bottom-0 right-5 w-10 h-8 bg-gray-300 z-20 rounded-lg">
+                    <input
+                      key={file}
+                      id="dropzone-file"
+                      onChange={handleChange}
+                      type="file"
+                      className="w-full h-full opacity-0"
+                    />
+                    <BiImageAdd className="absolute top-0 left-0 w-full h-full -z-10" />
+                  </div>
                 </div>
 
-                <h1 className="text-2xl font-bold mx-auto my-4 text-center">
+                <h1 className="text-2xl font-bold mx-auto my-4 mt-12 text-center">
                   {data.name}
                 </h1>
                 <div className="flex justify-center">
-                  <UpdateSeller />
+                  <UpdateSeller checkDataUser={checkDataUser} />
                 </div>
               </div>
             </div>

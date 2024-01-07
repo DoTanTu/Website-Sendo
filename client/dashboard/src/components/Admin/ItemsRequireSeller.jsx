@@ -1,16 +1,51 @@
 import React from 'react';
 import { Button } from "@material-tailwind/react";
+import { useState, useEffect } from 'react';
+import SellerService from '../../service/Admin/SellerService';
 
 export default function ItemsRequireSeller() {
+
+    const [email, setEmail] = useState("");
+    const [image, setImage] = useState("");
+    const [name, setName] = useState("");
+    const [phone, setPhone] = useState("");
+    const [date, setDate] = useState("");
+    const [status, setStatus] = useState("");
+    const [id , setId] = useState("");
+
+    const setData = (data) =>{
+      setId(data.id);
+      setImage(data.image)
+      setEmail(data.email)
+      setName(data.name)
+      setPhone(data.phoneNumber);
+      setDate(data.date_created_request);
+      setStatus(data.email);
+    }
+
     const handleCancle = () => {
         alert('Cancle');
     }
     const handleAccept = () => {
         alert('Accept');
     }
+
+    const fetchData = async () => {
+      try {
+        const result = await SellerService.SellerPending();
+        setData(result.data);
+      } catch (error) {
+        console.log(error);
+      }
+    } 
+
+    useEffect(() => {
+      fetchData();
+    },[]);
+
   return (
     <tr class="bg-white border-b hover:bg-gray-100 ">
-      <td class="w-4 p-4">
+      <td class="w-4 p-4" key={id}>
         <div class="flex items-center">
           <input
             id="checkbox-table-search-1"
@@ -29,25 +64,25 @@ export default function ItemsRequireSeller() {
         <div className="image_seller">
           <img
             className="w-10 h-10 rounded-full overflow-hidden object-cover"
-            src="https://t3.ftcdn.net/jpg/02/99/04/20/240_F_299042079_vGBD7wIlSeNl7vOevWHiL93G4koMM967.jpg"
+            src={image}
             alt=""
           />
         </div>
       </th>
-      <td class="px-6 py-4">Trần Công Lập</td>
-      <td class="px-6 py-4">tconglap@gmail.com</td>
-      <td class="px-6 py-4">0775543229</td>
-      <td class="px-6 py-4">21/12/2023</td>
+      <td class="px-6 py-4">{name}</td>
+      <td class="px-6 py-4">{email}</td>
+      <td class="px-6 py-4">{phone}</td>
+      <td class="px-6 py-4">{date}</td>
       <td class="px-6 py-4">
         <span className="text-orange-600 font-semibold rounded-xl bg-orange-100 py-1 px-2 text-[12px] shadow-none capitalize">
-          Chưa duyệt
+          {status}
         </span>
       </td>
-      <td class="px-6 py-4">
-        <Button className='w-20 bg-red-100 border border-red-500 rounded-full py-[6px] hover:bg-red-500 hover:text-white text-red-500 mr-2' onClick={() => handleCancle()}>
+      <td class="px-4 py-4">
+        <Button className='w-[80px] bg-red-100 border border-red-500 rounded-full py-[6px] hover:bg-red-500 hover:text-white text-red-500 mr-2' onClick={() => handleCancle()}>
             Hủy
         </Button>
-        <Button className='w-20 bg-blue-100 border border-blue-500 rounded-full py-[6px] hover:bg-blue-500 hover:text-white text-blue-500' onClick={() => handleAccept()}>
+        <Button className='w-[80px] px-0 bg-blue-100 border border-blue-500 rounded-full py-[6px] hover:bg-blue-500 hover:text-white text-blue-500' onClick={() => handleAccept(id)}>
             Duyệt
         </Button>
       </td>

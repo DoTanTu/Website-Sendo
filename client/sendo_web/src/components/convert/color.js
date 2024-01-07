@@ -1,14 +1,9 @@
-function changValue(size){
-    switch(size){
-        case 1:
-            return "M"
-        case 2:
-            return "L";
-        case 3:
-            return "XL";
-        case 4:
-            return "2XL";
-        default: return "";
+function getColor(id){
+    switch(id){
+        case 1 :
+            return "red-500";
+        case 2 : 
+            return "green-500";
     }
 }
-export default changValue;
+export default getColor;

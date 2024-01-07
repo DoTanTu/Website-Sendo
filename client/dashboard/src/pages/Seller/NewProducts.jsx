@@ -7,6 +7,9 @@ import ProductService from "../../service/Seller/ProductService";
 import TokenService from "../../service/Seller/tokenServiceSeller";
 import { getIdColor, getIdSize } from "../../components/ProductAttributes";
 import { toast } from "react-toastify";
+import { FaFileAlt } from "react-icons/fa";
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import {
   ref,
   uploadBytes,
@@ -18,8 +21,8 @@ import Toast from "../../components/Toast";
 
 export default function NewProducts() {
   const navigate = useNavigate();
-
-  const idSeller = TokenService.getIdUserByToken();
+  var token = localStorage.getItem("token");
+  const idSeller = TokenService.getIdUserByToken(token);
   const [categoryArray, setCategoryArray] = useState([]);
   const [category, setCategory] = useState();
   const availableShirts = ["M", "L", "XL", "2XL"];
@@ -35,7 +38,6 @@ export default function NewProducts() {
   const [availableColors, setAvailableColors] = useState(["Đỏ","Đen","Xanh","Vàng","Trắng"]);
   const [items, setItems] = useState([{ color: "", size: "", quantity: "", price: "" }]);
 
-  const token = TokenService.getToken();
   
   const fetchData = useCallback(async () => {
     try {
@@ -182,8 +184,8 @@ export default function NewProducts() {
     <div className="container">
       <Toast />
       <div className="header_title">
-        <h1 className="text-lg font-bold uppercase text-gray-600 text-center">
-          Thêm mới sản phẩm
+        <h1 className="text-lg font-bold uppercase text-gray-600 flex justify-center items-center">
+        <span className="mr-4"><FaFileAlt /> </span> Thêm mới sản phẩm
         </h1>
       </div>
       <div className="main_container mt-5">
@@ -201,6 +203,7 @@ export default function NewProducts() {
             </div>
             <div className="bottom_form mt-5 flex">
               <div className="left_image text-left">
+                <div className=" sticky top-32">
                 <div className="input_image w-[500px] h-[420px] overflow-hidden rounded-sm border border-dashed  border-gray-300">
                   <div className="flex items-center justify-center w-full h-full">
                     <label
@@ -244,13 +247,16 @@ export default function NewProducts() {
                       )}
                     </label>
                   </div>
+                  
                 </div>
                 <Button
-                  className="text-gray-600 mt-2 border px-5 py-2 hover:bg-red-500 hover:text-white border-gray -500 uppercase font-semibold"
+                  className="text-gray-600 mt-2 border px-5 py-2 hover:bg-red-500 hover:text-white border-gray -500 uppercase font-semibold z-10 block relative"
                   onClick={() => setFile(null)}
                 >
                   Hủy file
                 </Button>
+                </div>
+                
               </div>
               <div className="right_desc ps-5 w-full text-gray-500">
                 <div className="name_prod ">
@@ -493,15 +499,20 @@ export default function NewProducts() {
                   </div>
                 </div>
                 <div className="desShort mt-4 w-full">
-                  <label className="font-semibold" htmlFor="">Mô tả chi tiết</label>
-                  <textarea
-                    rows={2}
-                    className="border text-black border-gray-300 rounded-sm block mt-2 px-3 py-1 w-full outline-1 focus:outline-blue-600"
-                    type="text"
-                    value={desc}
-                    onChange={(e) => setDesc(e.target.value)}
-                    placeholder="Nhập mô tả"
-                  />
+                  <label className="font-semibold mb-3 block" htmlFor="">Mô tả chi tiết</label>
+                  <CKEditor
+                    className="mt-4 block"
+                    editor={ ClassicEditor }
+                    data=""
+                    onReady={ editor => {
+                        // You can store the "editor" and use when it is needed.
+                        console.log( 'Editor is ready to use!', editor );
+                    } }
+                    onChange={ ( event, editor ) => {
+                      const data = editor.getData();
+                      setDesc(data);
+                    } }
+                />
                 </div>
                 <div className="btn_submit text-center text-blue-500 mt-5">
                   <Button

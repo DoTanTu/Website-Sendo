@@ -10,6 +10,7 @@ import TokenServiceSeller from '../../service/Seller/tokenServiceSeller';
 import { FiRefreshCw } from "react-icons/fi";
 import TokenService from '../../service/TokenService';
 
+
 export default function Products() {
     const navigate = useNavigate();
     const [product, setProduct] = useState([]);
@@ -18,22 +19,23 @@ export default function Products() {
     };
 
     // Gọi service để lấy data và đưa vào array State
-    const fetchData = useCallback(async () => {
+    const fetchData = async () => {
         try {
-        const idUser = TokenServiceSeller.getIdUserByToken();
-        const token = TokenServiceSeller.getToken();
-        const checkToken = TokenService.isTokenExpired();
-        if(checkToken === true){
-          alert('Vui lòng đăng nhập lại');
-          navigate('/')
-        }else{
-          const response = await ProductService.getAllProduct(idUser,token);
-          setProduct(response);
-        }
+          var token = "";
+          token = localStorage.getItem('token');
+          const idUser = TokenServiceSeller.getIdUserByToken(token);
+          const checkToken = TokenService.isTokenExpired(token);
+          if(checkToken === true){
+            alert('Vui lòng đăng nhập lại');
+            navigate('/')
+          }else{
+            const response = await ProductService.getAllProduct(idUser,token);
+            setProduct(response);
+          }
         } catch (error) {
-        console.error(error);
+          console.error(error);
         }
-    }, []);
+    };
 
     // Hiển thị dữ liệu khi load trang
     useEffect(() => {
@@ -42,7 +44,7 @@ export default function Products() {
         } catch (error) {
         console.error(error);
         }
-    }, [fetchData]);
+    }, []);
 
     const handleReload = () => {
         fetchData();

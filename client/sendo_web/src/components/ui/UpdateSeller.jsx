@@ -5,14 +5,22 @@ import logo from "../../img/Better_logo_white.png";
 import Toast from "../notification/Toast";
 import {toast } from 'react-toastify';
 
-export default function UpdateSeller() {
+export default function UpdateSeller({ checkDataUser }) {
   const [open, setOpen] = useState(false);
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
 
-  const handleOpen = () => setOpen(!open);
+  const handleOpen = () => {
+    const check = checkDataUser();
+    if(check === true){
+      toast.warn("Cập nhật đầy đủ profile");
+    }else{
+      setOpen(!open);
+    }
+    
+  }
   const handleSubmit = () => {
     alert("name" + name + "\n" + "địa chỉ" + "\n" + address + "\n" + "phone " + phone + "\n");
     setOpen(close)
