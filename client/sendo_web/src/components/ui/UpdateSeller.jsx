@@ -1,24 +1,44 @@
-import React from "react";
+import React, { useState} from "react";
 import { Button, Dialog, DialogBody, Input } from "@material-tailwind/react";
-
+import { IoArrowBackOutline } from "react-icons/io5";
 import logo from "../../img/Better_logo_white.png";
+import Toast from "../notification/Toast";
+import {toast } from 'react-toastify';
 
-export default function UpdateSeller() {
-  const [open, setOpen] = React.useState(false);
+export default function UpdateSeller({ checkDataUser }) {
+  const [open, setOpen] = useState(false);
 
-  const handleOpen = () => setOpen(!open);
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+
+  const handleOpen = () => {
+    const check = checkDataUser();
+    if(check === true){
+      toast.warn("Cập nhật đầy đủ profile");
+    }else{
+      setOpen(!open);
+    }
+    
+  }
+  const handleSubmit = () => {
+    alert("name" + name + "\n" + "địa chỉ" + "\n" + address + "\n" + "phone " + phone + "\n");
+    setOpen(close)
+    toast.info("Đang gửi yêu cầu");
+  }
 
   return (
     <>
+      <Toast />
       <button
         onClick={handleOpen}
-        className="w-1/2 bg-red-500 p-2  text-xl font-bold text-white rounded-lg hover:bg-red-500/60"
+        className="w-1/2 bg-gray-400 p-2  text-xl font-bold text-white rounded-lg hover:bg-red-600"
       >
-        Nâng Cấp
+        Đăng ký bán hàng
       </button>
 
       <Dialog
-        className=" w-[800px]  h-[527px]   rounded-2xl "
+        className=" w-[800px]  h-[527px]  rounded-2xl "
         open={open}
         handler={handleOpen}
         animate={{
@@ -31,9 +51,10 @@ export default function UpdateSeller() {
           <div className="w-3/5 h-[527px] p-12 ">
             <Button
               onClick={handleOpen}
-              className="p-0 text-black bg-transparent mb-5"
+              className="p-2 text-black/35 hover:text-black bg-transparent mb-5 flex items-center"
             >
-              Back
+              <IoArrowBackOutline size={20} className="mr-2" />
+            <span className="text-[14px]">Back</span>
             </Button>
             <p className="text-2xl text-black ">Nâng cấp Seller</p>
             <p className="pt-2 text-md text-black ">
@@ -43,30 +64,30 @@ export default function UpdateSeller() {
             <form>
               <p className="pt-2 text-md text-black/40   ">tantu@gmail.com</p>
               <Input
-                type="password"
                 className="pt-2 text-2xl h-full"
                 variant="static"
-                placeholder="Mật khẩu"
-              />
-              <Input
-                className="pt-2 text-2xl h-full"
-                variant="static"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 placeholder="Tên doanh nghiệp muốn đăng ký"
               />
-              <Input
+              {/* <Input
                 className="pt-2 text-2xl h-full"
                 variant="static"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
                 placeholder="SĐT doanh nghiệp"
-              />
+              /> */}
               <Input
                 className="pt-2 text-2xl h-full"
                 variant="static"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
                 placeholder="Địa chỉ doanh nghiệp"
               />
             </form>
 
-            <button className=" mt-6 w-full text-2xl text-white py-3  bg-[#DA251E] hover:bg-red-300 rounded-md">
-              Nâng cấp
+            <button className=" mt-6 w-full text-2xl text-white py-3  bg-[#DA251E] hover:bg-red-300 rounded-md" onClick={handleSubmit}>
+              Đăng ký
             </button>
           </div>
 

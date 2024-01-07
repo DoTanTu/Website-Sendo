@@ -8,7 +8,7 @@ import Seller from './pages/Seller/Seller.jsx';
 import ThongKeSeller from './pages/Seller/ThongKe.jsx';
 import ThongKeAdmin from './pages/Admin/ThongKe';
 import DanhMuc from './pages/Admin/DanhMuc.jsx';
-import DuyetSeller from './pages/Admin/DuyetSeller.jsx';
+import ManagerSeller from './pages/Admin/ManagerSeller.jsx';
 import ProfileAdmin  from './pages/Admin/Profile.jsx';
 import Products from './pages/Seller/Products.jsx';
 import Orders from './pages/Seller/Orders.jsx';
@@ -37,7 +37,7 @@ function App() {
             <Route index path="/admin" element={<ThongKeAdmin />} />
             <Route path="thong-ke" element={<ThongKeAdmin />} />
             <Route path="danh-muc" element={<DanhMuc />} />
-            <Route path="duyet-seller" element={<DuyetSeller />} />
+            <Route path="duyet-seller" element={<ManagerSeller />} />
             <Route path="profile" element={<ProfileAdmin />} />
           </Route>
       </Routes>
