@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import DefaultRating from "./DefaultRating";
 import { useParams} from "react-router-dom";
 import ProductService from "../../service/ProductService";
-import changValue from "../convert/color";
+import changeSize from "../convert/size";
+import changeColor from "../convert/color";
 import { messageAlert } from "../convert/message";
 import { Button } from '@material-tailwind/react';
 import { SlUserFollow } from "react-icons/sl";
 import { IoCall } from "react-icons/io5";
 import { FaStore } from "react-icons/fa";
+
 
 
 
@@ -61,7 +63,7 @@ export default function CardDetail() {
                 />
               </div>
             </div>
-            <div className="w-2/3 p-4 flex-col ">
+            <div className="w-2/3 p-4 ps-16 flex-col ">
               <h1 className="text-2xl font-bold">{dataProduct.product_name}</h1>
               <p>Thương hiệu: OEM</p>
               <div className="rating mt-2">
@@ -71,12 +73,15 @@ export default function CardDetail() {
                 {dataProduct.variants[0].price.toLocaleString()} đ
               </h1>
 
-              <div className="flex gap-3 mt-3">
+              <div className="flex gap-3 mt-3 items-center">
                 <p className="my-auto">Chọn màu:</p>
-                <div className="w-5 h-5 bg-red-300 cursor-pointer"></div>
-                <div className="w-5 h-5 bg-red-300 cursor-pointer"></div>
-                <div className="w-5 h-5 bg-red-300 cursor-pointer"></div>
-                <div className="w-5 h-5 bg-red-300 cursor-pointer"></div>
+                {dataProduct.variants
+                  ? dataProduct.variants.map((variant, index) => (
+                      <div className={`w-5 h-5 border-2 border-${changeColor(variant.color_id)} cursor-pointer rounded-full flex items-center justify-center`}>
+                        <div className={`w-4 h-4 bg-${changeColor(variant.color_id)} cursor-pointer rounded-full`}></div>
+                      </div>
+                  )):null
+                  } 
               </div>
               <div className="flex gap-3 mt-6">
                 <p className="my-auto">Chọn size:</p>
@@ -87,7 +92,7 @@ export default function CardDetail() {
                         className="w-12 h-6 bg-blue-gray-300/60 rounded-lg text-center cursor-pointer hover:bg-blue-gray-300/30"
                         value={variant.size}
                       >
-                        {changValue(variant.size_id)}
+                        {changeSize(variant.size_id)}
                       </div>
                     ))
                   : null}
@@ -162,9 +167,8 @@ export default function CardDetail() {
                 <div className="title_desc">
                   <span className="text-lg font-semibold">Mô tả chi tiết về sản phẩm</span>
                 </div>
-                <div className="div_content mt-2">
-                  <span>{dataProduct.description}</span>
-                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero in iure, rem praesentium impedit modi! Recusandae magni ullam similique, minus nisi odit doloribus officia cum sapiente iste delectus saepe officiis quibusdam in et eligendi quod, voluptas facere qui dolore tempora sed esse? Laboriosam, amet corporis mollitia dolorum ea necessitatibus iure inventore eos. Cupiditate ipsam reiciendis libero exercitationem quaerat quibusdam aperiam, sunt rem commodi veniam a ut sapiente quia at excepturi iste beatae facilis tempore sit reprehenderit architecto suscipit recusandae. Accusantium, enim. Amet, quis vero dolorum laborum at tempore nemo dolore nesciunt nostrum recusandae velit soluta earum dolores odio, laudantium repudiandae ipsum. Distinctio reiciendis molestiae consequuntur facilis cumque nihil, blanditiis neque eaque rem atque, at necessitatibus. Nostrum facere sunt aliquam! Veritatis corrupti cumque ipsam sed labore. Dolore, exercitationem deserunt. Atque, illum voluptatem commodi in quibusdam, totam perspiciatis earum ex similique praesentium dicta ad facilis? Consequuntur, vitae repellendus consectetur non sequi doloremque repudiandae nobis autem alias eius, culpa dicta quisquam iusto delectus! Ut et debitis aliquid libero, voluptatem rem fugiat dignissimos. Fugit modi doloribus quod, temporibus eaque veniam nemo consequuntur nobis quae cupiditate molestiae dolorum quisquam ex reprehenderit soluta repudiandae reiciendis iste nostrum officiis excepturi error exercitationem libero eligendi facilis! Cumque, facilis.</p>
+                <div className="div_content mt-4">
+                  <div dangerouslySetInnerHTML={{ __html: dataProduct.description }} />
                 </div>
               </div>
             </div>

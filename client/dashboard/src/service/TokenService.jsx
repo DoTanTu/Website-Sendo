@@ -1,8 +1,8 @@
 
 import { jwtDecode } from "jwt-decode";
-const token = localStorage.getItem('token');
+// const token = localStorage.getItem('token');
 const TokenService = {
-    isTokenExpired: () => {
+    isTokenExpired: (token) => {
         try {
           const decoded = jwtDecode(token);
           if (decoded.exp * 1000 < Date.now()) {

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import ProductService from "../../service/ProductService";
 import { useNavigate } from 'react-router-dom';
 
+
+
 export default function Card() {
   const navigate = useNavigate();
   const [products, setProduct] = useState([]);
@@ -59,9 +61,9 @@ export default function Card() {
                     {values.variants[0].price.toLocaleString()} đ
                   </span>
                 </p>
-                <div className="mt-4 px-2 flex justify-between border-t-[1px] border-[#D3D3D3] pt-2">
-                  <p className="text-sm font-normal text-[#808080]">Địa chỉ:</p>
-                  <p className="text-xs text-[#808080] font-semibold">{values.address}</p>
+                <div className="mt-4 px-2 flex justify-between items-center border-t-[1px] border-[#D3D3D3] pt-2">
+                  <p className="text-sm font-normal text-[#808080] flex-shrink">Địa chỉ:</p>
+                  <p className="text-xs text-[#808080] font-semibold overflow-hidden overflow-ellipsis line-clamp-1">{values.address.split(',').pop().trim()}</p>
                 </div>
               </div>
             </div>

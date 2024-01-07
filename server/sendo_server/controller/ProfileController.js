@@ -17,7 +17,7 @@ class ProfileController {
       res.status(200).json({ data: result[0] });
     });
   }
-  static async updateProfile(req,res){
+  static async  updateProfile(req,res){
     try {
       const { name, address, phoneNumber, gender, birthday, image} = req.body;
       const userId = req.user.id;

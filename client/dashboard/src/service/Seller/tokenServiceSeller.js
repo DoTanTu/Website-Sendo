@@ -1,13 +1,13 @@
 import { jwtDecode } from 'jwt-decode';
 
-const token = localStorage.getItem('token');
+// const token = localStorage.getItem('token');
 const TokenService = {
-    getIdUserByToken: () => {
+    getIdUserByToken: (token) => {
         const idSeller = jwtDecode(token).id;
         return idSeller;
     },
-    getToken:() => {
-        return token
-    }
+    // getToken:() => {
+    //     return token
+    // }
 }
 export default TokenService;
