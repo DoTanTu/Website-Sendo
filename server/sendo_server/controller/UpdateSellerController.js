@@ -10,7 +10,7 @@ class UpdateSellerController{
         }
     }
     static async updateToSeller(req,res){
-        const { supplier_name, address_company, brand, is_seller_request_pending } = req.body;
+        const { supplier_name, address_company, is_seller_request_pending,date_created_request } = req.body;
         const userId = req.user.id;
         try {
             const updatedUser = await updateSeller.getUserById(userId);  
@@ -20,8 +20,8 @@ class UpdateSellerController{
             const result = await updateSeller.updateToSeller(userId, {
                 supplier_name,
                 address_company,
-                brand,
                 is_seller_request_pending: 2,
+                date_created_request
             });    
             const mailOptions = {
                 to: updatedUser.email,

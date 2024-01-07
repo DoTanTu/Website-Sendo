@@ -28,15 +28,20 @@ const UserService = {
             console.log(error);
         }
     },
-    updateToSeller : async (formData,token) => {
+    updateToSeller : async (token, nameCompany, addressCompany, pending, dataCurrent) => {
         try {
-            
-            const respone = await axios.put(`${BASE_URL}/api/profile/update-to-seller`, formData, {
+            const respone = await axios.put(`${BASE_URL}/api/seller/update-to-seller`,
+            {
+                supplier_name : nameCompany,
+                address_company : addressCompany,
+                is_seller_request_pending : pending,
+                date_created_request : dataCurrent
+            }, {
                 headers:{
-                    "Content-Type": "multipart/form-data",
                     Authorization: `Bearer ${token}`
                 }
             });
+            console.log(respone)
             return respone;
         } catch (error) {
             console.log(error);
