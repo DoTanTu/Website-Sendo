@@ -1,17 +1,20 @@
 import React from 'react';
 import { Button } from "@material-tailwind/react";
 import { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
+
 import SellerService from '../../service/Admin/SellerService';
+import Toast from '../Toast';
 
 export default function ItemsRequireSeller() {
 
+  const [id , setId] = useState("");
+  const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [image, setImage] = useState("");
-    const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
     const [date, setDate] = useState("");
     const [status, setStatus] = useState("");
-    const [id , setId] = useState("");
 
     const setData = (data) =>{
       setId(data.id);
@@ -26,7 +29,19 @@ export default function ItemsRequireSeller() {
     const handleCancle = () => {
         alert('Cancle');
     }
-    const handleAccept = () => {
+    const handleAccept = async (e, id) => {
+        e.preventDefault();
+        try{
+          const result = await SellerService.SellerApproved(id);
+          if(result.status === 200){
+            toast.success("Đã duyệt yêu cầu thành công");
+          }else{
+            toast.error("")
+          }
+        }
+        catch(err){
+          console.log(err);
+        }
         alert('Accept');
     }
 
@@ -46,6 +61,7 @@ export default function ItemsRequireSeller() {
   return (
     <tr class="bg-white border-b hover:bg-gray-100 ">
       <td class="w-4 p-4" key={id}>
+        <Toast />
         <div class="flex items-center">
           <input
             id="checkbox-table-search-1"
@@ -82,7 +98,7 @@ export default function ItemsRequireSeller() {
         <Button className='w-[80px] bg-red-100 border border-red-500 rounded-full py-[6px] hover:bg-red-500 hover:text-white text-red-500 mr-2' onClick={() => handleCancle()}>
             Hủy
         </Button>
-        <Button className='w-[80px] px-0 bg-blue-100 border border-blue-500 rounded-full py-[6px] hover:bg-blue-500 hover:text-white text-blue-500' onClick={() => handleAccept(id)}>
+        <Button className='w-[80px] px-0 bg-blue-100 border border-blue-500 rounded-full py-[6px] hover:bg-blue-500 hover:text-white text-blue-500' onClick={(e) => handleAccept(e, id)}>
             Duyệt
         </Button>
       </td>
