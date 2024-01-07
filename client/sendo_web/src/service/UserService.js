@@ -31,7 +31,7 @@ const UserService = {
     updateToSeller : async (formData,token) => {
         try {
             
-            const respone = await axios.put(`${BASE_URL}/api/profile/update`, formData, {
+            const respone = await axios.put(`${BASE_URL}/api/profile/update-to-seller`, formData, {
                 headers:{
                     "Content-Type": "multipart/form-data",
                     Authorization: `Bearer ${token}`
