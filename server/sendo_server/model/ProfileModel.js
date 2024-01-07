@@ -7,11 +7,8 @@ class ProfileModel {
 
   static async updateProfile(id,{name, address, phoneNumber, gender, birthday,image}){
     try {
-      console.log('ID:', id);
-      console.log('Values to be updated:', { name, address, phoneNumber, gender, birthday,image });
       const result = await db.query('UPDATE users SET name = ?, address = ?, phoneNumber = ?, gender = ?, birthday = ?, image =? WHERE id = ?', [name, address, phoneNumber, gender, birthday,image ,id]);      
-      console.log('Update Result:', result);
-      console.log('Profile updated successfully.');
+      return result;
     } catch (error) {
         console.error('Error updating profile:', error);
     }
