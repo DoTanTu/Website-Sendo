@@ -23,7 +23,7 @@ function Login() {
             }else if( role === 0){
                 const respone = await LoginService.sellerLogin(email, password);
                 const token = respone.data.token;
-                if(jwtDecode(token).is_verified === 1 && respone.status === 200){
+                if(jwtDecode(token).is_verified === 1 && jwtDecode(token).is_Seller === 1 && respone.status === 200 ){
                     localStorage.setItem('token', token);
                     alert('Đăng nhập thành công');
                     navigator('/seller') 

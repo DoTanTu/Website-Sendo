@@ -10,8 +10,9 @@ class UpdateSellerController{
         }
     }
     static async updateToSellerRequest(req, res) {
-        const { userId, supplier_name, address_company, date_created_request } = req.body;
-
+        const { supplier_name, address_company, date_created_request, is_seller_request_pending } = req.body;
+        const userId = req.user.id;
+        console.log(supplier_name, address_company, date_created_request,is_seller_request_pending );
         try {
             await updateSeller.updateToSellerRequest(userId, { supplier_name, address_company, date_created_request });
             res.status(200).json({ message: 'Update successful' });
@@ -22,10 +23,16 @@ class UpdateSellerController{
     }
     static async approveSellerRequest(req, res) {
         const { userId } = req.params;
+        console.log("id của user: " + userId); 
         try {
             await updateSeller.approveSellerRequest(userId);
+
+            // Get the user's email
             const userEmail = await updateSeller.getUserEmail(userId);
-            await sendEmailNotification(userEmail, 'Your seller request has been approved!');
+            console.log(userEmail);
+            // Send email notification
+            await sendEmailNotification(userEmail, 'Your seller request has been approved!\n Please access link : http://localhost:4200');
+
             res.status(200).json({ message: 'Approval successful' });
         } catch (error) {
             console.error(error);

@@ -12,7 +12,7 @@ const transformData = (input) => {
           gender: item.gender === 1 ? 'Male' : 'Female',
           category_name: item.category_name,
           seller_name: item.seller_name,
-          address: item.address,
+          address_company: item.address_company,
           image: item.image,
           variants: [],
         };

@@ -4,6 +4,7 @@ import { IoArrowBackOutline } from "react-icons/io5";
 import logo from "../../img/Better_logo_white.png";
 import Toast from "../notification/Toast";
 import {toast } from 'react-toastify';
+import UserService from "../../service/UserService";
 
 export default function UpdateSeller({ checkDataUser }) {
   const [open, setOpen] = useState(false);
@@ -15,16 +16,28 @@ export default function UpdateSeller({ checkDataUser }) {
   const handleOpen = () => {
     const check = checkDataUser();
     if(check === true){
-      toast.warn("Cập nhật đầy đủ profile");
+      toast.warn("Cập nhật đầy đủ thông tin cá nhân");
     }else{
       setOpen(!open);
     }
     
   }
-  const handleSubmit = () => {
-    alert("name" + name + "\n" + "địa chỉ" + "\n" + address + "\n" + "phone " + phone + "\n");
-    setOpen(close)
-    toast.info("Đang gửi yêu cầu");
+  const handleSubmit = async () => {
+    try {
+        const token = localStorage.getItem("token");
+       const result = await UserService.updateToSeller(token, name, address, 1, '2002/05/06');
+       console.log(result);
+       if(result.status === 200){
+        setOpen(close)
+        toast.info("Đang gửi yêu cầu");
+       }else{
+        toast.error("Yêu cầu không thành công");
+       }
+     
+    } catch (error) {
+      console.log(error);
+    }
+
   }
 
   return (

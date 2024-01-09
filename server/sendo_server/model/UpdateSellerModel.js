@@ -15,11 +15,11 @@ class UpdateSellerModel{
             throw error;
         }
     }
-    static async approveSellerRequest(userId, { supplier_name, address_company, date_created_request }) {
+    static async approveSellerRequest(userId) {
         try {
             const result = await db.query(
-                'UPDATE users SET supplier_name = ?, address_company = ?, date_created_request = ?, is_seller_request_pending = 2, is_Seller = 1 WHERE id = ?',
-                [supplier_name, address_company, date_created_request, userId]
+                'UPDATE users SET is_seller_request_pending = 2, is_Seller = 1 WHERE id = ?',
+                [userId]
             );
             return result;
         } catch (error) {

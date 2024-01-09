@@ -14,8 +14,18 @@ const UserService = {
             console.log(error);
         }
     },
-    userRegister : () => {
-
+    userRegister : async (name,email, password) => {
+        try {
+            const respone = await axios.post(`${BASE_URL}/api/register`, {
+                name : name,
+                email : email,
+                password : password,
+            })
+            console.log("đây là kết quả" + respone.status);
+            return respone;
+        } catch (error) {
+            console.log(error);
+        }
     },
     userProfile : async (token) => {
         try {
@@ -28,7 +38,26 @@ const UserService = {
             console.log(error);
         }
     },
-    updateToSeller : async (formData,token) => {
+    updateToSeller : async (token, nameCompany, addressCompany, pending, dataCurrent) => {
+        try {
+            const respone = await axios.put(`${BASE_URL}/api/update-to-seller-request`,
+            {
+                supplier_name : nameCompany,
+                address_company : addressCompany,
+                is_seller_request_pending : pending,
+                date_created_request : dataCurrent
+            }, {
+                headers:{
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            console.log(respone)
+            return respone;
+        } catch (error) {
+            console.log(error);
+        }
+    },
+    updateProfile : async (formData,token) => {
         try {
             
             const respone = await axios.put(`${BASE_URL}/api/profile/update`, formData, {

@@ -4,6 +4,8 @@ import { Input } from "@material-tailwind/react";
 import logo from "../img/Better_logo_white.png";
 import UserService from "../service/UserService";
 import { jwtDecode } from "jwt-decode";
+import { toast } from 'react-toastify';
+import Toast from "../components/notification/Toast";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -17,13 +19,13 @@ export default function Login() {
       const token = respone.data.token;
       const is_Seller = jwtDecode(token).is_Seller;
       const isVerified = jwtDecode(token).is_verified;
-      if(respone.status === 200 && isVerified === 1 && is_Seller === 0){
+      if(respone.status === 200 && isVerified === 1){
         localStorage.setItem('token', token);
         alert("Đăng nhập thành công!");
         navigate("/");
       }
       else if(respone.status === 200 && isVerified === 0){
-        alert('Please check email and complete verified!');
+        toast.warn("Vui lòng verified email trước khi đăng nhập")
       }
     } catch (error) {
       alert("Sai mật khẩu hoặc passwword");
@@ -31,6 +33,7 @@ export default function Login() {
   };
   return (
     <div className="flex p-32 shadow-lg">
+      <Toast />
       <div className="w-3/5 h-[527px] p-12 shadow-lg bg-white rounded-l-2xl">
         <p className="text-2xl text-black ">Xin Chào,</p>
         <p className="pt-2 text-md text-black ">Đăng nhập hoặc Tạo tài khoản</p>

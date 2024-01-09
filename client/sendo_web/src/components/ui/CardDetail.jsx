@@ -5,17 +5,17 @@ import ProductService from "../../service/ProductService";
 import changeSize from "../convert/size";
 import changeColor from "../convert/color";
 import { messageAlert } from "../convert/message";
-import { Button } from '@material-tailwind/react';
+import { Button, Radio } from '@material-tailwind/react';
 import { SlUserFollow } from "react-icons/sl";
 import { IoCall } from "react-icons/io5";
 import { FaStore } from "react-icons/fa";
 
 
-
-
 export default function CardDetail() {
   const { id } = useParams();
   const [value, setValue] = useState(1);
+  const [selectedColor, setSelectedColor] = useState();
+  const [selectedSize, setSelectedSize] = useState();
   const [min_value, setMinValue] = useState(0);
   const [dataProduct, setDataProduct] = useState();
 
@@ -27,6 +27,7 @@ export default function CardDetail() {
     try {
       let temp = await ProductService.getProductDetail(id);
       setDataProduct(temp);
+      setSelectedColor(temp.variants[0].color_id);
     } catch (error) {
       console.log(error);
     }
@@ -45,6 +46,14 @@ export default function CardDetail() {
       }
     }
   };
+
+  const handleColorClick = (colorId) => {
+    setSelectedColor(colorId);
+  };
+
+  const handleSizeClick = (sizeId) => {
+    setSelectedSize(sizeId);
+  }
 
   const addToCart = () => {
     messageAlert();
@@ -76,26 +85,40 @@ export default function CardDetail() {
               <div className="flex gap-3 mt-3 items-center">
                 <p className="my-auto">Chọn màu:</p>
                 {dataProduct.variants
-                  ? dataProduct.variants.map((variant, index) => (
-                      <div className={`w-5 h-5 border-2 border-${changeColor(variant.color_id)} cursor-pointer rounded-full flex items-center justify-center`}>
-                        <div className={`w-4 h-4 bg-${changeColor(variant.color_id)} cursor-pointer rounded-full`}></div>
+                ? [...new Set(dataProduct.variants.map((variant) => variant.color_id))]
+                    .map((uniqueColorId, index) => (
+                      <div
+                        key={index}
+                        className={`w-5 h-5 border-2  cursor-pointer rounded-full flex items-center justify-center ${
+                          selectedColor === uniqueColorId
+                            ? `selected border-${changeColor(uniqueColorId)}`
+                            : ""
+                        }`}
+                        onClick={() => handleColorClick(uniqueColorId)}
+                      >
+                        <div
+                          className={`w-4 h-4 bg-${changeColor(uniqueColorId)} cursor-pointer rounded-full`}
+                          data-color={uniqueColorId}
+                        ></div>
                       </div>
-                  )):null
-                  } 
+                    ))
+                : null}
+
               </div>
               <div className="flex gap-3 mt-6">
                 <p className="my-auto">Chọn size:</p>
-                {dataProduct.variants
-                  ? dataProduct.variants.map((variant, index) => (
-                      <div
-                        key={index} // Hãy thêm key cho mỗi phần tử khi lặp
-                        className="w-12 h-6 bg-blue-gray-300/60 rounded-lg text-center cursor-pointer hover:bg-blue-gray-300/30"
-                        value={variant.size}
-                      >
-                        {changeSize(variant.size_id)}
-                      </div>
-                    ))
-                  : null}
+                {
+                dataProduct.variants
+                    ? dataProduct.variants
+                    .filter((variant) => variant.color_id === selectedColor)
+                    .map((value) => (
+                        <div className={`${selectedSize === value.size_id ? 'border bg-gray-400' : ''}`}
+                        onClick={() => handleSizeClick(value.size_id)}
+                        >
+                          <div className="w-10 flex items-center justify-center py-1 border hover:cursor-pointer">{changeSize(value.size_id)}</div>
+                        </div>
+                    )) :null
+                  }
               </div>
               <div className="flex gap-3 mt-6">
                 <p className="my-auto">Số lượng:</p>
@@ -137,38 +160,50 @@ export default function CardDetail() {
           <div className="descriptionPlus mt-5 my-6 mx-28 rounded-lg">
             <div className="flex">
               <div className="infor_seller w-[430px] bg-white px-4 py-4 rounded-lg sticky top-[50px] me-5 shrink-0 h-fit">
-                  <div className="title_introlduce">
-                    <span className="font-semibold text-xl">Thông tin nhà cung cấp</span>
+                <div className="title_introlduce">
+                  <span className="font-semibold text-xl">
+                    Thông tin nhà cung cấp
+                  </span>
+                </div>
+                <div className="top_seller flex mt-4">
+                  <div className="image_seller w-14 h-14 overflow-hidden rounded-full">
+                    <img
+                      src="https://images.unsplash.com/photo-1463453091185-61582044d556?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDEyfHx8ZW58MHx8fHx8"
+                      className="w-full h-full object-cover"
+                      alt=""
+                    />
                   </div>
-                  <div className="top_seller flex mt-4">
-                    <div className="image_seller w-14 h-14 overflow-hidden rounded-full">
-                      <img src="https://images.unsplash.com/photo-1463453091185-61582044d556?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDEyfHx8ZW58MHx8fHx8" className="w-full h-full object-cover" alt="" />
-                    </div>
-                    <div className="name_seller ms-5 ">
-                      <span className="font-semibold text-lg">Nguyễn văn a</span>
-                      <span className="text-gray-500 block">Hồ chí mính</span>
-                    </div>
+                  <div className="name_seller ms-5 ">
+                    <span className="font-semibold text-lg">Nguyễn văn a</span>
+                    <span className="text-gray-500 block">Hồ chí mính</span>
                   </div>
-                  <div className="bottom_seller mt-5 flex items-center">
-                    <Button className="bg-gray-300 text-gray-700 shadow-none flex items-center py-2 px-4 rounded-md me-3">
-                      <SlUserFollow size={18} className="mr-2"/>
-                      <span>Theo dõi shop</span>
-                    </Button>
-                    <Button className="bg-gray-300 text-gray-700 shadow-none flex items-center py-2 px-4 rounded-md me-3">
-                       <FaStore size={18} className="mr-2" />
-                      <span>Vào shop</span>
-                    </Button>
-                    <Button className="bg-gray-300 text-gray-700 shadow-none flex items-center py-2 px-4 rounded-md ">
-                      <IoCall size={18} className="mr-2" />
-                    </Button>
-                  </div>
+                </div>
+                <div className="bottom_seller mt-5 flex items-center">
+                  <Button className="bg-gray-300 text-gray-700 shadow-none flex items-center py-2 px-4 rounded-md me-3">
+                    <SlUserFollow size={18} className="mr-2" />
+                    <span>Theo dõi shop</span>
+                  </Button>
+                  <Button className="bg-gray-300 text-gray-700 shadow-none flex items-center py-2 px-4 rounded-md me-3">
+                    <FaStore size={18} className="mr-2" />
+                    <span>Vào shop</span>
+                  </Button>
+                  <Button className="bg-gray-300 text-gray-700 shadow-none flex items-center py-2 px-4 rounded-md ">
+                    <IoCall size={18} className="mr-2" />
+                  </Button>
+                </div>
               </div>
               <div className="desc_prod  bg-white px-4 py-4 rounded-lg w-full">
                 <div className="title_desc">
-                  <span className="text-lg font-semibold">Mô tả chi tiết về sản phẩm</span>
+                  <span className="text-lg font-semibold">
+                    Mô tả chi tiết về sản phẩm
+                  </span>
                 </div>
                 <div className="div_content mt-4">
-                  <div dangerouslySetInnerHTML={{ __html: dataProduct.description }} />
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: dataProduct.description
+                    }}
+                  />
                 </div>
               </div>
             </div>
