@@ -7,6 +7,7 @@ const productRouter = require('./router/ProductRouter');
 const categoriesRouter = require('./router/CategoriesRouter');
 const adminRouter = require('./router/AdminRouter');
 const updateSellerRouter = require('./router/UpdateSellerRouter');
+const cartRouter = require('./router/CartRouter');
 const cors = require('cors');
 require('./config/DBConnect');
 require("dotenv").config();
@@ -19,8 +20,7 @@ const storage = multer.memoryStorage(); // Use memory storage for simplicity
 const upload = multer({ storage: storage });
 // Middleware to handle FormData
 app.use(upload.none());
-
-app.use('/api',userRouter,productRouter,categoriesRouter,profileRouter, adminRouter,updateSellerRouter);
+app.use('/api',userRouter,productRouter,categoriesRouter,profileRouter, adminRouter,updateSellerRouter,cartRouter);
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
