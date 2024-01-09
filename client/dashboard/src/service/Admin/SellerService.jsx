@@ -10,9 +10,10 @@ const SellerService = {
             console.log(error);
         }
     },
-    SellerApproved : async (id, supplier_name, address_company, brand, is_seller_request_pending) => {
+    SellerApproved : async (id) => {
         try {
-            const response = await axios.get(`${BASE_URL}/api/seller/update-to-seller`)
+            const response = await axios.put(`${BASE_URL}/api/approve-seller-request/${id}`);
+            console.log(response);
             return response;
         } catch (error) {
             console.log(error);

@@ -8,44 +8,45 @@ import {
 } from "@material-tailwind/react";
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import UserService from "../service/UserService";
+import { toast } from 'react-toastify';
+import Toast from "../components/notification/Toast";
+
 export default function Signup() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    is_Seller: 0,
-    address: "",
-    phoneNumber: "",
-    gender: 0,
-    birthday: "",
-  });
-  const [error, setError] = useState('');
   const navigate = useNavigate();
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [error, setError] = useState('');
+
+  //Xử lý đăng ký từ người dùng
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://192.168.2.20:3000/api/register', formData);
-      console.log(response.data);
-      alert('Registration successful. Check your email for verification.');
-      navigate('/login');
+      const result = await UserService.userRegister(name, email, password);
+      console.log(result.status);
+      if(result.status === 200){
+        toast.success("Tạo tài khoản thành công, vui lòng check email");
+        setTimeout(() => {
+          navigate('/login');
+        }, "2000");
+      }else 
+        if(result.status === 400){
+          toast.warn("Email này đã tồn tại, vui lòng chọn email khác");
+        }
+        else{
+          toast.error("Tạo tài khoản không thành công!");
+        }
     } catch (error) {
-      if (error.response) {
-        setError(error.response.data);
-      } else {
-        console.error('Unexpected error:', error);
-        setError('Unexpected error occurred');
-      }
+       console.log(error);
     }
   };
   return (
     <>
       <div className="flex justify-center place-items-center h-screen bg-red-500 ">
+        <Toast />
       <Card className="px-7 py-5 h-[650px] max-w-[450px]" shadow={false}>
         <Link to="/">
           <Button className="px-6 hover:bg-red-500 hover:text-white py-1 text-black bg-transparent mb-5">Back</Button>
@@ -70,8 +71,7 @@ export default function Signup() {
                 className: "before:content-none after:content-none",
               }}
               name="name"
-              value={formData.name}
-              onChange={handleChange}
+              onChange={ e => setName(e.target.value)}
             />
             <Typography variant="h6" color="blue-gray" className="-mb-3">
               Email của bạn
@@ -85,8 +85,7 @@ export default function Signup() {
               }}
               name="email"
               type="email"
-              value={formData.email}
-              onChange={handleChange}
+              onChange={e => setEmail(e.target.value)}
             />
             {error && (
             <div className="text-red-500 text-sm mb-4">
@@ -105,8 +104,7 @@ export default function Signup() {
                 className: "before:content-none after:content-none",
               }}
               name="password"
-              value={formData.password}
-              onChange={handleChange}
+              onChange={e => setPassword(e.target.value)}
             />
           </div>
           <Button className="bg-red-600 mt-10" fullWidth type="submit">

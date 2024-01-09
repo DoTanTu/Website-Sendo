@@ -16,7 +16,7 @@ export default function UpdateSeller({ checkDataUser }) {
   const handleOpen = () => {
     const check = checkDataUser();
     if(check === true){
-      toast.warn("Cập nhật đầy đủ profile");
+      toast.warn("Cập nhật đầy đủ thông tin cá nhân");
     }else{
       setOpen(!open);
     }

@@ -41,7 +41,7 @@ export default function Profile() {
   }
 
   const checkDataUser = () => {
-    if(address === "" || address === "" || phone === "" || file === "" || file === null){
+    if(address === null || phone === null || birthday === null){
       return true;
     }else{
       return false;
@@ -61,6 +61,7 @@ export default function Profile() {
         const respone = await UserService.userProfile(token);
         setData(respone.data);
         fillData(respone.data);
+        console.log(respone.data);
       }
     } catch (error) {
       console.log(error);
@@ -70,7 +71,6 @@ export default function Profile() {
   function handleChange(e) {
     setFile(URL.createObjectURL(e.target.files[0]));
     setImage(e.target.files[0]);
-    console.log("Giá trị sau khi thay đổi của image " + image);
   }
 
   const uploadImage = () => {
@@ -103,12 +103,16 @@ export default function Profile() {
   //---------Nhận form data và token sau đó gọi api để gửi dữ liệu đi
   const updateFunction = async (formData, token) => {
     try {
-      const result = await UserService.updateToSeller(formData, token);
+      const result = await UserService.updateProfile(formData, token);
       return result.status;
     } catch (error) {
       console.log(error);
     }
   };
+
+  // const redirectToOtherPage = () => {
+  //   window.location.href = 'http://localhost:4200/';
+  // };
 
   //----------Thực hiện khi lần đầu tiên trang load
   useEffect(() => {
@@ -144,17 +148,14 @@ export default function Profile() {
             <div className="w-1/3 mb-10">
               <div className="">
                 <div className="w-56 h-56 p-1 bg-red-500 mx-auto my-4 mt-8 rounded-full relative">
-                  {
-                    file ? (
-                      <img
+                  {file ? (
+                    <img
                       className="object-cover w-full h-full mx-auto rounded-full"
                       src={file}
                     />
-                    ):
-                    (
-                      <FaUserCircle className="w-full h-full text-gray-100" />
-                    )
-                  }
+                  ) : (
+                    <FaUserCircle className="w-full h-full text-gray-100" />
+                  )}
                   <div className="editImage absolute bottom-0 right-5 w-10 h-8 bg-gray-300 z-20 rounded-lg">
                     <input
                       key={file}
@@ -171,7 +172,19 @@ export default function Profile() {
                   {data.name}
                 </h1>
                 <div className="flex justify-center">
-                  <UpdateSeller checkDataUser={checkDataUser} />
+                  {data.is_seller_request_pending === 2 ? (
+                    <div className="mt-3">
+                      <button
+                        className=" bg-blue-400 p-2 px-5  text-xl font-bold text-white rounded-lg hover:bg-red-600"
+                      >
+                       <a href="http://localhost:4200/" target="_blank">
+                       Đến trang bán hàng
+                       </a>
+                      </button>
+                    </div>
+                  ) : (
+                    <UpdateSeller checkDataUser={checkDataUser} />
+                  )}
                 </div>
               </div>
             </div>

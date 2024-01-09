@@ -63,7 +63,10 @@ export default function Card() {
                 </p>
                 <div className="mt-4 px-2 flex justify-between items-center border-t-[1px] border-[#D3D3D3] pt-2">
                   <p className="text-sm font-normal text-[#808080] flex-shrink">Địa chỉ:</p>
-                  <p className="text-xs text-[#808080] font-semibold overflow-hidden overflow-ellipsis line-clamp-1">{values.address.split(',').pop().trim()}</p>
+                  <p className="text-xs text-[#808080] font-semibold overflow-hidden overflow-ellipsis line-clamp-1">{
+                    values.address_company ? 
+                    values.address_company.split(',').pop().trim() : null
+                  }</p>
                 </div>
               </div>
             </div>

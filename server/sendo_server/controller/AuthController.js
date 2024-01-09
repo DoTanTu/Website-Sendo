@@ -44,7 +44,7 @@ class AuthController {
     });
   }
     static signup(req, res) {
-      const { name, email, password, is_Seller, address, phoneNumber, gender, birthday } = req.body;
+      const { name, email, password } = req.body;
       UserModel.findUserByEmail(email, (err, existingUser) => {
       if (err) {
         return res.status(500).send('Internal Server Error');
@@ -63,11 +63,6 @@ class AuthController {
           name,
           email,
           password,
-          is_Seller,
-          address,
-          phoneNumber,
-          gender,
-          birthday,
           verification_token,
         };
 
@@ -78,7 +73,7 @@ class AuthController {
             return res.status(500).send('Internal Server Error');
           }
 
-          const verificationLink = `http://192.168.2.20:3000/api/verify?token=${verification_token}`;
+          const verificationLink = `http://localhost:3000/api/verify?token=${verification_token}`;
           const mailOptions = {
             to: email,
             subject: 'Email Verification',
@@ -92,7 +87,7 @@ class AuthController {
               return res.status(500).send('Internal Server Error');
             }
             console.log(`Email sent: ${info.response}`);
-            res.status(200).send('Registration successful. Check your email for verification.');
+            res.status(200).send('Registration successful. Check your email for verification. \n Quay lại đăng nhập theo link sau: http://localhost:4000/login');
           });
         });
       });

@@ -8,7 +8,7 @@ class ProductModel{
             p.description,
             c.category_name,
             u.supplier_name AS seller_name,
-            u.address,
+            u.address_company,
             p.image,
             pv.variant_id,
             s.size_name,

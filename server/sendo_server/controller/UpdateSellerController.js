@@ -9,37 +9,52 @@ class UpdateSellerController{
             return res.status(500).json({ error: 'Internal Server Error' });
         }
     }
-    static async updateToSeller(req,res){
-        const { supplier_name, address_company, is_seller_request_pending,date_created_request } = req.body;
+    static async updateToSellerRequest(req, res) {
+        const { supplier_name, address_company, date_created_request, is_seller_request_pending } = req.body;
         const userId = req.user.id;
+        console.log(supplier_name, address_company, date_created_request,is_seller_request_pending );
         try {
-            const updatedUser = await updateSeller.getUserById(userId);  
-            if (updatedUser.is_seller_request_pending !== 1) {
-                return res.status(400).json({ error: 'User is not pending for seller approval.' });
-            }   
-            const result = await updateSeller.updateToSeller(userId, {
-                supplier_name,
-                address_company,
-                is_seller_request_pending: 2,
-                date_created_request
-            });    
-            const mailOptions = {
-                to: updatedUser.email,
-                subject: 'Account Approved',
-                html: sellerApprovalEmail(),
-            };    
-            mailer.sendMail(mailOptions, (mailError, info) => {
-                if (mailError) {
-                    console.error(mailError);
-                    return res.status(500).json({ error: 'Internal Server Error' });
-                }
-                console.log(`Email sent: ${info.response}`);
-                res.status(200).json(result);
-            });
+            await updateSeller.updateToSellerRequest(userId, { supplier_name, address_company, date_created_request });
+            res.status(200).json({ message: 'Update successful' });
         } catch (error) {
-            console.error('Error in updateToSeller:', error);
+            console.error(error);
             res.status(500).json({ error: 'Internal Server Error' });
         }
+    }
+    static async approveSellerRequest(req, res) {
+        const { userId } = req.params;
+        console.log("id của user: " + userId); 
+        try {
+            await updateSeller.approveSellerRequest(userId);
+
+            // Get the user's email
+            const userEmail = await updateSeller.getUserEmail(userId);
+            console.log(userEmail);
+            // Send email notification
+            await sendEmailNotification(userEmail, 'Your seller request has been approved!\n Please access link : http://localhost:4200');
+
+            res.status(200).json({ message: 'Approval successful' });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    }
+    
+}
+async function sendEmailNotification(to, message) {
+    const mailOptions = {
+        from: process.env.email,
+        to,
+        subject: 'Seller Request Approval Notification',
+        text: message,
+    };
+
+    try {
+        await mailer.sendMail(mailOptions);
+        console.log('Email sent successfully.');
+    } catch (error) {
+        console.error('Error sending email:', error);
+        throw error;
     }
 }
 module.exports = UpdateSellerController;

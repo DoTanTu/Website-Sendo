@@ -27,6 +27,7 @@ export default function ItemsRequireSeller() {
           console.log(result);
           if(result.status === 200){
             toast.success("Đã duyệt yêu cầu thành công");
+            fetchData();
           }else{
             toast.error("")
           }

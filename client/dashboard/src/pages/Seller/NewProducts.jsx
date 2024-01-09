@@ -35,7 +35,7 @@ export default function NewProducts() {
   const [gender, setGender] = useState(0);
   const [selectedOption, setSelectedOption] = useState("ao");
   const [availableSizes, setAvailableSizes] = useState(availableShirts);
-  const [availableColors, setAvailableColors] = useState(["Đỏ","Đen","Xanh","Vàng","Trắng"]);
+  const [availableColors, setAvailableColors] = useState(['Trắng', 'Đen', 'Vàng', 'Đỏ', 'Xám', 'Xanh da trời', 'Xanh lá cây']);
   const [items, setItems] = useState([{ color: "", size: "", quantity: "", price: "" }]);
 
   

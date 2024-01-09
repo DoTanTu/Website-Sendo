@@ -4,10 +4,10 @@ class UserModel {
   static findUser(email, password, callback) {
     db.query('SELECT * FROM users WHERE email = ? AND password = ?', [email, password], callback);
   }
-  static createUser(user, callback) {
+  static  createUser(user, callback) {
     db.query('INSERT INTO users SET ?', user, callback);
   }
-  static findUserByEmail(email, callback) {  
+  static  findUserByEmail(email, callback) {  
       db.query('SELECT * FROM users WHERE email = ?', [email], (err, result) => {
         if (err) {
           return callback(err, null);
