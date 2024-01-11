@@ -1,5 +1,5 @@
 import Swal from 'sweetalert2';
-const messageAlert = () => {
+const messageAlertSuccess = () => {
     Swal.fire({
         position: "top-center",
         icon: "success",
@@ -11,4 +11,28 @@ const messageAlert = () => {
         timer: 2500
       });   
 }
-export {messageAlert}
+const messageAlertError = () => {
+  Swal.fire({
+      position: "top-center",
+      icon: "error",
+      fontSize: "12px",
+      padding: "8px",
+      width: "420px",
+      title: "Thêm thất bại",
+      showConfirmButton: false,
+      timer: 2500
+    });   
+}
+const messageAlertWarning = () => {
+  Swal.fire({
+      position: "top-center",
+      icon: "warning",
+      fontSize: "12px",
+      padding: "8px",
+      width: "420px",
+      title: "Chọn kích thước và số lượng",
+      showConfirmButton: false,
+      timer: 2500
+    });   
+}
+export {messageAlertSuccess , messageAlertError, messageAlertWarning }
