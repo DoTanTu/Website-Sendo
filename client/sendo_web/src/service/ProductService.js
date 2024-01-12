@@ -10,6 +10,6 @@ const ProductService = {
     getProductDetail: async (id) => {
         const respone = await axios.get(`${BASE_URL}/product/${id}`);
         return respone.data;
-    }
+    },
 }
 export default ProductService;

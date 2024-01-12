@@ -190,7 +190,7 @@ export default function CardDetail() {
           </div>
           <div className="descriptionPlus mt-5 my-6 mx-28 rounded-lg">
             <div className="flex">
-              <div className="infor_seller w-[430px] bg-white px-4 py-4 rounded-lg sticky top-[50px] me-5 shrink-0 h-fit">
+              <div className="infor_seller hover:cursor-pointer w-[430px] bg-white px-4 py-4 rounded-lg sticky top-[50px] me-5 shrink-0 h-fit">
                 <div className="title_introlduce">
                   <span className="font-semibold text-xl">
                     Thông tin nhà cung cấp
@@ -199,14 +199,14 @@ export default function CardDetail() {
                 <div className="top_seller flex mt-4">
                   <div className="image_seller w-14 h-14 overflow-hidden rounded-full">
                     <img
-                      src="https://images.unsplash.com/photo-1463453091185-61582044d556?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDEyfHx8ZW58MHx8fHx8"
+                      src={dataProduct.image_seller}
                       className="w-full h-full object-cover"
                       alt=""
                     />
                   </div>
                   <div className="name_seller ms-5 ">
-                    <span className="font-semibold text-lg">Nguyễn văn a</span>
-                    <span className="text-gray-500 block">Hồ chí mính</span>
+                    <span className="font-semibold text-lg hover:text-red-500">{dataProduct.name_seller}</span>
+                    <span className="text-gray-500 block">{dataProduct.address_seller}</span>
                   </div>
                 </div>
                 <div className="bottom_seller mt-5 flex items-center">

@@ -76,8 +76,12 @@ class ProductModel{
       }
     static async getProductById(productId){
       try {
-        const getProductById = ` SELECT * FROM Products
-        WHERE id = ?`;
+        // const getProductById = ` SELECT * FROM Products
+        // WHERE id = ?`;
+        const getProductById =`SELECT products.*, users.name as name_seller, users.image as image_seller, users.address_company as address_seller
+                                FROM products
+                                INNER JOIN users ON products.users_id = users.id
+                                WHERE products.id = ?`
         const getProductVariantById = `SELECT * FROM ProductVariants
         WHERE product_id = ?`;
         const [product, variants] = await Promise.all([
@@ -85,7 +89,6 @@ class ProductModel{
           db.query(getProductVariantById, [productId]),
         ]);
         const productWithVariants = { ...product[0], variants };
-
         return productWithVariants;
       } catch (error) {
         throw error;

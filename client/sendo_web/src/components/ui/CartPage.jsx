@@ -2,9 +2,11 @@ import React, {useEffect, useState} from 'react';
 import { Button } from '@material-tailwind/react';
 import { VscTrash } from "react-icons/vsc";
 import CartService from '../../service/CartService';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 export default function CartPage() {
+  const navigate = useNavigate();
   const [count, setCount] = useState(1);
   const [dataCart , setDataCart] = useState();
 
@@ -22,6 +24,7 @@ export default function CartPage() {
     try {
       const token = localStorage.getItem('token');
       const result = await CartService.getCarts(token);
+      console.log(result.data);
       setDataCart(result.data);
     } catch (error) {
       console.log(error);
