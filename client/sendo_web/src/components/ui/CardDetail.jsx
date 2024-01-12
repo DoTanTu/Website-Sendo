@@ -4,16 +4,18 @@ import { useParams} from "react-router-dom";
 import ProductService from "../../service/ProductService";
 import changeSize from "../convert/size";
 import changeColor from "../convert/color";
-import { messageAlert } from "../convert/message";
+import { messageAlertSuccess, messageAlertError,messageAlertWarning } from "../convert/message";
 import { Button, Radio } from '@material-tailwind/react';
 import { SlUserFollow } from "react-icons/sl";
 import { IoCall } from "react-icons/io5";
 import { FaStore } from "react-icons/fa";
+import CartService from "../../service/CartService";
 
 
 export default function CardDetail() {
   const { id } = useParams();
   const [value, setValue] = useState(1);
+  const [variant, setVariant] = useState();
   const [selectedColor, setSelectedColor] = useState();
   const [selectedSize, setSelectedSize] = useState();
   const [min_value, setMinValue] = useState(0);
@@ -33,9 +35,18 @@ export default function CardDetail() {
     }
   };
 
-  const onPress = (e) => {
-    const number = Number(e.target.value);
+  const handleIncrease = () => {
+      var value_increase = parseInt(value);
+      setValue( value_increase += 1)
+  }
 
+  const handleDecrease = () => {
+    var value_decrease = parseInt(value);
+    setValue(value_decrease -= 1)
+  }
+  const onPress = (e) => {
+    const number = e.target.value;
+    alert(number);
     if (e.target.id === "button-plus") {
       setValue(value + number);
     } else if (e.target.id === "button-minus") {
@@ -51,12 +62,31 @@ export default function CardDetail() {
     setSelectedColor(colorId);
   };
 
-  const handleSizeClick = (sizeId) => {
+  const handleSizeClick = (sizeId, variant_id) => {
+    setVariant(variant_id);
     setSelectedSize(sizeId);
   }
 
-  const addToCart = () => {
-    messageAlert();
+  const addToCart = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const id_product = dataProduct.id;
+      const id_variant = variant;
+      const quantity = value;
+      if(id_product && id_variant && quantity) { 
+        const result = await CartService.addToCart(token, id_product, id_variant, quantity);
+        if(result.status === 201){
+          messageAlertSuccess();
+        }
+        else{
+          messageAlertError();
+        }
+      }else{
+        messageAlertWarning();
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
   return (
     <>
@@ -113,7 +143,7 @@ export default function CardDetail() {
                     .filter((variant) => variant.color_id === selectedColor)
                     .map((value) => (
                         <div className={`${selectedSize === value.size_id ? 'border bg-gray-400' : ''}`}
-                        onClick={() => handleSizeClick(value.size_id)}
+                        onClick={() => handleSizeClick(value.size_id, value.variant_id)}
                         >
                           <div className="w-10 flex items-center justify-center py-1 border hover:cursor-pointer">{changeSize(value.size_id)}</div>
                         </div>
@@ -125,13 +155,14 @@ export default function CardDetail() {
                 <button
                   className="border p-3"
                   id="button-minus"
-                  onClick={onPress}
+                  onClick={e => handleDecrease()}
                 >
                   -
                 </button>
 
                 <input
                   className="border p-2"
+                  key={value}
                   type="number"
                   value={value}
                   onChange={(e) => setValue(e.target.value)}
@@ -139,7 +170,7 @@ export default function CardDetail() {
                 <button
                   className="border p-3"
                   id="button-plus"
-                  onClick={onPress}
+                  onClick={e => handleIncrease()}
                 >
                   +
                 </button>
@@ -159,7 +190,7 @@ export default function CardDetail() {
           </div>
           <div className="descriptionPlus mt-5 my-6 mx-28 rounded-lg">
             <div className="flex">
-              <div className="infor_seller w-[430px] bg-white px-4 py-4 rounded-lg sticky top-[50px] me-5 shrink-0 h-fit">
+              <div className="infor_seller hover:cursor-pointer w-[430px] bg-white px-4 py-4 rounded-lg sticky top-[50px] me-5 shrink-0 h-fit">
                 <div className="title_introlduce">
                   <span className="font-semibold text-xl">
                     Thông tin nhà cung cấp
@@ -168,14 +199,14 @@ export default function CardDetail() {
                 <div className="top_seller flex mt-4">
                   <div className="image_seller w-14 h-14 overflow-hidden rounded-full">
                     <img
-                      src="https://images.unsplash.com/photo-1463453091185-61582044d556?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDEyfHx8ZW58MHx8fHx8"
+                      src={dataProduct.image_seller}
                       className="w-full h-full object-cover"
                       alt=""
                     />
                   </div>
                   <div className="name_seller ms-5 ">
-                    <span className="font-semibold text-lg">Nguyễn văn a</span>
-                    <span className="text-gray-500 block">Hồ chí mính</span>
+                    <span className="font-semibold text-lg hover:text-red-500">{dataProduct.name_seller}</span>
+                    <span className="text-gray-500 block">{dataProduct.address_seller}</span>
                   </div>
                 </div>
                 <div className="bottom_seller mt-5 flex items-center">

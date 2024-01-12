@@ -12,6 +12,7 @@ import { BiImageAdd } from "react-icons/bi";
 import {ref,uploadBytes,getDownloadURL} from "firebase/storage";
 import { storage } from "../components/createImage/firebase";
 import { v4 } from "uuid";
+import Toast from "../components/notification/Toast";
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -130,7 +131,7 @@ export default function Profile() {
     }
     setDataForm(formData, filePath);
     const result = await updateFunction(formData, token);
-    if(result == 200){
+    if(result === 200){
       toast.success("Cập nhật tài khoản thành công");
     }else{
       toast.error("Cập nhật thất bại");
@@ -300,6 +301,7 @@ export default function Profile() {
           </div>
         ) : null}
       </div>
+      <Toast />
       <Footer />
     </div>
   );
