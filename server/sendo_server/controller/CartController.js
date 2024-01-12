@@ -27,5 +27,30 @@ class CartController{
           res.status(500).json({ error: 'Internal Server Error' });
         }
       }
+    static deleteProductInCart(req,res){
+      const cartId = req.params.id;
+      cartModel.deleteProduct(cartId, (error, result) => {
+        if (error) {
+          console.error('Error deleting cart:', error);
+          return res.status(500).json({ error: 'Internal Server Error' });
+        }  
+        res.status(200).json({ message: 'Cart deleted successfully', data: result });
+      });
+    }
+    static async updateVariant(req, res) {
+      try {
+        const { variant_id } = req.body;
+        const cartId = req.params.id;
+        const userId = req.user.id;
+  
+        const result = await cartModel.updateVariantInCart(userId, cartId, variant_id);
+  
+        res.status(200).json(result);
+        console.log('Update cart successfully');
+      } catch (error) {
+        console.error('Error updating cart:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+      }
+    }
 }
 module.exports = CartController;

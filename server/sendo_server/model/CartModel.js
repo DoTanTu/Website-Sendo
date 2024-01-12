@@ -83,5 +83,26 @@ class CartModel {
           });
         });
       }
+      static async updateVariantInCart(user_id, cart_id, variant_id) {
+        const query = `
+          UPDATE Carts
+          SET variant_id = ?
+          WHERE cart_id = ? AND user_id = ?;
+        `;
+        return new Promise((resolve, reject) => {
+          db.query(query, [variant_id, cart_id, user_id], (error, result) => {
+            if (error) {
+              reject(error);
+            } else {
+              resolve(result);
+            }
+          });
+        });
+      }
+
+    static deleteProduct(cart_id,callback){
+        const query = `DELETE FROM Carts WHERE cart_id = ?`;
+        db.query(query,[cart_id],callback);
+    }
 }
 module.exports = CartModel;

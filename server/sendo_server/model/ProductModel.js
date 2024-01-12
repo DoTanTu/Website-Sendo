@@ -177,5 +177,14 @@ class ProductModel{
       throw error;
     }
   }
+  static async searchProductByName(product_name){
+    try {
+      const query = `SELECT * FROM Products WHERE product_name = ?`;
+      const data = await db.query(query,[product_name]);
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 module.exports = ProductModel;
