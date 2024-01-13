@@ -52,14 +52,12 @@ class CategoriesController{
     }
   
     static deleteCategory(req, res) {
-      const categoryId = req.params.id;
-  
+      const categoryId = req.params.id;  
       categoriesModel.deleteCategory(categoryId, (error, result) => {
         if (error) {
           console.error('Error deleting category:', error);
           return res.status(500).json({ error: 'Internal Server Error' });
-        }
-  
+        }  
         res.status(200).json({ message: 'Category deleted successfully', data: result });
       });
     }
