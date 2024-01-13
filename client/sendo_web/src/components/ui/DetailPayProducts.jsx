@@ -1,6 +1,22 @@
 import React from "react";
+import { useEffect } from "react";
+import PaymentService from "../../service/PaymentService";
 
 export default function DetailPayProducts() {
+  const fetchData = async () => {
+    try {
+      console.log('hafm duojc goi')
+      const response = await PaymentService.returnPayment();
+      console.log("helloer");
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    fetchData();
+  },[])
   return (
     <div>
       {" "}

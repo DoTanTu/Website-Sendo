@@ -2,6 +2,11 @@ import { useState, useEffect } from "react";
 import logo from "../img/Better_logo.png";
 import DetailPayProducts from "../components/ui/DetailPayProducts";
 import ShoppingStatus from "../components/ui/ShoppingStatus";
+import UserService from "../service/UserService";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import TokenExtraction from "../service/TokenExtraction";
+import PaymentService from "../service/PaymentService";
 
 export default function Checkout() {
   const [data, setData] = useState([]);
@@ -10,18 +15,28 @@ export default function Checkout() {
   const [email, setEmail] = useState("");
   const [birthday, setBirthday] = useState("");
   const [address, setAddress] = useState("");
+  const [addressOrder, setAddressOrder] = useState("");
+  const [urlResponse , setUrlResponse] = useState("");
 
   //----------Tạo mới form
-  const formData = new FormData();
 
-  //----------Fill dữ liệu nhận được vào giao diện
-  const fillData = (data) => {
-    setName(data.name);
-    setEmail(data.email);
+  const [paymentInfo, setPaymentInfo] = useState({
+    amount: 10000, // Số tiền thanh toán
+    orderDescription: 'mua+san+pham+abc', // Mô tả đơn hàng
+    orderType: 'other', // Loại đơn hàng
+    language: 'vn', // Ngôn ngữ
+    bankCode: '', // Mã ngân hàng (nếu có)
+  });
 
-    setPhone(data.phoneNumber);
-
-    setAddress(data.address);
+  const handlePayment = async () => {
+    try {
+      const response = await PaymentService.createPayment(paymentInfo);
+      setUrlResponse(response.data);
+      console.log(response.data);
+      window.location.href = response.data;
+    } catch (error) {
+      console.error('Error creating payment:', error);
+    }
   };
 
   //----------Lấy thông tin của người dùng
@@ -37,23 +52,27 @@ export default function Checkout() {
       } else {
         const respone = await UserService.userProfile(token);
         setData(respone.data);
-        fillData(respone.data);
+        setupDataInfor(respone.data);
       }
     } catch (error) {
       console.log(error);
     }
   };
 
-  //----------Đưa dữ liệu vào form data
-  const setDataForm = (formData) => {
-    formData.append("name", name),
-      formData.append("address", address),
-      formData.append("phoneNumber", phone),
-      formData.append("gender", gender),
-      formData.append("birthday", birthday);
-  };
+  const setupDataInfor = (data) => {
+    setName(data.name);
+    setPhone(data.phoneNumber);
+    setEmail(data.email);
+    setAddress(data.address);
+  }
+
+  useEffect(() => {
+    getInfor();
+  },[])
   return (
-    <div className=" bg-[#DA251E] w-full h-max py-8 px-48">
+    <>
+    <Navbar />
+    <div className=" bg-white/30 w-full h-max py-8 px-48">
       <div className="w-full h-max bg-white shadow-md shadow-black/30 rounded-lg p-2">
         <div className="flex justify-between items-center px-6">
           <img className="h-16" src={logo} alt="" />
@@ -116,8 +135,8 @@ export default function Checkout() {
                   </p>
                   <input
                     type="text"
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
+                    value={addressOrder}
+                    onChange={(e) => setAddressOrder(e.target.value)}
                     className=" border-l-[3px] border-l-red-400  px-2 py-2 focus:outline-2 focus:outline-gray-400"
                   />
                 </div>
@@ -176,12 +195,16 @@ export default function Checkout() {
               Nhấn "Đặt hàng" đồng nghĩa với việc bạn đồng ý tuân theo Điều
               khoản Better
             </p>
-            <button className=" bg-red-500 p-3 px-7 text-md font-bold text-white rounded-lg hover:bg-red-500/60 ">
+            <button className=" bg-red-500 p-3 px-7 text-md font-bold text-white rounded-lg hover:bg-red-500/60 " onClick={handlePayment}>
               Đặt Hàng
             </button>
+           
           </div>
+          <div className="flex-wrap" key={urlResponse}>{urlResponse}</div>
         </div>
       </div>
     </div>
+    <Footer />
+    </>
   );
 }

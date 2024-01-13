@@ -20,6 +20,10 @@ export default function CartPage() {
     setCount(count + 1);
   };
 
+  const handleRedirectCheckout = () => {
+    navigate('/checkout');
+  }
+
   const fetchData = async () => {
     try {
       const token = localStorage.getItem('token');
@@ -88,6 +92,9 @@ export default function CartPage() {
               }
              
             </div>
+            <div className='update_cart flex justify-end'>
+              <Button className='bg-green-400 w-18'>Cập nhật</Button>
+            </div>
           </div>
           <div className="right_checkout w-[400px] mt-10 bg-white rounded-sm shadow-sm h-fit">
             <div className="header_checkout  px-5 border-b-2 py-4">
@@ -99,7 +106,7 @@ export default function CartPage() {
                 <span className='font-semibold text-red-600'>400.000 đ</span>
               </div>
               <div className="btn_checkout mt-5 flex justify-center">
-                <Button className='bg-red-500 w-full'>Mua hàng</Button>
+                <Button className='bg-red-500 w-full' onClick={handleRedirectCheckout}>Mua hàng</Button>
               </div>
             </div>
           </div>
