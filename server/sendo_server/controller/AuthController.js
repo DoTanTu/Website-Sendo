@@ -35,7 +35,7 @@ class AuthController {
           id: users.id,
           name : users.name,
         };
-        const token = jwt.sign(tokenPayload, 'your_secret_key', { expiresIn: '1h' });
+        const token = jwt.sign(tokenPayload, 'your_secret_key', { expiresIn: '2h' });
         return res.status(200).json({ token });
       } else {
         // Invalid credentials

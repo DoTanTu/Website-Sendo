@@ -8,4 +8,7 @@ router.put('/update/product/:productId',Authenticate.authenticateToken,productCo
 router.get('/product/:productId',productController.getProductById);
 router.delete('/delete/product/:productId',Authenticate.authenticateToken,productController.deleteProduct);
 router.get('/seller/product/:sellerId',Authenticate.authenticateToken,productController.getProductBySeller);
+router.get('/search-name/:name',productController.searchProductByName);
+router.get('/search-and-filter-by-price/:minPrice/:maxPrice', productController.searchAndFilterProductsByPrice);
+router.get('/search-and-filter-by-gender/:gender', productController.searchAndFilterProductsByGender);
 module.exports = router;
