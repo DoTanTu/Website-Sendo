@@ -1,42 +1,55 @@
-const db = require('../config/DBConnect');
-class OrderModel{
-    static async addOrder(user_id, payment_id, address_delivery, cart_ids) {
-        try {
-            const [orderResult] = await db.query(
-              'INSERT INTO Orders (user_id, payment_id, address_delivery) VALUES (?, ?, ?)',
-              [user_id, payment_id, address_delivery]
-            );
-            const orderId = orderResult.insertId;
-      
-            for (const cartId of cart_ids) {
-              await db.query('INSERT INTO OrderCarts (order_id, cart_id) VALUES (?, ?)', [orderId, cartId]);
-            }
-      
-            const [orderDetails] = await db.query(
-              'SELECT Carts.product_id, Carts.quantity, Carts.price FROM OrderCarts JOIN Carts ON OrderCarts.cart_id = Carts.cart_id WHERE OrderCarts.order_id = ?',
-              [orderId]
-            );
-      
-            for (const detail of orderDetails) {
-              await db.query(
-                'INSERT INTO OrderDetails (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)',
-                [orderId, detail.product_id, detail.quantity, detail.price]
-              );
-            }
-      
-            return { order_id: orderId, success: true, message: 'Order created successfully' };
-          } catch (error) {
-            throw error;
-          }
-        }
-    static async choosePaymentMethod(){
-      try {
-        const query = `SELECT * FROM PaymentMethod`;
-        const result = db.query(query);
-        return result;
-      } catch (error) {
-        throw error;
+const db = require("../config/DBConnect");
+class OrderModel {
+  static async addOrder(userId, paymentId, cardId, totalAmount, addressDelivery, cartItems) {
+    try {
+      const orderQuery = `INSERT INTO Orders (user_id, payment_id, card_id, order_date, total_amount, address_delivery) VALUES (?, ?, ?, CURRENT_TIMESTAMP, ?, ?)`;
+      const [orderResult] = await db.query(orderQuery, [userId, paymentId, cardId, totalAmount, addressDelivery]);
+      const orderId = orderResult.insertId;
+      const orderDetailQuery = `INSERT INTO OrderDetails (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)`;
+      for (const cartItem of cartItems) {
+        await db.query(orderDetailQuery, [orderId, cartItem.product_id, cartItem.quantity, cartItem.price]);
       }
+      return orderId;
+    } catch (error) {
+      console.error('Error adding order:', error);
+      throw error;
     }
+  }
+  
+  static async choosePaymentMethod() {
+    try {
+      const query = `SELECT * FROM PaymentMethod`;
+      const result = db.query(query);
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  }
+  static async getOrdersByUser(userId) {
+    try {
+      const query = `
+        SELECT * FROM Orders
+        WHERE user_id = ${userId}
+        ORDER BY order_date DESC;
+      `;
+      const result = await db.query(query);
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  }
+  static async updateOrderStatus(orderId, newStatus) {
+    try {
+      const updateQuery = `
+              UPDATE Orders
+              SET status = 1
+              WHERE order_id = ?;
+          `;
+      const result = await db.query(updateQuery, [newStatus, orderId]);
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 module.exports = OrderModel;
