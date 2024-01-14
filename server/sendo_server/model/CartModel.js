@@ -6,6 +6,7 @@ class CartModel {
         Products.product_name,
         Users.supplier_name,
         Users.id,
+        Carts.cart_id,
         Products.image,
         Carts.quantity,
         ProductVariants.price,

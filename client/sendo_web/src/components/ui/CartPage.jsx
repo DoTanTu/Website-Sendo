@@ -20,6 +20,14 @@ export default function CartPage() {
     setCount(count + 1);
   };
 
+  const handleRedirectCheckout = () => {
+    navigate('/checkout');
+  }
+
+  const handleDeleteItem = (id) => {
+    alert(id);
+  }
+
   const fetchData = async () => {
     try {
       const token = localStorage.getItem('token');
@@ -79,14 +87,17 @@ export default function CartPage() {
                     <span className='text-red-500'>{value.price.toLocaleString()}</span>
                     </div>
                     <div className="delete_prod">
-                    <span className='w-12 h-12 text-red-500 flex items-center justify-center hover:bg-red-500 rounded-full hover:text-white transition-all ease-in-out duration-300'>
+                    <span onClick={() => handleDeleteItem(value.id)} className='w-12 h-12 text-red-500 flex items-center justify-center hover:bg-red-500 rounded-full hover:text-white transition-all ease-in-out duration-300'>
                       <VscTrash size={20} />
-                    </span>
+                    </span>  
                     </div>
                 </div>
                 )) : null
               }
              
+            </div>
+            <div className='update_cart flex justify-end'>
+              <Button className='bg-green-400 w-18'>Cập nhật</Button>
             </div>
           </div>
           <div className="right_checkout w-[400px] mt-10 bg-white rounded-sm shadow-sm h-fit">
@@ -99,7 +110,7 @@ export default function CartPage() {
                 <span className='font-semibold text-red-600'>400.000 đ</span>
               </div>
               <div className="btn_checkout mt-5 flex justify-center">
-                <Button className='bg-red-500 w-full'>Mua hàng</Button>
+                <Button className='bg-red-500 w-full' onClick={handleRedirectCheckout}>Mua hàng</Button>
               </div>
             </div>
           </div>

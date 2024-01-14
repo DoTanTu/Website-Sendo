@@ -1,6 +1,9 @@
 import React from "react";
+import PaymentService from "../../service/PaymentService";
+import { useEffect } from "react";
 
 export default function ShoppingStatus() {
+  
   return (
     <div className="">
       <div className="w-full flex gap-3 items-center">

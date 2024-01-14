@@ -2,6 +2,7 @@ import React from 'react';
 import { Tabs } from 'flowbite-react';
 import { FaClipboardList } from "react-icons/fa";
 import AllOrders from '../../components/Seller/AllOrders';
+import ProgressOrder from '../../components/Seller/ProgressOrder';
 
 
 export default function Orders() {
@@ -20,7 +21,7 @@ export default function Orders() {
               <AllOrders />
           </Tabs.Item>
           <Tabs.Item title="Chờ xử lý" >
-      
+              <ProgressOrder />
           </Tabs.Item>
         </Tabs>
         </div>
