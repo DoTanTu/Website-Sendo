@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from "@material-tailwind/react";
 
-export default function ItemAllOrder() {
+export default function ItemProgressOrder() {
     const handleCancle = () => {
         alert('Cancle');
     }
@@ -34,8 +34,8 @@ export default function ItemAllOrder() {
         </span>
       </td>
       <td class="px-6 py-4">
-        <Button className='w-20 bg-red-100 border border-red-500 rounded-full py-[6px] hover:bg-red-500 hover:text-white text-red-500 mr-2' onClick={() => handleCancle()}>
-            Hủy
+        <Button className='px-0 w-24 bg-red-100 border border-red-500 rounded-full py-[6px] hover:bg-red-500 hover:text-white text-red-500 mr-2' onClick={() => handleCancle()}>
+            Chi tiết
         </Button>
       
       </td>

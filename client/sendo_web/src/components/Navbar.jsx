@@ -114,15 +114,22 @@ const Navbar = () => {
               <MdAccountCircle className="mr-2" size={20} />
               {stateUser}
             </div>
-            <div className="group-hover:block z-20 hidden absolute top-full right-0 rounded-md overflow-hidden">
+            <div className="group-hover:block z-20 hidden absolute top-full right-0 rounded-md overflow-hidden w-[160px]">
               <div className="actions pt-1">
                 <div className="Profile">
                   <Link to="/profile" className="block">
-                    <span className="hover:text-white hover:bg-red-400 px-6 py-2 block bg-gray-300 rounded-tl-lg">Cá nhân</span>
+                    <span className="hover:text-white hover:bg-red-400 px-4 py-2 block bg-gray-300 rounded-tl-lg">
+                      Cá nhân</span>
+                  </Link>
+                </div>
+                <div className="Profile">
+                  <Link to="/profile" className="block">
+                    <span className="hover:text-white hover:bg-red-400 px-4 py-2 block bg-gray-300">
+                     Đơn hàng của tôi</span>
                   </Link>
                 </div>
                 <div className="Logout" onClick={handleOpenDialog}>
-                  <span className="hover:text-white hover:bg-red-400 px-6 py-2 block shrink-1 bg-gray-300">Đăng xuất</span>
+                  <span className="hover:text-white hover:bg-red-400 px-4 py-2 block shrink-1 bg-gray-300">Đăng xuất</span>
                 </div>
               </div>
             </div>
@@ -155,7 +162,7 @@ const Navbar = () => {
           <div className="card ms-10 " onClick={navigateCart}>
               <div className="relative">
               <span className="w-10 h-10 text-white"><IoCart size={24} /></span>
-              <span className="flex justify-center items-center w-4 h-4 rounded-full border border-[#808080] bg-white shadow-lg absolute -top-2 -right-2 text-[12px]">0</span>
+              <span className="flex justify-center items-center w-4 h-4 rounded-full border border-[#808080] bg-white shadow-lg absolute -top-2 -right-2 text-[12px]">1</span>
               </div>
           </div>
         </div>

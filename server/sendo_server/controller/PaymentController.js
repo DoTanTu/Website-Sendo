@@ -16,7 +16,7 @@ class PaymentController {
       var tmnCode = 'FQ7RGHP3';
       var secretKey = 'GFPKSRVWTYLJSBVZFZACEHMFCYLGSGAH';
       var vnpUrl = 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html';
-      var returnUrl = 'http://localhost:4000/detail-cart';
+      var returnUrl = 'http://localhost:4000/vnpay_return';
       var date = new Date();
 
       var dateFormat = require('dateformat');

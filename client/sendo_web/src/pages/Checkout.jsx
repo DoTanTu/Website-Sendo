@@ -21,11 +21,11 @@ export default function Checkout() {
   //----------Tạo mới form
 
   const [paymentInfo, setPaymentInfo] = useState({
-    amount: 10000, // Số tiền thanh toán
-    orderDescription: 'mua+san+pham+abc', // Mô tả đơn hàng
+    amount: 20000, // Số tiền thanh toán
+    orderDescription: 'Donw hang nong', // Mô tả đơn hàng
     orderType: 'other', // Loại đơn hàng
     language: 'vn', // Ngôn ngữ
-    bankCode: '', // Mã ngân hàng (nếu có)
+    bankCode: 'NCB', // Mã ngân hàng (nếu có)
   });
 
   const handlePayment = async () => {
@@ -200,7 +200,6 @@ export default function Checkout() {
             </button>
            
           </div>
-          <div className="flex-wrap" key={urlResponse}>{urlResponse}</div>
         </div>
       </div>
     </div>

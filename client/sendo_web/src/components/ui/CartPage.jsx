@@ -24,6 +24,10 @@ export default function CartPage() {
     navigate('/checkout');
   }
 
+  const handleDeleteItem = (id) => {
+    alert(id);
+  }
+
   const fetchData = async () => {
     try {
       const token = localStorage.getItem('token');
@@ -83,9 +87,9 @@ export default function CartPage() {
                     <span className='text-red-500'>{value.price.toLocaleString()}</span>
                     </div>
                     <div className="delete_prod">
-                    <span className='w-12 h-12 text-red-500 flex items-center justify-center hover:bg-red-500 rounded-full hover:text-white transition-all ease-in-out duration-300'>
+                    <span onClick={() => handleDeleteItem(value.id)} className='w-12 h-12 text-red-500 flex items-center justify-center hover:bg-red-500 rounded-full hover:text-white transition-all ease-in-out duration-300'>
                       <VscTrash size={20} />
-                    </span>
+                    </span>  
                     </div>
                 </div>
                 )) : null
