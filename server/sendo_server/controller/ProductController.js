@@ -66,6 +66,40 @@ class ProductController{
       } catch (error) {
         res.status(500).send('Internal Server Error');
       }
-  }
+    }
+    static async searchProductByName(req,res){
+      try {
+        const keyword  = req.params.name;
+        const data = await ProductModel.searchProductByName(keyword);
+        const dataTrans = transformData.transformData(data);
+        res.status(200).json(dataTrans);
+      } catch (error) {
+        res.status(500).send('Internal Server Error');
+      }
+    }
+    static async searchAndFilterProductsByPrice(req, res) {
+      try {
+        const { minPrice, maxPrice } = req.params;
+        const data = await ProductModel.searchAndFilterProductsByPrice(minPrice, maxPrice);  
+        const dataTrans = transformData.transformData(data);
+        res.status(200).json(dataTrans);
+        console.log(dataTrans);
+      } catch (error) {
+        console.error('Error searching and filtering products:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+      }
+    }
+    static async searchAndFilterProductsByGender(req, res) {
+      try {
+        const { gender } = req.params;
+        const data = await ProductModel.searchAndFilterProductsByGender(gender);  
+        const dataTrans = transformData.transformData(data);
+        res.status(200).json(dataTrans);
+        console.log(dataTrans);
+      } catch (error) {
+        console.error('Error searching and filtering products:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+      }
+    }
 }
 module.exports = ProductController;
