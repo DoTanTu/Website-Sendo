@@ -32,10 +32,10 @@ export default function Login() {
     }
   };
   return (
-    <div className="flex p-32 shadow-lg">
+    <div className="flex p-32 shadow-lg justify-center">
       <Toast />
-      <div className="w-[1200px] flex">
-        <div className="w-2/5 h-[527px] p-12 shadow-lg bg-white rounded-l-2xl">
+      <div className="w-[1000px] flex justify-center items-center">
+        <div className="w-3/5 h-[467px] p-12 shadow-lg bg-white rounded-l-2xl">
           <p className="text-2xl text-black ">Xin Chào,</p>
           <p className="pt-2 text-md text-black ">
             Đăng nhập hoặc Tạo tài khoản
@@ -57,7 +57,7 @@ export default function Login() {
             type="password"
           />
           <button
-            className=" mt-6 w-full text-2xl text-white py-3  bg-[#DA251E] hover:bg-red-300 rounded-md cursor-pointer"
+            className=" mt-10 w-full text-2xl text-white py-3  bg-[#DA251E] hover:bg-red-300 rounded-md cursor-pointer"
             type="submit"
             disabled={email && password ? false : true}
             onClick={handleLogin}
@@ -75,19 +75,19 @@ export default function Login() {
               Đăng ký tại đây
             </Link>
           </p>
-          <div className="flex gap-4 items-center mt-8">
+          <div className="flex gap-4 items-center mt-6">
             <hr className="w-full h-[1px] bg-blue-gray-300"></hr>
             <p className="text-sm w-[400px]">Hoặc tiếp tục bằng</p>
             <hr className="w-full h-[1px] bg-blue-gray-300 text-base"></hr>
           </div>
           <div className="w-full flex gap-4 justify-center mt-6">
-            <button className="w-14 h-14 bg-lime-400 rounded-full">
+            <button className="w-12 h-12 bg-lime-400 rounded-full">
               <img
                 className="w-full h-full "
                 src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/1200px-Facebook_Logo_%282019%29.png"
               ></img>
             </button>
-            <button className="w-14 h-14 border-1 shadow-lg rounded-full">
+            <button className="w-12 h-12 border-1 shadow-lg rounded-full">
               <img
                 className="w-full h-full p-1"
                 src="https://companieslogo.com/img/orig/GOOG-0ed88f7c.png?t=1633218227"
@@ -95,9 +95,9 @@ export default function Login() {
             </button>
           </div>
         </div>
-        <div className="relative w-2/5 h-[527px] bg-[#DA251E] rounded-r-2xl shadow-lg">
+        <div className="relative w-2/5 h-[467px] bg-[#DA251E] rounded-r-2xl shadow-lg">
           <img
-            className="absolute h-60 w-60 top-1/2 left-1/2  -translate-y-1/2 -translate-x-1/2 "
+            className="absolute h-56 w-56 top-1/2 left-1/2  -translate-y-1/2 -translate-x-1/2 "
             src={logo}
           ></img>
         </div>
