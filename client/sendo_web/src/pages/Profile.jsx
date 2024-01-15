@@ -2,17 +2,16 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import UpdateSeller from "../components/ui/UpdateSeller";
 import UserService from "../service/UserService";
-import {useState, useEffect } from "react";
-import Navbar from "../components/Navbar";
+import { useState, useEffect } from "react";
+
 import { useNavigate } from "react-router-dom";
 import TokenExtraction from "../service/TokenExtraction";
 import { toast } from "react-toastify";
 import { FaUserCircle } from "react-icons/fa";
 import { BiImageAdd } from "react-icons/bi";
-import {ref,uploadBytes,getDownloadURL} from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../components/createImage/firebase";
 import { v4 } from "uuid";
-
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -39,15 +38,21 @@ export default function Profile() {
     setPhone(data.phoneNumber);
     setBirthday(data.birthday);
     setAddress(data.address);
-  }
+  };
 
   const checkDataUser = () => {
-    if(address === "" || address === "" || phone === "" || file === "" || file === null){
+    if (
+      address === "" ||
+      address === "" ||
+      phone === "" ||
+      file === "" ||
+      file === null
+    ) {
       return true;
-    }else{
+    } else {
       return false;
     }
-  }
+  };
   //----------Lấy thông tin của người dùng
   const getInfor = async () => {
     try {
@@ -56,7 +61,7 @@ export default function Profile() {
       if (checkToken == true) {
         toast.error("Vui lòng dăng nhập lại để tiếp tục");
         setTimeout(() => {
-          navigate('/login');
+          navigate("/login");
         }, "5000");
       } else {
         const respone = await UserService.userProfile(token);
@@ -84,7 +89,7 @@ export default function Profile() {
         const snapshot = await uploadBytes(imageRef, image);
         const url = await getDownloadURL(snapshot.ref);
         resolve(url);
-      } catch (error) { 
+      } catch (error) {
         console.error("Error uploading image:", error);
         reject("");
       }
@@ -94,11 +99,11 @@ export default function Profile() {
   //----------Đưa dữ liệu vào form data
   const setDataForm = (formData, filePath) => {
     formData.append("image", filePath),
-    formData.append("name", name),
-    formData.append("gender", gender),
-    formData.append("address", address),
-    formData.append("phoneNumber", phone),
-    formData.append("birthday", birthday);
+      formData.append("name", name),
+      formData.append("gender", gender),
+      formData.append("address", address),
+      formData.append("phoneNumber", phone),
+      formData.append("birthday", birthday);
   };
 
   //---------Nhận form data và token sau đó gọi api để gửi dữ liệu đi
@@ -119,49 +124,40 @@ export default function Profile() {
   //---------Xử lý submit form từ người dùng
   const handleSubmit = async () => {
     const token = localStorage.getItem("token");
-    if(image !== "" && image !== undefined){
+    if (image !== "" && image !== undefined) {
       const imageUrl = await uploadImage();
       filePath = imageUrl;
-    }else{
+    } else {
       filePath = file;
     }
     setDataForm(formData, filePath);
     const result = await updateFunction(formData, token);
-    if(result == 200){
+    if (result == 200) {
       toast.success("Cập nhật tài khoản thành công");
-    }else{
+    } else {
       toast.error("Cập nhật thất bại");
     }
-    filePath ="";
+    filePath = "";
     setImage("");
     getInfor();
   };
   return (
     <div>
       <Navbar />
-<<<<<<< HEAD
       <div className="w-full h-max p-6 shadow-sm">
-        { 
-          data ? (
-=======
-      <div className="container mx-auto h-max p-6 shadow-sm">
         {data ? (
->>>>>>> 3714a672f23ee98e14dd77f12f1d171ac2c89ea2
           <div className="w-full h-max bg-white rounded-md flex ">
             <div className="w-1/3 mb-10">
               <div className="">
                 <div className="w-56 h-56 p-1 bg-red-500 mx-auto my-4 mt-8 rounded-full relative">
-                  {
-                    file ? (
-                      <img
+                  {file ? (
+                    <img
                       className="object-cover w-full h-full mx-auto rounded-full"
                       src={file}
                     />
-                    ):
-                    (
-                      <FaUserCircle className="w-full h-full text-gray-100" />
-                    )
-                  }
+                  ) : (
+                    <FaUserCircle className="w-full h-full text-gray-100" />
+                  )}
                   <div className="editImage absolute bottom-0 right-5 w-10 h-8 bg-gray-300 z-20 rounded-lg">
                     <input
                       key={file}
@@ -292,44 +288,7 @@ export default function Profile() {
               </div>
             </div>
           </div>
-<<<<<<< HEAD
-          <div className="w-2/3 p-4 flex-col mt-12">
-            <div className="flex gap-40 mt-4 ">
-              <p className="text-base text-black/25 w-44"> Tên tài khoản:</p>
-              <input type="text" value={data.name} onChange={e => setName(e.target.value)} className=" border shadow-2xl" />
-            </div>
-            <div className="flex gap-40 mt-4 ">
-              <p className="text-base text-black/25 w-44"> Tên đăng nhập:</p>
-              <input type="text" className=" border shadow-2xl" />
-            </div>
-
-            <div className="flex gap-40 mt-4">
-              <p className="text-base text-black/25 w-44"> Email:</p>
-              <p className="text-base text-black">{data.email}</p>
-            </div>
-            <div className="flex gap-40 mt-4">
-              <p className="text-base text-black/25 w-44"> Số điện thoại:</p>
-              <input type="text" value={data.phoneNumber} onChange={e => setPhone(e.target.value)} className=" border shadow-2xl" />
-            </div>
-            <div className="flex gap-40 mt-4">
-              <p className="text-base text-black/25 w-44"> Ngày Sinh:</p>
-              <input type="text" value={data.birthday} onChange={e => setBirthday(e.target.value)} className=" border shadow-2xl" />
-            </div>
-            <div className="flex gap-40 mt-4">
-              <p className="text-base text-black/25 w-44"> Địa chỉ:</p>
-              <input type="text" className=" border shadow-2xl" />
-            </div>
-            <div className="mt-10 w-2/5 px-30 flex justify-end">
-              <button className=" bg-red-500 p-2  text-sm font-bold text-white rounded-lg hover:bg-red-500/60 ">
-                Cập nhập
-              </button>
-            </div>
-          </div>
-           </div>):null
-        }
-=======
         ) : null}
->>>>>>> 3714a672f23ee98e14dd77f12f1d171ac2c89ea2
       </div>
       <Footer />
     </div>
