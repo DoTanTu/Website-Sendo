@@ -13,6 +13,15 @@ class ProfileModel {
         console.error('Error updating profile:', error);
     }
   }
+
+  static async updateProfileOrder(id,{name, address, phoneNumber}){
+    try {
+      const result = await db.query('UPDATE users SET name = ?, address = ?, phoneNumber = ? WHERE id = ?', [name, address, phoneNumber,id]);      
+      return result;
+    } catch (error) {
+        console.error('Error updating profile:', error);
+    }
+  }
   
 }
 

@@ -9,7 +9,6 @@ const CartService = {
                     Authorization: `Bearer ${token}`
                 }
             });
-            console.log(result);
             return result;
         } catch (error) {
             console.log(error);
@@ -22,6 +21,18 @@ const CartService = {
                 variant_id: variant_id,
                 quantity: quantity
             } , {
+                headers:{
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            return result;
+        } catch (error) {
+            console.log(error);
+        }
+    },
+    deleteCartItem : async (token, id_cart) => {
+        try {
+            const result = await axios.delete(`${BASE_URL}/delete-cart/${id_cart}`, {
                 headers:{
                     Authorization: `Bearer ${token}`
                 }

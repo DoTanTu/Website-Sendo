@@ -70,6 +70,20 @@ const UserService = {
         } catch (error) {
             console.log(error);
         }
+    },
+    updateProfileOrder : async (formData,token) => {
+        try {
+            
+            const respone = await axios.put(`${BASE_URL}/api/profile/update-order`, formData, {
+                headers:{
+                    "Content-Type": "multipart/form-data",
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            return respone;
+        } catch (error) {
+            console.log(error);
+        }
     }
 }
 export default UserService;

@@ -34,7 +34,7 @@ function App() {
             <Route path="products/news" element={<NewProducts />} />
           </Route>
           <Route path="/admin" element={<Admin />}>
-            <Route index path="/admin" element={<ThongKeAdmin />} />
+            <Route index path="/admin" element={<DanhMuc />} />
             <Route path="thong-ke" element={<ThongKeAdmin />} />
             <Route path="danh-muc" element={<DanhMuc />} />
             <Route path="duyet-seller" element={<ManagerSeller />} />
