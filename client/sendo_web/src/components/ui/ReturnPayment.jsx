@@ -59,7 +59,7 @@ export default function ReturnPayment() {
           </div>
         </div>
         <div className="flex justify-center mt-4">
-          <Button className="mr-6 bg-blue-500">Đơn hàng của bạn</Button>
+          <Button onClick={() => navigate('/')} className="mr-6 bg-blue-500">Đơn hàng của bạn</Button>
           <Button className="bg-red-500" onClick={() => navigate('/')}>Tiếp tục mua sắm</Button>
         </div>
       </div>

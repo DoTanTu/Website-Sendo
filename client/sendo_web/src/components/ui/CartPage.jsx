@@ -188,7 +188,11 @@ export default function CartPage() {
                       </div>
                     </div>
                   ))
-                : null}
+                : (
+                  <div className="noneproduct">
+                    <span>Chưa có sản phẩm trong giỏ hàng của bạn.</span>
+                  </div>
+                )}
             </div>
             <div className="update_cart flex justify-end">
               <Button className="bg-green-400 w-18">Cập nhật</Button>
