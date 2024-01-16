@@ -5,6 +5,7 @@ class ProductModel{
         SELECT
             p.id AS product_id,
             p.product_name,
+            p.gender,
             p.description,
             c.category_name,
             u.supplier_name AS seller_name,
@@ -156,6 +157,7 @@ class ProductModel{
       SELECT
         p.id AS product_id,
         p.product_name,
+        p.gender,
         p.description,
         c.category_name,
         u.supplier_name AS seller_name,
@@ -185,6 +187,7 @@ class ProductModel{
       const query = `SELECT
         p.id AS product_id,
         p.product_name,
+        p.gender,
         p.description,
         c.category_name,
         u.supplier_name AS seller_name,
@@ -214,6 +217,7 @@ class ProductModel{
         SELECT
           p.id AS product_id,
           p.product_name,
+          p.gender,
           p.description,
           c.category_name,
           u.supplier_name AS seller_name,
@@ -244,6 +248,7 @@ class ProductModel{
       SELECT
         p.id AS product_id,
         p.product_name,
+        p.gender,
         p.description,
         c.category_name,
         u.supplier_name AS seller_name,
@@ -264,6 +269,42 @@ class ProductModel{
     `;
     const data = await db.query(query, [gender]);
     return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+  static async searchAndSortProductsByPrice(sortOrder) {
+    try {
+      let orderClause = '';
+      if (sortOrder === 'asc') {
+        orderClause = 'ORDER BY pv.price ASC';
+      } else if (sortOrder === 'desc') {
+        orderClause = 'ORDER BY pv.price DESC';
+      }
+      const query = `
+        SELECT
+        p.id AS product_id,
+        p.product_name,
+        p.gender,
+        p.description,
+        c.category_name,
+        u.supplier_name AS seller_name,
+        u.address_company,
+        p.image,
+        pv.variant_id,
+        s.size_name,
+        co.color_name,
+        pv.price,
+        pv.stock_quantity
+      FROM Products p
+      JOIN Categories c ON p.category_id = c.category_id
+      JOIN Users u ON p.users_id = u.id
+      JOIN ProductVariants pv ON p.id = pv.product_id
+      JOIN Sizes s ON pv.size_id = s.size_id
+      JOIN Colors co ON pv.color_id = co.color_id
+      ${orderClause}
+      `;
+      return data;
     } catch (error) {
       throw error;
     }

@@ -80,7 +80,7 @@ class OrderModel {
       throw error;
     }
   }
-  static async getOrdersDetailByUser(userId) {
+  static async getOrdersByUser(userId) {
     try {
       const query = await db.query(`
       SELECT
@@ -114,11 +114,62 @@ class OrderModel {
   static async updateOrderStatus(orderId, newStatus) {
     try {
       const updateQuery = `
-              UPDATE Orders
+              UPDATE OrderDetails
               SET status = 1
-              WHERE order_id = ?;
+              WHERE order_detail_id = ?;
           `;
       const result = await db.query(updateQuery, [newStatus, orderId]);
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  }
+  static async getOrdersBySeller(userId){
+    try {
+      const query  =`
+      SELECT 
+          o.order_id,
+          u.name AS buyer_name,
+          p.product_name,
+          od.status,
+          pm.payment_name,
+          o.order_date,
+          SUM(od.price * od.quantity) AS total_amount_per_seller
+      FROM OrderDetails od
+      JOIN Carts c ON od.cart_id = c.cart_id
+      JOIN Products p ON c.product_id = p.id
+      JOIN ProductVariants pv ON c.variant_id = pv.variant_id
+      JOIN Orders o ON od.order_id = o.order_id
+      JOIN PaymentMethod pm ON o.payment_id = pm.payment_id
+      JOIN Users u ON o.user_id = u.id
+      JOIN Categories ca ON p.category_id = ca.category_id
+      WHERE p.users_id = ${userId}
+      GROUP BY o.order_id, u.name, p.product_name, ca.category_name, pv.price, od.quantity, p.image, od.status, pm.payment_name, o.order_date;
+
+    `;
+    const result = await db.query(query);
+    return result;
+    } catch (error) {
+      throw error;
+    }
+  }
+  static async getOrderDetailBySeller(userId){
+    try {
+      const query = `
+      SELECT 
+          p.product_name,
+          ca.category_name,
+          od.price,
+          od.quantity,
+          p.image AS product_image
+      FROM OrderDetails od
+      JOIN Carts c ON od.cart_id = c.cart_id
+      JOIN Products p ON c.product_id = p.id
+      JOIN Orders o ON od.order_id = o.order_id
+      JOIN Categories ca ON p.category_id = ca.category_id
+      WHERE p.users_id = ${userId};
+      `;
+      const result = await db.query(query);
       return result;
     } catch (error) {
       throw error;
