@@ -49,10 +49,31 @@ class OrderModel {
   static async getOrdersByUser(userId) {
     try {
       const query = `
-        SELECT * FROM Orders
-        WHERE user_id = ${userId}
-        ORDER BY order_date DESC;
-      `;
+          SELECT 
+          Orders.*,
+          OrderDetails.*,
+          Products.image AS product_image,
+          Products.product_name AS name,
+          Users.supplier_name AS buyer,
+          Categories.category_name AS product_category
+        FROM 
+            Orders
+        JOIN 
+            OrderDetails ON Orders.order_id = OrderDetails.order_id
+        JOIN 
+            Carts ON OrderDetails.cart_id = Carts.cart_id
+        JOIN 
+            Products ON Carts.product_id = Products.id
+        JOIN 
+           Categories ON Products.category_id = Categories.category_id
+        JOIN 
+            Users ON Products.users_id = Users.id
+        WHERE 
+          Orders.user_id = ${userId}
+        ORDER BY 
+          Orders.order_date DESC;
+        
+          `;
       const result = await db.query(query);
       return result;
     } catch (error) {

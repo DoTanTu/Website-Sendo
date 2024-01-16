@@ -7,6 +7,7 @@ import Profile from "./pages/Profile";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import DetailPayProducts from "./components/ui/DetailPayProducts";
+import AllBill from "./pages/AllBill";
 import ReturnPayment from "./components/ui/ReturnPayment";
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/vnpay_return" element={<ReturnPayment />} />
+        <Route path="/all-bill" element={<AllBill />} />
       </Routes>
     </>
   );

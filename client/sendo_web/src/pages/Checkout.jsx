@@ -3,6 +3,7 @@ import logo from "../img/Better_logo.png";
 import DetailPayProducts from "../components/ui/DetailPayProducts";
 import ShoppingStatus from "../components/ui/ShoppingStatus";
 import UserService from "../service/UserService";
+import OrderService from "../service/OrderService";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import TokenExtraction from "../service/TokenExtraction";
@@ -29,12 +30,42 @@ export default function Checkout() {
   //----------Tạo mới form
 
   const [paymentInfo, setPaymentInfo] = useState({
-    amount: 20000, // Số tiền thanh toán
-    orderDescription: 'Donw hang nong', // Mô tả đơn hàng
+    amount: sumprice, // Số tiền thanh toán
+    orderDescription: '', // Mô tả đơn hàng
     orderType: 'other', // Loại đơn hàng
     language: 'vn', // Ngôn ngữ
     bankCode: 'NCB', // Mã ngân hàng (nếu có)
   });
+
+  const handleUpdateOrder = async () => {
+    try {
+      const cartItems = chooseCartFromSource.map(item => ({
+        cart_id: item.id,
+        price: item.price,
+        quantity: item.quantity
+      }));
+      const currentDate = new Date();
+
+      const year = currentDate.getFullYear();
+      const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+      const day = currentDate.getDate().toString().padStart(2, '0');
+      const hours = currentDate.getHours().toString().padStart(2, '0');
+      const minutes = currentDate.getMinutes().toString().padStart(2, '0');
+      const seconds = currentDate.getSeconds().toString().padStart(2, '0');
+      const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+
+      const token = localStorage.getItem('token');
+      if(!token || !sumprice || !addressOrder || !cartItems || !formattedDate)
+        return;
+      else {
+        const result = await OrderService.createOrder(token,1,sumprice,addressOrder, cartItems, formattedDate);
+        console.log(result);
+      }
+       
+    } catch (error) {
+       console.log(error);
+    }
+  }
 
   const handlePayment = async () => {
     try {
@@ -44,6 +75,7 @@ export default function Checkout() {
       }else {
         const updateProfile = await updateUser();
         if(updateProfile.status === 200){
+          handleUpdateOrder();
           const response = await PaymentService.createPayment(paymentInfo);
           setUrlResponse(response.data);
           window.location.href = response.data;

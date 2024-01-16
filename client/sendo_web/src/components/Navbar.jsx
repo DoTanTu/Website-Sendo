@@ -123,7 +123,7 @@ const Navbar = () => {
                   </Link>
                 </div>
                 <div className="Profile">
-                  <Link to="/profile" className="block">
+                  <Link to="/all-bill" className="block">
                     <span className="hover:text-white hover:bg-red-400 px-4 py-2 block bg-gray-300">
                      Đơn hàng của tôi</span>
                   </Link>
