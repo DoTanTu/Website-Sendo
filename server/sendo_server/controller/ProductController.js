@@ -145,12 +145,11 @@ class ProductController{
 
     static async searchOption(req, res) {
       try {
-        const { keyword, minPrice, maxPrice, gender, category } = req.params;
-  
+        const { keyword, minPrice, maxPrice, gender, category } = req.query;;
         const options = {
           keyword: keyword !== 'undefined' ? keyword : null,
-          minPrice: minPrice !== 'undefined' ? parseFloat(minPrice) : null,
-          maxPrice: maxPrice !== 'undefined' ? parseFloat(maxPrice) : null,
+          minPrice: minPrice !== 'undefined' ? parseInt(minPrice) : null,
+          maxPrice: maxPrice !== 'undefined' ? parseInt(maxPrice) : null,
           gender: gender !== 'undefined' ? gender : null,
           category: category !== 'undefined' ? parseInt(category) : null,
         };

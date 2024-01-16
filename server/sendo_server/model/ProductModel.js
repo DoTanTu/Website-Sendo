@@ -363,32 +363,32 @@ class ProductModel {
         gender,
         category
       } = options;
-  
+
       const whereConditions = [];
       const params = [];
-  
+
       if (keyword) {
         whereConditions.push('p.product_name LIKE ?');
         params.push(`%${keyword}%`);
       }
-  
-      if (minPrice !== undefined && maxPrice !== undefined) {
+
+      if (!isNaN(minPrice) && !isNaN(maxPrice)) {
         whereConditions.push('pv.price >= ? AND pv.price <= ?');
-        params.push(minPrice, maxPrice);
+        params.push(parseFloat(minPrice), parseFloat(maxPrice));
       }
-  
+
       if (gender) {
         whereConditions.push('p.gender = ?');
         params.push(gender);
       }
-  
+
       if (category) {
         whereConditions.push('p.category_id = ?');
         params.push(category);
       }
-  
+
       const whereClause = whereConditions.length > 0 ? 'WHERE ' + whereConditions.join(' AND ') : '';
-  
+
       const query = `
         SELECT
           p.id AS product_id,
@@ -411,13 +411,13 @@ class ProductModel {
         JOIN Sizes s ON pv.size_id = s.size_id
         JOIN Colors co ON pv.color_id = co.color_id
         ${whereClause}
-      `;  
+      `;
+
       const data = await db.query(query, params);
       return data;
     } catch (error) {
       throw error;
     }
-  }
-  
+}
 }
 module.exports = ProductModel;
