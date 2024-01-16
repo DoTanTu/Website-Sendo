@@ -119,6 +119,18 @@ class ProductController{
         res.status(500).json({ error: 'Internal Server Error' });
       }
     }
+    static async searchAndFilterProductsByCategory(req, res) {
+      try {
+        const categoryId  = req.params.categoryId;
+        const data = await ProductModel.searchAndFilterByCategory(categoryId);  
+        const dataTrans = transformData.transformData(data);
+        res.status(200).json(dataTrans);
+        console.log(dataTrans);
+      } catch (error) {
+        console.error('Error searching and filtering products:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+      }
+    }
     static async searchAndFilterProducts(req, res) {
       try {
         const {sortOrder } = req.params;
@@ -128,6 +140,26 @@ class ProductController{
         res.status(200).json(dataTrans);
       } catch (error) {
         res.status(500).json({ error: 'Internal Server Error' });
+      }
+    }
+
+    static async searchOption(req, res) {
+      try {
+        const { keyword, minPrice, maxPrice, gender, category } = req.params;
+  
+        const options = {
+          keyword: keyword !== 'undefined' ? keyword : null,
+          minPrice: minPrice !== 'undefined' ? parseFloat(minPrice) : null,
+          maxPrice: maxPrice !== 'undefined' ? parseFloat(maxPrice) : null,
+          gender: gender !== 'undefined' ? gender : null,
+          category: category !== 'undefined' ? parseInt(category) : null,
+        };
+        const filteredOptions = Object.fromEntries(Object.entries(options).filter(([_, v]) => v !== null));
+        const searchResults = await ProductModel.searchOption(filteredOptions);
+        res.json({ success: true, data: searchResults });
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, error: 'Internal Server Error' });
       }
     }
 }

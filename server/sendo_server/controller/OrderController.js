@@ -43,12 +43,11 @@ class OrderController{
     }
   }
   static async approveOrder(req, res) {
-    const { orderId } = req.body;
     try {
+        const orderId  = req.params.id;
         const result = await orderModel.updateOrderStatus(orderId);
-        res.status(200).json(result,{ message: 'Order status updated successfully' });
+        res.status(200).json(result);
     } catch (error) {
-        console.error(error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
   }
@@ -64,7 +63,8 @@ class OrderController{
   static async getOrdersByDetailSeller(req,res){
     try {
       const userId = req.user.id;  
-      const result = await orderModel.getOrderDetailBySeller(userId);
+      const orderID = req.params.id;
+      const result = await orderModel.getOrderDetailBySeller(userId,orderID);
       res.status(200).json(result);
     } catch (error) {
       res.status(500).json({ error: 'Internal Server Error' });

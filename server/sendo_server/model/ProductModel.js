@@ -286,6 +286,37 @@ class ProductModel {
       throw error;
     }
   }
+  static async searchAndFilterByCategory(category){
+    try {
+      const query = `
+      SELECT
+        p.id AS product_id,
+        p.product_name,
+        p.gender,
+        p.description,
+        c.category_name,
+        u.supplier_name AS seller_name,
+        u.address_company,
+        p.image,
+        pv.variant_id,
+        s.size_name,
+        co.color_name,
+        pv.price,
+        pv.stock_quantity
+      FROM Products p
+      JOIN Categories c ON p.category_id = c.category_id
+      JOIN Users u ON p.users_id = u.id
+      JOIN ProductVariants pv ON p.id = pv.product_id
+      JOIN Sizes s ON pv.size_id = s.size_id
+      JOIN Colors co ON pv.color_id = co.color_id
+      WHERE p.category_id = ?         
+    `;
+      const data = await db.query(query, [category]);
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
   static async searchAndSortProductsByPrice(sortOrder) {
     try {
       let orderClause = '';
@@ -322,5 +353,71 @@ class ProductModel {
       throw error;
     }
   }
+ 
+  static async searchOption(options) {
+    try {
+      const {
+        keyword,
+        minPrice,
+        maxPrice,
+        gender,
+        category
+      } = options;
+  
+      const whereConditions = [];
+      const params = [];
+  
+      if (keyword) {
+        whereConditions.push('p.product_name LIKE ?');
+        params.push(`%${keyword}%`);
+      }
+  
+      if (minPrice !== undefined && maxPrice !== undefined) {
+        whereConditions.push('pv.price >= ? AND pv.price <= ?');
+        params.push(minPrice, maxPrice);
+      }
+  
+      if (gender) {
+        whereConditions.push('p.gender = ?');
+        params.push(gender);
+      }
+  
+      if (category) {
+        whereConditions.push('p.category_id = ?');
+        params.push(category);
+      }
+  
+      const whereClause = whereConditions.length > 0 ? 'WHERE ' + whereConditions.join(' AND ') : '';
+  
+      const query = `
+        SELECT
+          p.id AS product_id,
+          p.product_name,
+          p.gender,
+          p.description,
+          c.category_name,
+          u.supplier_name AS seller_name,
+          u.address_company,
+          p.image,
+          pv.variant_id,
+          s.size_name,
+          co.color_name,
+          pv.price,
+          pv.stock_quantity
+        FROM Products p
+        JOIN Categories c ON p.category_id = c.category_id
+        JOIN Users u ON p.users_id = u.id
+        JOIN ProductVariants pv ON p.id = pv.product_id
+        JOIN Sizes s ON pv.size_id = s.size_id
+        JOIN Colors co ON pv.color_id = co.color_id
+        ${whereClause}
+      `;  
+      const data = await db.query(query, params);
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+  
 }
 module.exports = ProductModel;
