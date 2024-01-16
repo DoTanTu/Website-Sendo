@@ -74,10 +74,11 @@ class AuthController {
           }
 
           const verificationLink = `http://localhost:3000/api/verify?token=${verification_token}`;
+          const verificationLinkPhone = `http://192.168.2.20:3000/api/verify?token=${verification_token}`;
           const mailOptions = {
             to: email,
             subject: 'Email Verification',
-            html: verificationEmail(verificationLink),
+            html: verificationEmail(verificationLink, verificationLinkPhone),
           };
 
           // Send verification email

@@ -28,13 +28,9 @@ export default function ItemProgressOrder() {
       <td class="px-2 py-4">Trực tiếp</td>
       <td class="px-2 py-4">21/12/2023</td>
       <td class="px-2 py-4">500000</td>
+      
       <td class="px-2 py-4">
-        <span className="text-orange-600 font-semibold rounded-xl bg-orange-100 py-1 px-2 text-[12px] shadow-none capitalize">
-          Chưa duyệt
-        </span>
-      </td>
-      <td class="px-6 py-4">
-        <Button className='px-0 w-24 bg-red-100 border border-red-500 rounded-full py-[6px] hover:bg-red-500 hover:text-white text-red-500 mr-2' onClick={() => handleCancle()}>
+        <Button className='px-0 w-24 bg-green-100 border border-green-500 rounded-full py-[6px] hover:bg-green-500 hover:text-white text-green-500 mr-2' onClick={() => handleCancle()}>
             Chi tiết
         </Button>
       

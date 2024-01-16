@@ -6,24 +6,26 @@ const styleDetail = StyleSheet.create({
         flex: 1,
       },
       overlay: {
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
+       
         backgroundColor: 'rgba(255, 255, 255, 0.8)',
         padding: 10,
         zIndex: 1,
       },
+      imageList:{
+        width: '100%',
+        height: 330
+      },
       overlayText: {
         fontSize: 16,
-        fontWeight: 'bold',
         color: 'black',
       },
       body: {
         justifyContent: 'center',
       },
-      image_list: {
-
+      image: {
+        width: '100%',
+        height: '100%',
+        objectFit: 'cover',
       },
 });
 export default styleDetail;

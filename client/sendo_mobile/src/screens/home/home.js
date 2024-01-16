@@ -4,22 +4,25 @@ import React ,{ useEffect, useState } from "react";
 import axios from "axios";
 import styles from "./style";
 import ProductItem from '../../components/product/index'
+import ProductService from "../../service/ProductService";
 const Home = () => {
+
   const [productList, setProductList] = useState([]);
   const handlerClick = ()=>{}
+
   useEffect(() => {
-      getProducts();
+      fetchData();
   }, []);
 
-  const getProducts = () => {
-      axios({
-          url: 'https://6577469e197926adf62ddcf5.mockapi.io/api/products',
-          method: 'GET',
-      }).then((result) => {
-          setProductList(result.data);
-      }).catch((err) => {
-          console.log(err);
-      });
+  const fetchData = async () => {
+    try {
+      const result = await ProductService.getAllProduct();
+      if(result.status === 200){
+        setProductList(result.data);
+      }
+    } catch (error) {
+      
+    }
   }
     
   return (
@@ -75,7 +78,7 @@ const Home = () => {
       <View style={styles.body}>
       <FlatList style={styles.list_prod}
             data={productList}
-            keyExtractor={item => item.id.toString()}
+            keyExtractor={item => item.id}
             renderItem={({ item }) => {
                 return <ProductItem senData={item} setAction={handlerClick}/>
             }}

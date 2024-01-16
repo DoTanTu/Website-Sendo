@@ -22,8 +22,8 @@ export default function CardBill() {
       <div>
         {dataRespone
           ? dataRespone.map((value, index) => (
-              <div className="p-2 shadow-sm shadow-blue-gray-400 bg-white">
-                <div className="flex justify-between pb-3 border-b-[2px] border-b-gray-500 ">
+              <div className="p-2 shadow-sm shadow-blue-gray-300 bg-white mb-4 rounded-md">
+                <div className="flex justify-between pb-3 border-b-[2px] border-t-[1px] border-b-gray-300 ">
                   <div className="flex items-center">
                     <p className="font-bold">{value.buyer}</p>
                   </div>

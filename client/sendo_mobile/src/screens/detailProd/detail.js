@@ -1,29 +1,29 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity,FlatList, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity,FlatList, Image, StyleSheet } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import styles from './style';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import ImageView from '../../components/imageDetail/images';
 import axios from 'axios';
+import ProductService from '../../service/ProductService';
 const Detail = (props) => {
 
   const navigation = useNavigation();
   const route = useRoute();
   const idProd = route.params.id;
-  const [productList, setProductList] = useState({ products:[]});
-
+  const [productList, setProductList] = useState();
     useEffect(() => {
-        getProducts(idProd);
+        fetchData();
     }, []);
-  const getProducts = (idProd) => {
-    axios({
-        url: `https://6577469e197926adf62ddcf5.mockapi.io/api/products/${idProd}`,
-        method: 'GET',
-    }).then((result) => {
-        setProductList(result.data);
-    }).catch((err) => {
-        console.log(err);
-    });
+
+    const fetchData = async () => {
+      try {
+          const result = await ProductService.getProductDetail(idProd);
+          setProductList(result.data);  
+      } catch (error) {
+        console.log(error);
+      }
+      
     }
 
   useEffect(() => {
@@ -51,17 +51,19 @@ const Detail = (props) => {
 
   return (
     <View style={styles.container}>
-     
-      <View style={styles.body}>
-        <View style={styles.image_list}>
-           <ImageView senData={productList.image} />
+      {productList ? (
+        <View style={styles.body}>
+          <View style={styles.imageList}>
+            <Image source={{ uri: productList.image }} style={styles.image} />
+          </View>
+          <View style={styles.overlay}>
+            <Text style={styles.overlayText}>{productList.product_name}</Text>
+          </View>
         </View>
-      </View>
-      <View style={styles.overlay}>
-        <Text style={styles.overlayText}>{productList.name}</Text>
-      </View>
+      ) : null}
     </View>
   );
+  
 };
 
 export default Detail;

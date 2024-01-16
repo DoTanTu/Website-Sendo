@@ -5,10 +5,12 @@ import CardBill from "../components/ui/CardBill";
 export default function AllBill() {
   return (
     <div>
+      <div className="fixed top-0 left-0 w-full">
       <Navbar />
+      </div>
       <div className="w-full p-8">
-        <div className="flex gap-3">
-          <div className="w-1/6 h-max p-4 shadow-sm shadow-gray-400 bg-white">
+        <div className="flex gap-3 mt-[100px]">
+          <div className="w-1/6 h-max p-4 shadow-sm shadow-gray-400 bg-white  sticky top-[120px]">
             <div className="flex gap-2">
               <img className="h-12 w-12 rounded-full" src={logo} alt="" />
               <div className="flex flex-col items-start">
@@ -17,7 +19,7 @@ export default function AllBill() {
               </div>
             </div>
           </div>
-          <div className="w-5/6 h-screen rounded-2xl p-6 flex flex-col gap-6 shadow-sm shadow-gray-400 overflow-y-scroll bg-white">
+          <div className="w-5/6 rounded-2xl p-6 flex flex-col gap-6  bg-white">
             <CardBill />
           </div>
         </div>

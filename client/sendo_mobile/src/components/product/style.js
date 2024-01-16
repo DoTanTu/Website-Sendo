@@ -21,6 +21,12 @@ export default styles = StyleSheet.create({
 
         height:'100%',
       },
+      title_item:{
+        fontSize: 16, // Điều chỉnh kích thước font theo ý muốn
+        lineHeight: 20, // Điều chỉnh khoảng cách giữa các dòng theo ý muốn
+        maxHeight: 40, // Đặt chiều cao tối đa của phần tử
+        overflow: 'hidden', 
+      },
       infor_item:{
         paddingVertical: 4,
         paddingHorizontal:8,

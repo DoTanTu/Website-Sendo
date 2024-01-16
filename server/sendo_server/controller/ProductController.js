@@ -2,14 +2,32 @@ const ProductModel = require('../model/ProductModel.js');
 const transformData = require('../middleware/TransformData.js');
 class ProductController{
     static getAllProduct(req,res){
-        ProductModel.getAllProduct((error,result)=>{
-            if (error) {
-                res.status(500).json({ error: 'Internal Server Error' });
+        const { page = 1, pageSize = 10 } = req.query;
+        const offset = (page - 1) * pageSize;
+        const countProduct = ProductModel.countResults((error, result) => {
+          if (error) {
+            res.status(404).json({ error: "count product error" });
+          } else {
+            const totalCount = result[0]['count(*)']; // Lấy giá trị count(*) từ kết quả
+            const totalPages = Math.ceil(totalCount / pageSize);
+        
+            ProductModel.getAllProduct((error, result) => {
+              if (error) {
+                res.status(500).json({ error: "Internal Server Error" });
               } else {
                 const dataTrans = transformData.transformData(result);
-                res.json(dataTrans);
+                const offset = (page - 1) * pageSize;
+                const slicedData = dataTrans.slice(offset, offset + pageSize);
+                res.json({
+                   dataTrans: slicedData,
+                  totalPages
+                });
               }
-        })
+            });
+          }
+        });
+        
+        
     }
     static async addNewProduct(req,res){
         try {
