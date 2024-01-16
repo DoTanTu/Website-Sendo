@@ -80,45 +80,14 @@ class OrderModel {
       throw error;
     }
   }
-  static async getOrdersByUser(userId) {
-    try {
-      const query = await db.query(`
-      SELECT
-          o.order_id,
-          u.name AS userName,
-          p.product_name AS productName,
-          c.product_id,
-          od.status,
-          pm.payment_name AS payment
-      FROM
-          OrderDetails od
-      JOIN
-          Orders o ON od.order_id = o.order_id
-      JOIN
-          Users u ON o.user_id = u.id
-      JOIN
-          Carts c ON od.cart_id = c.cart_id
-      JOIN
-          Products p ON c.product_id = p.id
-      JOIN
-          PaymentMethod pm ON o.payment_id = pm.payment_id
-      WHERE
-          o.user_id = ${userId};
-    `);
-      const result = await db.query(query);
-      return result;
-    } catch (error) {
-      throw error;
-    }
-  }
-  static async updateOrderStatus(orderId, newStatus) {
+  static async updateOrderStatus(orderId) {
     try {
       const updateQuery = `
               UPDATE OrderDetails
               SET status = 1
               WHERE order_detail_id = ?;
           `;
-      const result = await db.query(updateQuery, [newStatus, orderId]);
+      const result = await db.query(updateQuery,[orderId]);
       return result;
     } catch (error) {
       throw error;
@@ -127,7 +96,7 @@ class OrderModel {
   static async getOrdersBySeller(userId){
     try {
       const query  =`
-      SELECT 
+          SELECT 
           o.order_id,
           u.name AS buyer_name,
           p.product_name,
@@ -144,8 +113,7 @@ class OrderModel {
       JOIN Users u ON o.user_id = u.id
       JOIN Categories ca ON p.category_id = ca.category_id
       WHERE p.users_id = ${userId}
-      GROUP BY o.order_id, u.name, p.product_name, ca.category_name, pv.price, od.quantity, p.image, od.status, pm.payment_name, o.order_date;
-
+      GROUP BY o.order_id, u.name, p.product_name, od.status, pm.payment_name, o.order_date;
     `;
     const result = await db.query(query);
     return result;
@@ -153,7 +121,7 @@ class OrderModel {
       throw error;
     }
   }
-  static async getOrderDetailBySeller(userId){
+  static async getOrderDetailBySeller(userId, orderId){
     try {
       const query = `
       SELECT 
@@ -167,7 +135,7 @@ class OrderModel {
       JOIN Products p ON c.product_id = p.id
       JOIN Orders o ON od.order_id = o.order_id
       JOIN Categories ca ON p.category_id = ca.category_id
-      WHERE p.users_id = ${userId};
+      WHERE p.users_id = ${userId} AND od.order_id = ${orderId};
       `;
       const result = await db.query(query);
       return result;

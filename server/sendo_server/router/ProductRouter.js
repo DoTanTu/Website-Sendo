@@ -11,5 +11,7 @@ router.get('/seller/product/:sellerId',Authenticate.authenticateToken,productCon
 router.get('/search-name/:name',productController.searchProductByName);
 router.get('/search-and-filter-by-price/:minPrice/:maxPrice', productController.searchAndFilterProductsByPrice);
 router.get('/search-and-filter-by-gender/:gender', productController.searchAndFilterProductsByGender);
+router.get('/search-and-filter-by-category/:categoryId', productController.searchAndFilterProductsByCategory);
 router.get('/search-sort-price/:sortOrder', productController.searchAndFilterProducts);
+router.get('/search/:keyword/:minPrice/:maxPrice/:gender/:category', productController.searchOption);
 module.exports = router;
