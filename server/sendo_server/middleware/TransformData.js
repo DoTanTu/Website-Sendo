@@ -9,7 +9,7 @@ const transformData = (input) => {
           product_id: productId,
           product_name: item.product_name,
           description: item.description,
-          gender: item.gender === 1 ? 'Male' : 'Female',
+          gender: item.gender ===1 ? "Male": "Female",
           category_name: item.category_name,
           seller_name: item.seller_name,
           address_company: item.address_company,
