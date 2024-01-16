@@ -119,5 +119,16 @@ class ProductController{
         res.status(500).json({ error: 'Internal Server Error' });
       }
     }
+    static async searchAndFilterProducts(req, res) {
+      try {
+        const {sortOrder } = req.params;
+        console.log(sortOrder);
+        const data = await ProductModel.searchAndSortProductsByPrice(sortOrder);
+        const dataTrans = transformData.transformData(data);
+        res.status(200).json(dataTrans);
+      } catch (error) {
+        res.status(500).json({ error: 'Internal Server Error' });
+      }
+    }
 }
 module.exports = ProductController;

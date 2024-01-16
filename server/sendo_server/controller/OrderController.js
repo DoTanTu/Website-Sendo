@@ -23,10 +23,10 @@ class OrderController{
         res.status(500).json({ error: 'Internal Server Error' });
     }      
   }
-  static async getOrdersDetailByUser(req, res) {
+  static async getOrdersByUser(req, res) {
     const userId = req.user.id;        
     try {
-        const orders = await orderModel.getOrdersDetailByUser(userId);
+        const orders = await orderModel.getOrdersByUser(userId);
         res.status(200).json({ orders });
     } catch (error) {
         console.error(error);
@@ -51,6 +51,24 @@ class OrderController{
         console.error(error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
-}
+  }
+  static async getOrdersBySeller(req,res){
+    try {
+      const userId = req.user.id;  
+      const result = await orderModel.getOrdersBySeller(userId);
+      res.status(200).json(result);
+    } catch (error) {
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  }
+  static async getOrdersByDetailSeller(req,res){
+    try {
+      const userId = req.user.id;  
+      const result = await orderModel.getOrderDetailBySeller(userId);
+      res.status(200).json(result);
+    } catch (error) {
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  }
 }
 module.exports = OrderController;
